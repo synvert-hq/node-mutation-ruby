@@ -39,7 +39,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets conflict with KEEP_RUNNING strategy' do
-      described_class.configure(strategy: NodeMutation::KEEPING_RUNNING)
+      described_class.configure(strategy: NodeMutation::KEEP_RUNNING)
       mutation.actions.push(OpenStruct.new(
         start: "class ".length,
         end: "class Foobar".length,

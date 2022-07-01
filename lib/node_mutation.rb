@@ -9,7 +9,7 @@ class NodeMutation
   class MethodNotSupported < StandardError; end
   class ConflictActionError < StandardError; end
 
-  KEEPING_RUNNING = 1
+  KEEP_RUNNING = 1
   THROW_ERROR = 2
 
   autoload :Adapter, "node_mutation/adapter"
@@ -47,8 +47,8 @@ class NodeMutation
   end
 
   # Get the strategy
-  # @return [Integer] current strategy, could be {NodeMutation::KEEPING_RUNNING} or {NodeMutation::THROW_ERROR},
-  # by default is {NodeMutation::KEEPING_RUNNING}
+  # @return [Integer] current strategy, could be {NodeMutation::KEEP_RUNNING} or {NodeMutation::THROW_ERROR},
+  # by default is {NodeMutation::KEEP_RUNNING}
   def self.strategy
     @strategy ||= KEEP_RUNNING
   end

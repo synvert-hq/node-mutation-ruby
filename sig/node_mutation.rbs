@@ -7,7 +7,7 @@ module NodeMutation[T]
   class ConflictActionError < StandardError
   end
 
-  KEEPING_RUNNING: Integer
+  KEEP_RUNNING: Integer
 
   THROW_ERROR: Integer
 
