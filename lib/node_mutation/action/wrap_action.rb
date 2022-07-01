@@ -2,7 +2,7 @@
 
 # WrapAction to wrap node within a block, class or module.
 #
-# Note: if WrapAction is conflicted with another action (begin_pos and end_pos are overlapped),
+# Note: if WrapAction is conflicted with another action (start and end are overlapped),
 # we have to put those 2 actions into 2 within_file scopes.
 class NodeMutation::WrapAction < NodeMutation::Action
   # Initialize a WrapAction.

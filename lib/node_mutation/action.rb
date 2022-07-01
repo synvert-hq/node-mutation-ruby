@@ -70,7 +70,7 @@ class NodeMutation::Action
     after_line_is_blank = lines[end_line] == ''
 
     if lines.length > 1 && before_line_is_blank && after_line_is_blank
-      @end_pos += "\n".length
+      @end += "\n".length
     end
   end
 
