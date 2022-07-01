@@ -1,0 +1,43 @@
+module NodeMutation[T]
+  VERSION: Stringo
+
+  class MethodNotSupported < StandardError
+  end
+
+  class ConflictActionError < StandardError
+  end
+
+  KEEPING_RUNNING: Integer
+
+  THROW_ERROR: Integer
+
+  attr_reader actions: Array[NodeMutation::Action]
+
+  def self.configure: (options: { adapter: NodeMutation::Adapter, strategry: Integer }) -> void
+
+  def self.adapter: () -> NodeMutation::Adapter
+
+  def self.strategry: () -> Integer
+
+  def initialize: (file_path: String, source: String) -> NodeMutation
+
+  def append: (node: T, code: String) -> void
+
+  def delete: (node: T, *selectors: Array[String], **options: { and_comma: bool }) -> void
+
+  def insert: (node: T, code: String, ?at: "beginning" | "end", ?to: nil | String) -> void
+
+  def insert_after: (node: T, code: String) -> void
+
+  def prepend: (node: T, code: String) -> void
+
+  def remove: (node: T, **options: { and_comma: bool }) -> void
+
+  def replace: (node: T, *selectors: Array[String], with: String) -> void
+
+  def replace_with: (node: T, code: String) -> void
+
+  def wrap: (node: T, with: String) -> void
+
+  def process: () -> void
+end

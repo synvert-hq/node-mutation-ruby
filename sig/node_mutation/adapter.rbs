@@ -1,0 +1,19 @@
+class NodeMutation::Adapter[T]
+  def get_source: (node: T) -> String
+
+  def rewritten_source: (node: T, code: String) -> String
+
+  def file_content: (node: T) -> String
+
+  def child_node_range: (node: T, child_name: String) -> OpenStruct
+
+  def get_start: (node: T) -> Integer
+
+  def get_end: (node: T) -> Integer
+
+  def get_start_loc: (node: T) -> OpenStruct
+
+  def get_end_loc: (node: T) -> OpenStruct
+
+  def get_indent: (node: T) -> Integer
+end
