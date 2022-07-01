@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# WrapAction to warp node within a block, class or module.
+# WrapAction to wrap node within a block, class or module.
 #
 # Note: if WrapAction is conflicted with another action (begin_pos and end_pos are overlapped),
 # we have to put those 2 actions into 2 within_file scopes.

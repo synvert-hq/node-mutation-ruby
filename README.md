@@ -1,8 +1,6 @@
 # NodeMutation
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/node_mutation`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+NodeMutation provides a set of APIs to rewrite node source code.
 
 ## Installation
 
@@ -22,7 +20,52 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. initialize the NodeMutation instance:
+
+```ruby
+require 'node_mutation'
+
+mutation = NodeMutation.new(file_path, source)
+```
+
+2. call the rewrite apis:
+
+```ruby
+# append the code to the current node.
+mutation.append node, 'include FactoryGirl::Syntax::Methods'
+# delete source code of the child ast node
+mutation.delete node, :dot, :message, and_comma: true
+# insert code to the ast node.
+mutation.insert node, 'URI.', at: 'beginning'
+# insert code next to the ast node.
+mutation.insert_after node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
+# prepend code to the ast node.
+mutation.prepend node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
+# remove source code of the ast node
+mutation.remove(node: Node)
+# replace child node of the ast node with new code
+mutation.replace node, :message, with: 'test'
+# replace the ast node with new code
+mutation.replace_with node, 'create {{arguments}}'
+# wrap node within a block, class or module
+mutation.wrap node, with: 'module Foo'
+```
+
+3. process actions and write the new source code to file:
+
+```ruby
+mutation.process
+```
+
+## Write Adapter
+
+Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all,
+we define an [Adapter](https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
+if you implement the Adapter interface, you can set it as NodeMutation's adapter.
+
+```typescript
+NodeMutation.configure({ adapter: ParserAdapter.new })
+```
 
 ## Development
 
@@ -32,4 +75,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/node_mutation.
+Bug reports and pull requests are welcome on GitHub at https://github.com/xinminlabs/node_mutation.
