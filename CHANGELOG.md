@@ -1,5 +1,11 @@
 # NodeMutation
 
+## 1.2.0 (2022-07-02)
+
+* Return new source instead of writing file
+* Revert Add erb engine
+* Revert Add `ReplaceErbStmtWithExprAction`
+
 ## 1.1.0 (2022-07-02)
 
 * Add erb engine

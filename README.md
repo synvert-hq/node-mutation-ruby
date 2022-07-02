@@ -25,7 +25,7 @@ Or install it yourself as:
 ```ruby
 require 'node_mutation'
 
-mutation = NodeMutation.new(file_path)
+mutation = NodeMutation.new(source)
 ```
 
 2. call the rewrite apis:
@@ -54,7 +54,13 @@ mutation.wrap node, with: 'module Foo'
 3. process actions and write the new source code to file:
 
 ```ruby
-mutation.process
+result = mutation.process
+# if it makes any change to the source
+result.affected?
+# if any action is conflicted
+result.conflicted
+# return the new source if it is affected
+result.new_source
 ```
 
 ## Write Adapter
