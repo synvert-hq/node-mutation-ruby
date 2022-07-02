@@ -13,5 +13,4 @@ gem "parser"
 gem "parser_node_ext"
 gem "guard"
 gem "guard-rspec"
-gem "fakefs", require: 'fakefs/safe'
 gem "pp"

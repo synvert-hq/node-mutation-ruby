@@ -18,7 +18,6 @@ GEM
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
     erubis (2.7.0)
-    fakefs (1.8.0)
     ffi (1.15.5)
     formatador (1.1.0)
     guard (2.18.0)
@@ -84,7 +83,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  fakefs
   guard
   guard-rspec
   node_mutation!

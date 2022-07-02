@@ -19,7 +19,7 @@ module NodeMutation[T]
 
   def self.strategry: () -> Integer
 
-  def initialize: (file_path: String) -> NodeMutation
+  def initialize: (source: String) -> NodeMutation
 
   def append: (node: T, code: String) -> void
 
@@ -35,11 +35,9 @@ module NodeMutation[T]
 
   def replace: (node: T, *selectors: Array[String], with: String) -> void
 
-  def replace_erb_stmt_with_expr: (node: T) -> void
-
   def replace_with: (node: T, code: String) -> void
 
   def wrap: (node: T, with: String) -> void
 
-  def process: () -> void
+  def process: () -> NodeMutation::Result
 end

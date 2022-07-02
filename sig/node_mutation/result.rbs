@@ -1,0 +1,9 @@
+class NodeMutation::Result
+  def initialize: (source: String) -> NodeMutation::Result
+
+  def affected?: () -> bool
+
+  def conflicted?: () -> bool
+
+  def new_source: () -> String
+end

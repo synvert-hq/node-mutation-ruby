@@ -24,6 +24,7 @@ class NodeMutation
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
+  autoload :Result, 'node_mutation/result'
 
   attr_reader :actions
 
@@ -53,9 +54,9 @@ class NodeMutation
   end
 
   # Initialize a NodeMutation.
-  # @param file_path [String] file path
-  def initialize(file_path)
-    @file_path = file_path
+  # @param source [String] file source
+  def initialize(source)
+    @source = source
     @actions = []
   end
 
@@ -216,42 +217,28 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {{conflict: Boolean}} if actions are conflicted
   def process
-    conflict_actions = []
-    if @actions.length > 0
-      source = +read_source(@file_path)
-      @actions.sort_by! { |action| [action.start, action.end] }
-      conflict_actions = get_conflict_actions
-      if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
-        raise ConflictActionError, "mutation actions are conflicted"
-      end
-      @actions.reverse_each do |action|
-        source[action.start...action.end] = action.new_code
-      end
-      @actions = []
-
-      write_source(@file_path, source)
+    if @actions.length == 0
+      return NodeMutation::Result.new(affected: false)
     end
-    OpenStruct.new(conflict: !conflict_actions.empty?)
+
+    conflict_actions = []
+    source = +@source
+    @actions.sort_by! { |action| [action.start, action.end] }
+    conflict_actions = get_conflict_actions
+    if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
+      raise ConflictActionError, "mutation actions are conflicted"
+    end
+    @actions.reverse_each do |action|
+      source[action.start...action.end] = action.new_code
+    end
+    NodeMutation::Result.new(
+      affected: true,
+      conflicted: !conflict_actions.empty?,
+      new_source: source
+    )
   end
 
   private
-
-  # Read file source.
-  # @param file_path [String] file path
-  # @return [String] file source
-  def read_source(file_path)
-    source = File.read(file_path, encoding: 'UTF-8')
-    source = Engine::Erb.encode(source) if /\.erb$/.match?(file_path)
-    source
-  end
-
-  # Write file source to file.
-  # @param file_path [String] file path
-  # @param source [String] file source
-  def write_source(file_path, source)
-    source = Engine::ERB.decode(source) if /\.erb/.match?(file_path)
-    File.write(file_path, source.gsub(/ +\n/, "\n"))
-  end
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
   # So if there is an overlap between two actions, it removes the conflict actions and operate them in the next loop.

@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe NodeMutation do
-  describe '#process', fakefs: true do
-    let(:file_path) { 'code.rb' }
+  describe '#process' do
     let(:source) {<<~EOS}
       class Foobar
         def foo; end
         def bar; end
       end
     EOS
-    let(:mutation) { described_class.new(file_path) }
+    let(:mutation) { described_class.new(source) }
 
-    before do
-      File.write(file_path, source)
+    it 'gets no action' do
+      result = mutation.process
+      expect(result).not_to be_affected
     end
 
     it 'gets no conflict' do
@@ -27,9 +27,9 @@ RSpec.describe NodeMutation do
         new_code: "Synvert"
       ))
       result = mutation.process
-      expect(result.conflict).to be_falsey
-      new_source = File.read(file_path, encoding: 'UTF-8')
-      expect(new_source).to eq <<~EOS
+      expect(result).to be_affected
+      expect(result).not_to be_conflicted
+      expect(result.new_source).to eq <<~EOS
         # frozen_string_literal: true
         class Synvert
           def foo; end
@@ -56,9 +56,9 @@ RSpec.describe NodeMutation do
         new_code: "class Foobar < Base"
       ))
       result = mutation.process
-      expect(result.conflict).to be_truthy
-      new_source = File.read(file_path, encoding: 'UTF-8')
-      expect(new_source).to eq <<~EOS
+      expect(result).to be_affected
+      expect(result).to be_conflicted
+      expect(result.new_source).to eq <<~EOS
         class Synvert < Base
           def foo; end
           def bar; end
