@@ -45,6 +45,8 @@ mutation.prepend node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods
 mutation.remove(node: Node)
 # replace child node of the ast node with new code
 mutation.replace node, :message, with: 'test'
+# replace erb stmt node with expr code
+replace_erb_stmt_with_expr node
 # replace the ast node with new code
 mutation.replace_with node, 'create {{arguments}}'
 # wrap node within a block, class or module

@@ -35,6 +35,8 @@ module NodeMutation[T]
 
   def replace: (node: T, *selectors: Array[String], with: String) -> void
 
+  def replace_erb_stmt_with_expr: (node: T) -> void
+
   def replace_with: (node: T, code: String) -> void
 
   def wrap: (node: T, with: String) -> void

@@ -22,7 +22,7 @@ class NodeMutation
   autoload :RemoveAction, 'node_mutation/action/remove_action'
   autoload :PrependAction, 'node_mutation/action/prepend_action'
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
-  autoload :ReplaceErbStmtWithExprAction, 'node_mutation/action/replace_erb_stat_with_expr_action'
+  autoload :ReplaceErbStmtWithExprAction, 'node_mutation/action/replace_erb_stmt_with_expr_action'
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
   autoload :Engine, 'node_mutation/engine'
@@ -168,12 +168,27 @@ class NodeMutation
   # source code of the ast node is
   #     assert(object.empty?)
   # then we call
-  #     replace :message, with: 'assert_empty'
-  #     replace :arguments, with: '{{arguments.first.receiver}}'
+  #     mutation.replace(node, :message, with: 'assert_empty')
+  #     mutation.replace(node, :arguments, with: '{{arguments.first.receiver}}')
   # the source code will be rewritten to
   #     assert_empty(object)
   def replace(node, *selectors, with:)
     @actions << ReplaceAction.new(node, *selectors, with: with).process
+  end
+
+  # Replace erb stmt node with expr code.
+  # @param node [Node] ast node
+  # @example
+  # source code of the ast node is
+  #     <% form_for post do |f| %>
+  #     <% end %>
+  # then we call
+  #     replace_erb_stmt_with_expr(node)
+  # the source code will be rewritten to
+  #   # <%= form_for post do |f| %>
+  #   # <% end %>
+  def replace_erb_stmt_with_expr(node)
+    @actions << ReplaceErbStmtWithExprAction.new(node).process
   end
 
   # Replace source code of the ast node with new code.
