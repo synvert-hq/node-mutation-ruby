@@ -25,7 +25,7 @@ Or install it yourself as:
 ```ruby
 require 'node_mutation'
 
-mutation = NodeMutation.new(file_path, source)
+mutation = NodeMutation.new(file_path)
 ```
 
 2. call the rewrite apis:

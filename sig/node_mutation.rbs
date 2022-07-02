@@ -19,7 +19,7 @@ module NodeMutation[T]
 
   def self.strategry: () -> Integer
 
-  def initialize: (file_path: String, source: String) -> NodeMutation
+  def initialize: (file_path: String) -> NodeMutation
 
   def append: (node: T, code: String) -> void
 

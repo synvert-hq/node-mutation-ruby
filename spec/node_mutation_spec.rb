@@ -9,7 +9,7 @@ RSpec.describe NodeMutation do
         def bar; end
       end
     EOS
-    let(:mutation) { described_class.new(file_path, source) }
+    let(:mutation) { described_class.new(file_path) }
 
     before do
       File.write(file_path, source)
@@ -90,7 +90,7 @@ RSpec.describe NodeMutation do
   end
 
   describe 'apis' do
-    let(:mutation) { described_class.new('code.rb', 'Foobar') }
+    let(:mutation) { described_class.new('code.rb') }
     let(:node) { '' }
     let(:action) { double }
 

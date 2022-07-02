@@ -3,6 +3,7 @@ PATH
   specs:
     node_mutation (1.0.0)
       activesupport
+      erubis
 
 GEM
   remote: https://rubygems.org/
@@ -16,6 +17,7 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
+    erubis (2.7.0)
     fakefs (1.8.0)
     ffi (1.15.5)
     formatador (1.1.0)

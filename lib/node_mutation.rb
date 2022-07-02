@@ -22,9 +22,10 @@ class NodeMutation
   autoload :RemoveAction, 'node_mutation/action/remove_action'
   autoload :PrependAction, 'node_mutation/action/prepend_action'
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
-  autoload :ReplaceErbStmtWithExprAction, 'node_mutation/action/replace_erb_stmt_with_expr_action'
+  autoload :ReplaceErbStmtWithExprAction, 'node_mutation/action/replace_erb_stat_with_expr_action'
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
+  autoload :Engine, 'node_mutation/engine'
 
   attr_reader :actions
 
@@ -55,10 +56,8 @@ class NodeMutation
 
   # Initialize a NodeMutation.
   # @param file_path [String] file path
-  # @param source [String] source of the file
-  def initialize(file_path, source)
+  def initialize(file_path)
     @file_path = file_path
-    @source = +source
     @actions = []
   end
 
@@ -221,22 +220,40 @@ class NodeMutation
   def process
     conflict_actions = []
     if @actions.length > 0
+      source = +read_source(@file_path)
       @actions.sort_by! { |action| [action.start, action.end] }
       conflict_actions = get_conflict_actions
       if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
         raise ConflictActionError, "mutation actions are conflicted"
       end
       @actions.reverse_each do |action|
-        @source[action.start...action.end] = action.new_code
+        source[action.start...action.end] = action.new_code
       end
       @actions = []
 
-      File.write(@file_path, @source)
+      write_source(@file_path, source)
     end
     OpenStruct.new(conflict: !conflict_actions.empty?)
   end
 
   private
+
+  # Read file source.
+  # @param file_path [String] file path
+  # @return [String] file source
+  def read_source(file_path)
+    source = File.read(file_path, encoding: 'UTF-8')
+    source = Engine::Erb.encode(source) if /\.erb$/.match?(file_path)
+    source
+  end
+
+  # Write file source to file.
+  # @param file_path [String] file path
+  # @param source [String] file source
+  def write_source(file_path, source)
+    source = Engine::ERB.decode(source) if /\.erb/.match?(file_path)
+    File.write(file_path, source.gsub(/ +\n/, "\n"))
+  end
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
   # So if there is an overlap between two actions, it removes the conflict actions and operate them in the next loop.
