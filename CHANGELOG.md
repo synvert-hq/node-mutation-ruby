@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.2.1 (2022-07-22)
+
+* Fix `child_node_range` for const name
+* Update `parser_node_ext` to 0.4.0
+
 ## 1.2.0 (2022-07-02)
 
 * Return new source instead of writing file
