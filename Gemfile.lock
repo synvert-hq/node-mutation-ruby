@@ -48,7 +48,7 @@ GEM
       shellany (~> 0.0)
     parser (3.1.2.0)
       ast (~> 2.4.1)
-    parser_node_ext (0.2.0)
+    parser_node_ext (0.4.0)
       parser
     pp (0.3.0)
       prettyprint
