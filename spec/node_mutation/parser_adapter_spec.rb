@@ -122,6 +122,15 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
     end
 
+    context 'const node' do
+      it 'checks name' do
+        node = parse('Synvert')
+        range = adapter.child_node_range(node, :name)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 'Synvert'.length
+      end
+    end
+
     context 'csend node' do
       it 'checks receiver' do
         node = parse('foo&.bar(test)')

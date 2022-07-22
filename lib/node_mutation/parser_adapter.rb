@@ -77,7 +77,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         start: node.arguments.first.loc.expression.begin_pos,
         end: node.arguments.last.loc.expression.end_pos
       )
-    when %i[class name], %i[def name], %i[defs name]
+    when %i[class name], %i[const name], %i[def name], %i[defs name]
       OpenStruct.new(start: node.loc.name.begin_pos, end: node.loc.name.end_pos)
     when %i[defs dot]
       OpenStruct.new(start: node.loc.operator.begin_pos, end: node.loc.operator.end_pos) if node.loc.operator
