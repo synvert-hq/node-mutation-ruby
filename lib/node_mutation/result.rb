@@ -20,4 +20,10 @@ class NodeMutation::Result
   def new_source
     @options[:new_source]
   end
+
+  def to_hash
+    @options.each_pair.with_object({}) do |(key, value), hash|
+      hash[key] = value.is_a?(Array) ? value.map { |action| action.to_h } : value
+    end
+  end
 end
