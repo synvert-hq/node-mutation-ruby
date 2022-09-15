@@ -38,6 +38,10 @@ class NodeMutation::Action
     end
   end
 
+  def to_hash
+    { start: start, end: @end, new_code: new_code }
+  end
+
   protected
 
   # Calculate the begin the end positions.

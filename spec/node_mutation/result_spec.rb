@@ -24,12 +24,12 @@ RSpec.describe NodeMutation::Result do
             start: "class ".length,
             end: "class Foobar".length,
             new_code: "Synvert"
-          ),
+          ).marshal_dump,
           OpenStruct.new(
             start: "class Foobar".length,
             end: "class Foobar".length,
             new_code: " < Base"
-          )
+          ).marshal_dump
         ]
       )
       expect(result.to_hash).to eq(
