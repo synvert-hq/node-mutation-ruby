@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.3.0 (2022-09-15)
+
+* Add `NodeMutation#test`
+
 ## 1.2.1 (2022-07-22)
 
 * Fix `child_node_range` for const name
