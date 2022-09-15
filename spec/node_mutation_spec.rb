@@ -13,6 +13,7 @@ RSpec.describe NodeMutation do
     it 'gets no action' do
       result = mutation.process
       expect(result).not_to be_affected
+      expect(result).not_to be_conflicted
     end
 
     it 'gets no conflict' do
@@ -64,6 +65,89 @@ RSpec.describe NodeMutation do
           def bar; end
         end
       EOS
+    end
+
+    it 'gets conflict with THROW_ERROR strategy' do
+      described_class.configure(strategy: NodeMutation::THROW_ERROR)
+      mutation.actions.push(OpenStruct.new(
+        start: "class ".length,
+        end: "class Foobar".length,
+        new_code: "Synvert"
+      ))
+      mutation.actions.push(OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      ))
+      mutation.actions.push(OpenStruct.new(
+        start: 0,
+        end: "class Foobar".length,
+        new_code: "class Foobar < Base"
+      ))
+      expect {
+        mutation.process
+      }.to raise_error(NodeMutation::ConflictActionError)
+    end
+  end
+
+  describe '#test' do
+    let(:source) {<<~EOS}
+      class Foobar
+        def foo; end
+        def bar; end
+      end
+    EOS
+    let(:mutation) { described_class.new(source) }
+
+    it 'gets no action' do
+      result = mutation.test
+      expect(result).not_to be_affected
+      expect(result).not_to be_conflicted
+    end
+
+    it 'gets no conflict' do
+      action1 = OpenStruct.new(
+        start: 0,
+        end: 0,
+        new_code: "# frozen_string_literal: true\n"
+      )
+      action2 = OpenStruct.new(
+        start: "class ".length,
+        end: "class Foobar".length,
+        new_code: "Synvert"
+      )
+      mutation.actions.push(action1)
+      mutation.actions.push(action2)
+      result = mutation.test
+      expect(result).to be_affected
+      expect(result).not_to be_conflicted
+      expect(result.actions).to eq [action1, action2]
+    end
+
+    it 'gets conflict with KEEP_RUNNING strategy' do
+      described_class.configure(strategy: NodeMutation::KEEP_RUNNING)
+      action1 = OpenStruct.new(
+        start: "class ".length,
+        end: "class Foobar".length,
+        new_code: "Synvert"
+      )
+      action2 = OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      )
+      action3 = OpenStruct.new(
+        start: 0,
+        end: "class Foobar".length,
+        new_code: "class Foobar < Base"
+      )
+      mutation.actions.push(action1)
+      mutation.actions.push(action2)
+      mutation.actions.push(action3)
+      result = mutation.test
+      expect(result).to be_affected
+      expect(result).to be_conflicted
+      expect(result.actions).to eq [action1, action2]
     end
 
     it 'gets conflict with THROW_ERROR strategy' do

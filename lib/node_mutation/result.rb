@@ -13,6 +13,10 @@ class NodeMutation::Result
     @options[:conflicted]
   end
 
+  def actions
+    @options[:actions]
+  end
+
   def new_source
     @options[:new_source]
   end

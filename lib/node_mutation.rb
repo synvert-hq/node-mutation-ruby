@@ -207,18 +207,16 @@ class NodeMutation
     @actions << WrapAction.new(node, with: with).process
   end
 
-  # Read the source code from file path,
-  # rewrite the source code based on all actions,
-  # then write the new source code back to the file.
+  # Process actions and return the new source.
   #
   # If there's an action range conflict,
   # it will raise a ConflictActionError if strategy is set to THROW_ERROR,
   # it will process all non conflicted actions and return `{ conflict: true }`
   # if strategy is set to KEEP_RUNNING.
-  # @return {{conflict: Boolean}} if actions are conflicted
+  # @return {NodeMutation::Result}
   def process
     if @actions.length == 0
-      return NodeMutation::Result.new(affected: false)
+      return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     conflict_actions = []
@@ -235,6 +233,31 @@ class NodeMutation
       affected: true,
       conflicted: !conflict_actions.empty?,
       new_source: source
+    )
+  end
+
+  # Test actions and return the actions.
+  #
+  # If there's an action range conflict,
+  # it will raise a ConflictActionError if strategy is set to THROW_ERROR,
+  # it will process all non conflicted actions and return `{ conflict: true }`
+  # if strategy is set to KEEP_RUNNING.
+  # @return {NodeMutation::Result}
+  def test
+    if @actions.length == 0
+      return NodeMutation::Result.new(affected: false, conflicted: false, actions: [])
+    end
+
+    conflict_actions = []
+    @actions.sort_by! { |action| [action.start, action.end] }
+    conflict_actions = get_conflict_actions
+    if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
+      raise ConflictActionError, "mutation actions are conflicted"
+    end
+    NodeMutation::Result.new(
+      affected: true,
+      conflicted: !conflict_actions.empty?,
+      actions: @actions
     )
   end
 
