@@ -1,4 +1,6 @@
 class NodeMutation::Result
+  attr_accessor file_path (): String
+
   def initialize: (source: String) -> NodeMutation::Result
 
   def affected?: () -> bool
@@ -6,4 +8,6 @@ class NodeMutation::Result
   def conflicted?: () -> bool
 
   def new_source: () -> String
+
+  def actions: () -> Array[Hash]
 end
