@@ -1,6 +1,11 @@
 # NodeMutation
 
-## 1.3.2 (2022-09-16)
+## 1.3.3 (2022-09-16)
+
+* Format `actions` in test result
+* Add `file_path` attribute to `NodeMutation::Result`
+
+## 1.3.2 (2022-09-15)
 
 * Add `NodeMutation::Action.to_hash`
 * Add `NodeMutation::Result.to_hash`
