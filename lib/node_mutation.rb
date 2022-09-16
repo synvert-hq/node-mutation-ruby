@@ -257,7 +257,7 @@ class NodeMutation
     NodeMutation::Result.new(
       affected: true,
       conflicted: !conflict_actions.empty?,
-      actions: @actions
+      actions: format_actions(@actions)
     )
   end
 
@@ -282,5 +282,9 @@ class NodeMutation
       j -= 1
     end
     conflict_actions
+  end
+
+  def format_actions(actions)
+    actions.map { |action| OpenStruct.new(start: action.start, end: action.end, new_code: action.new_code ) }
   end
 end
