@@ -9,7 +9,9 @@ RSpec.describe NodeMutation::Result do
         affected: false,
         conflicted: false
       )
+      result.file_path = 'code.rb'
       expect(result.to_hash).to eq(
+        file_path: 'code.rb',
         affected: false,
         conflicted: false
       )
@@ -32,7 +34,9 @@ RSpec.describe NodeMutation::Result do
           ).marshal_dump
         ]
       )
+      result.file_path = 'code.rb'
       expect(result.to_hash).to eq(
+        file_path: 'code.rb',
         affected: true,
         conflicted: false,
         actions: [

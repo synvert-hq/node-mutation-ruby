@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NodeMutation::Result
+  attr_accessor :file_path
+
   def initialize(options)
     @options = options
   end
