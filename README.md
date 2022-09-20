@@ -49,6 +49,8 @@ mutation.replace node, :message, with: 'test'
 mutation.replace_with node, 'create {{arguments}}'
 # wrap node within a block, class or module
 mutation.wrap node, with: 'module Foo'
+# no operation
+mutation.noop
 ```
 
 3. process actions and write the new source code to file:
