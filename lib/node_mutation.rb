@@ -24,6 +24,7 @@ class NodeMutation
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
+  autoload :NoopAction, 'node_mutation/action/noop_action'
   autoload :Result, 'node_mutation/result'
 
   attr_reader :actions
