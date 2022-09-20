@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.4.0 (2022-09-20)
+
+* Add `NoopAction`
+
 ## 1.3.3 (2022-09-16)
 
 * Format `actions` in test result
