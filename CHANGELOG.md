@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.4.1 (2022-09-23)
+
+* Add `NodeMutation#noop`
+
 ## 1.4.0 (2022-09-20)
 
 * Add `NoopAction`
