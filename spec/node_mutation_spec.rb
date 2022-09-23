@@ -261,5 +261,11 @@ RSpec.describe NodeMutation do
       expect(action).to receive(:process)
       mutation.wrap node, with: 'module Foo'
     end
+
+    it 'parses noop' do
+      expect(NodeMutation::NoopAction).to receive(:new).with(node).and_return(action)
+      expect(action).to receive(:process)
+      mutation.noop node
+    end
   end
 end

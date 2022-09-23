@@ -208,6 +208,12 @@ class NodeMutation
     @actions << WrapAction.new(node, with: with).process
   end
 
+  # No operation.
+  # @param node [Node] ast node
+  def noop(node)
+    @actions << NoopAction.new(node).process
+  end
+
   # Process actions and return the new source.
   #
   # If there's an action range conflict,

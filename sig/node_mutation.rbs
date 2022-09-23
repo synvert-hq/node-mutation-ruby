@@ -39,6 +39,8 @@ module NodeMutation[T]
 
   def wrap: (node: T, with: String) -> void
 
+  def noop: (node: T) -> void
+
   def process: () -> NodeMutation::Result
 
   def test: () -> NodeMutation::Result
