@@ -234,7 +234,7 @@ class NodeMutation
       raise ConflictActionError, "mutation actions are conflicted"
     end
     @actions.reverse_each do |action|
-      source[action.start...action.end] = action.new_code
+      source[action.start...action.end] = action.new_code if action.new_code
     end
     NodeMutation::Result.new(
       affected: true,
