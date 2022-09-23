@@ -10,4 +10,6 @@ class NodeMutation::Result
   def new_source: () -> String
 
   def actions: () -> Array[Hash]
+
+  def to_json: (*args) -> String
 end

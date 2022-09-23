@@ -23,6 +23,10 @@ class NodeMutation::Result
     @options[:new_source]
   end
 
+  def to_json(*args)
+    to_hash.to_json(*args)
+  end
+
   def to_hash
     hash = { file_path: file_path }
     @options.each do |key, value|
