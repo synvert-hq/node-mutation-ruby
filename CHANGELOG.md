@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.4.2 (2022-09-23)
+
+* Add `NodeMutation#to_json`
+
 ## 1.4.1 (2022-09-23)
 
 * Add `NodeMutation#noop`
