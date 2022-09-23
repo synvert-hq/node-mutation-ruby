@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.4.3 (2022-09-24)
+
+* Update source only if `new_code` is not `nil`
+
 ## 1.4.2 (2022-09-23)
 
 * Add `NodeMutation#to_json`
