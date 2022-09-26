@@ -6,7 +6,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   end
 
   def rewritten_source(node, code)
-    code.gsub(/{{(.*?)}}/m) do
+    code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
       if node.respond_to?(old_code.split('.').first)
         evaluated = child_node_by_name(node, old_code)
