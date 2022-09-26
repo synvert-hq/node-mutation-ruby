@@ -161,14 +161,18 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
     if node.respond_to?(direct_child_name)
       child_node = node.send(direct_child_name)
-
-      return child_node_by_name(child_node, nested_child_name) if nested_child_name
-
-      return nil if child_node.nil?
-
-      return child_node if child_node.is_a?(Parser::AST::Node)
-
-      return child_node
+    elsif direct_child_name.include?('(') && direct_child_name.include?(')')
+      child_node = eval("node.#{direct_child_name}")
+    else
+      child_node = nil
     end
+
+    return child_node_by_name(child_node, nested_child_name) if nested_child_name
+
+    return nil if child_node.nil?
+
+    return child_node if child_node.is_a?(Parser::AST::Node)
+
+    return child_node
   end
 end

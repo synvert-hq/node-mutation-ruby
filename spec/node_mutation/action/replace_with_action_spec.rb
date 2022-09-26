@@ -52,4 +52,24 @@ RSpec.describe NodeMutation::ReplaceWithAction do
       EOS
     end
   end
+
+  context '#replace with function' do
+    subject {
+      source = "foo = 'foobar'"
+      node = Parser::CurrentRuby.parse(source)
+      NodeMutation::ReplaceWithAction.new(node, "foo = '{{right_value.children.0.slice(0, 3)}}'").process
+    }
+
+    it 'gets start' do
+      expect(subject.start).to eq 0
+    end
+
+    it 'gets end' do
+      expect(subject.end).to eq "foo = 'foobar'".length
+    end
+
+    it 'gets new_code' do
+      expect(subject.new_code).to eq "foo = 'foo'"
+    end
+  end
 end
