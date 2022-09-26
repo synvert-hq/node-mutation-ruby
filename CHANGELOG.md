@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.4.4 (2022-09-26)
+
+* Parser adapter `child_node_by_name` support function call
+
 ## 1.4.3 (2022-09-24)
 
 * Update source only if `new_code` is not `nil`
