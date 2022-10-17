@@ -37,8 +37,6 @@ mutation.append node, 'include FactoryGirl::Syntax::Methods'
 mutation.delete node, :dot, :message, and_comma: true
 # insert code to the ast node.
 mutation.insert node, 'URI.', at: 'beginning'
-# insert code next to the ast node.
-mutation.insert_after node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
 # prepend code to the ast node.
 mutation.prepend node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
 # remove source code of the ast node

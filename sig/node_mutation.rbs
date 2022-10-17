@@ -27,8 +27,6 @@ module NodeMutation[T]
 
   def insert: (node: T, code: String, ?at: "beginning" | "end", ?to: nil | String) -> void
 
-  def insert_after: (node: T, code: String) -> void
-
   def prepend: (node: T, code: String) -> void
 
   def remove: (node: T, **options: { and_comma: bool }) -> void

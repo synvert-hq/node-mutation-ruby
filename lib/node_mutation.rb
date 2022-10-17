@@ -18,7 +18,6 @@ class NodeMutation
   autoload :AppendAction, 'node_mutation/action/append_action'
   autoload :DeleteAction, 'node_mutation/action/delete_action'
   autoload :InsertAction, 'node_mutation/action/insert_action'
-  autoload :InsertAfterAction, 'node_mutation/action/insert_after_action'
   autoload :RemoveAction, 'node_mutation/action/remove_action'
   autoload :PrependAction, 'node_mutation/action/prepend_action'
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
@@ -110,21 +109,6 @@ class NodeMutation
   #     URI.open('http://test.com')
   def insert(node, code, at: 'end', to: nil)
     @actions << InsertAction.new(node, code, at: at, to: to).process
-  end
-
-  # Insert code next to the ast node.
-  # @param node [Node] ast node
-  # @param code [String] new code to insert.
-  # @example
-  # source code of the ast node is
-  #     Synvert::Application.config.secret_token = "0447aa931d42918bfb934750bb78257088fb671186b5d1b6f9fddf126fc8a14d34f1d045cefab3900751c3da121a8dd929aec9bafe975f1cabb48232b4002e4e"
-  # then we call
-  #     mutation.insert_after(node, "{{receiver}}.secret_key_base = \"#{SecureRandom.hex(64)}\"")
-  # the source code will be rewritten to
-  #     Synvert::Application.config.secret_token = "0447aa931d42918bfb934750bb78257088fb671186b5d1b6f9fddf126fc8a14d34f1d045cefab3900751c3da121a8dd929aec9bafe975f1cabb48232b4002e4e"
-  #     Synvert::Application.config.secret_key_base = "bf4f3f46924ecd9adcb6515681c78144545bba454420973a274d7021ff946b8ef043a95ca1a15a9d1b75f9fbdf85d1a3afaf22f4e3c2f3f78e24a0a188b581df"
-  def insert_after(node, code)
-    @actions << InsertAfterAction.new(node, code).process
   end
 
   # Prepend code to the ast node.

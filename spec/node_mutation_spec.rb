@@ -218,15 +218,6 @@ RSpec.describe NodeMutation do
       mutation.insert node, 'URI.', at: 'beginning'
     end
 
-    it 'parses insert_after' do
-      expect(NodeMutation::InsertAfterAction).to receive(:new).with(
-        node,
-        '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
-      ).and_return(action)
-      expect(action).to receive(:process)
-      mutation.insert_after node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
-    end
-
     it 'parses replace_with' do
       expect(NodeMutation::ReplaceWithAction).to receive(:new).with(node, 'create {{arguments}}').and_return(action)
       expect(action).to receive(:process)
