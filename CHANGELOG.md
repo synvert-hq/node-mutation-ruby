@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.5.0 (2022-10-17)
+
+* Remove `insert_after`
+* Fix regexp to match evaluated value
+
 ## 1.4.4 (2022-09-26)
 
 * Parser adapter `child_node_by_name` support function call
