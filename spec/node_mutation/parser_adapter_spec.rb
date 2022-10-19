@@ -14,12 +14,6 @@ RSpec.describe NodeMutation::ParserAdapter do
   end
 
   describe '#rewritten_source' do
-    it 'does not rewrite with unknown method' do
-      source = 'class Synvert; end'
-      node = parse(source)
-      expect(adapter.rewritten_source(node, '{{foobar}}')).to eq '{{foobar}}'
-    end
-
     it 'rewrites with node known method' do
       source = 'class Synvert; end'
       node = parse(source)
@@ -49,6 +43,14 @@ RSpec.describe NodeMutation::ParserAdapter do
           3
         ]
       EOS
+    end
+
+    it 'raises an error with unknown method' do
+      source = 'class Synvert; end'
+      node = parse(source)
+      expect {
+        p adapter.rewritten_source(node, '{{foobar}}')
+      }.to raise_error('can not parse "{{foobar}}"')
     end
 
     it 'raises an error for unknown code' do
@@ -319,6 +321,20 @@ RSpec.describe NodeMutation::ParserAdapter do
         node = parse('foo.bar')
         range = adapter.child_node_range(node, :parentheses)
         expect(range).to be_nil
+      end
+
+      it 'checks unknown child name for node' do
+        node = parse('foo.bar(test)')
+        expect {
+          adapter.child_node_range(node, :unknown)
+        }.to raise_error(NodeMutation::MethodNotSupported, "unknown is not supported for foo.bar(test)")
+      end
+
+      it 'checks unknown child name for array node' do
+        node = parse('foo.bar(foo, bar)')
+        expect {
+          adapter.child_node_range(node, "arguments.unknown")
+        }.to raise_error(NodeMutation::MethodNotSupported, "unknown is not supported for foo, bar")
       end
     end
 

@@ -2,7 +2,12 @@
 
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
-    node.loc.expression.source
+    if node.is_a?(Array)
+      source = node.first.loc.expression.source_buffer.source
+      source[node.first.loc.expression.begin_pos...node.last.loc.expression.end_pos]
+    else
+      node.loc.expression.source
+    end
   end
 
   def rewritten_source(node, code)
@@ -35,8 +40,6 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
           end
         when String, Symbol, Integer, Float
           evaluated
-        when NilClass
-          'nil'
         else
           raise "rewritten_source is not handled for #{evaluated.inspect}"
         end
@@ -53,16 +56,32 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def child_node_range(node, child_name)
     if node.is_a?(Array)
       direct_child_name, nested_child_name = child_name.split('.', 2)
-      child_node = direct_child_name =~ /\A\d+\z/ ? node[direct_child_name.to_i - 1] : node.send(direct_child_name)
+      if direct_child_name =~ /\A\d+\z/
+        child_node = node[direct_child_name.to_i - 1]
+        unless child_node
+          raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
+        end
+        if nested_child_name
+          return child_node_range(child_node, nested_child_name)
+        else
+          return OpenStruct.new(
+            start: child_node.loc.expression.begin_pos,
+            end: child_node.loc.expression.end_pos
+          )
+        end
+      end
+
+      unless node.respond_to?(direct_child_name)
+        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
+      end
+      child_node = node.send(direct_child_name)
       if nested_child_name
         return child_node_range(child_node, nested_child_name)
-      elsif child_node
+      else
         return OpenStruct.new(
           start: child_node.loc.expression.begin_pos,
           end: child_node.loc.expression.end_pos
         )
-      else
-        raise MethodNotSupported, "child_node_range is not handled for #{get_source(node)}, child_name: #{child_name}"
       end
     end
 
@@ -122,6 +141,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
             end: child_node.last.loc.expression.end_pos
           )
         )
+      else
+        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
       end
     end
   end
