@@ -50,6 +50,14 @@ RSpec.describe NodeMutation::ParserAdapter do
         ]
       EOS
     end
+
+    it 'raises an error for unknown code' do
+      source = 'Notifications::Updater.expects(:new).returns(@srv)'
+      node = parse(source)
+      expect {
+        adapter.rewritten_source(node, '{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}')
+      }.to raise_error('can not parse "{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}"')
+    end
   end
 
   describe '#file_content' do

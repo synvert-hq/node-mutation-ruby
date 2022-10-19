@@ -8,7 +8,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
-      if node.respond_to?(old_code.split('.').first)
+      begin
         evaluated = child_node_by_name(node, old_code)
         case evaluated
         when Parser::AST::Node
@@ -38,10 +38,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         when NilClass
           'nil'
         else
-          raise Synvert::Core::MethodNotSupported, "rewritten_source is not handled for #{evaluated.inspect}"
+          raise "rewritten_source is not handled for #{evaluated.inspect}"
         end
-      else
-        "{{#{old_code}}}"
+      rescue StandardError => e
+        raise "can not parse \"#{code}\""
       end
     end
   end
