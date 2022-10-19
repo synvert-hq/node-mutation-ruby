@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.5.1 (2022-10-19)
+
+* Better error message for unknown code
+
 ## 1.5.0 (2022-10-17)
 
 * Remove `insert_after`
