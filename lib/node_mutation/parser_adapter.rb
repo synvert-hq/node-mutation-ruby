@@ -3,7 +3,7 @@
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
-      source = node.first.loc.expression.source_buffer.source
+      source = file_content(node.first)
       source[node.first.loc.expression.begin_pos...node.last.loc.expression.end_pos]
     else
       node.loc.expression.source
@@ -13,7 +13,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
-      begin
+      if node.respond_to?(old_code.split('.').first)
         evaluated = child_node_by_name(node, old_code)
         case evaluated
         when Parser::AST::Node
@@ -41,9 +41,9 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         when String, Symbol, Integer, Float
           evaluated
         else
-          raise "rewritten_source is not handled for #{evaluated.inspect}"
+          raise "can not parse \"#{code}\""
         end
-      rescue StandardError => e
+      else
         raise "can not parse \"#{code}\""
       end
     end
@@ -54,35 +54,23 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   end
 
   def child_node_range(node, child_name)
+    direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
+
     if node.is_a?(Array)
-      direct_child_name, nested_child_name = child_name.split('.', 2)
       if direct_child_name =~ /\A\d+\z/
         child_node = node[direct_child_name.to_i - 1]
-        unless child_node
-          raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
-        end
-        if nested_child_name
-          return child_node_range(child_node, nested_child_name)
-        else
-          return OpenStruct.new(
-            start: child_node.loc.expression.begin_pos,
-            end: child_node.loc.expression.end_pos
-          )
-        end
+        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
+        return child_node_range(child_node, nested_child_name) if nested_child_name
+        return OpenStruct.new(start: child_node.loc.expression.begin_pos, end: child_node.loc.expression.end_pos)
       end
 
-      unless node.respond_to?(direct_child_name)
-        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
-      end
+      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
       child_node = node.send(direct_child_name)
-      if nested_child_name
-        return child_node_range(child_node, nested_child_name)
-      else
-        return OpenStruct.new(
-          start: child_node.loc.expression.begin_pos,
-          end: child_node.loc.expression.end_pos
-        )
-      end
+      return child_node_range(child_node, nested_child_name) if nested_child_name
+      return OpenStruct.new(
+        start: child_node.loc.expression.begin_pos,
+        end: child_node.loc.expression.end_pos
+      )
     end
 
     case [node.type, child_name.to_sym]
@@ -115,35 +103,32 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         OpenStruct.new(start: node.loc.begin.begin_pos, end: node.loc.end.end_pos)
       end
     else
-      direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
-      if node.respond_to?(direct_child_name)
-        child_node = node.send(direct_child_name)
+      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
 
-        return child_node_range(child_node, nested_child_name) if nested_child_name
+      child_node = node.send(direct_child_name)
 
-        return nil if child_node.nil?
+      return child_node_range(child_node, nested_child_name) if nested_child_name
 
-        if child_node.is_a?(Parser::AST::Node)
-          return(
-            OpenStruct.new(
-              start: child_node.loc.expression.begin_pos,
-              end: child_node.loc.expression.end_pos
-            )
-          )
-        end
+      return nil if child_node.nil?
 
-        # arguments
-        return nil if child_node.empty?
-
+      if child_node.is_a?(Parser::AST::Node)
         return(
           OpenStruct.new(
-            start: child_node.first.loc.expression.begin_pos,
-            end: child_node.last.loc.expression.end_pos
+            start: child_node.loc.expression.begin_pos,
+            end: child_node.loc.expression.end_pos
           )
         )
-      else
-        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
       end
+
+      # arguments
+      return nil if child_node.empty?
+
+      return(
+        OpenStruct.new(
+          start: child_node.first.loc.expression.begin_pos,
+          end: child_node.last.loc.expression.end_pos
+        )
+      )
     end
   end
 
@@ -175,9 +160,17 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
 
     if node.is_a?(Array)
-      child_direct_child_node = direct_child_name =~ /\A\d+\z/ ? node[direct_child_name.to_i - 1] : node.send(direct_child_name)
-      return child_node_by_name(child_direct_child_node, nested_child_name) if nested_child_name
-      return child_direct_child_node if child_direct_child_node
+      if direct_child_name =~ /\A\d+\z/
+        child_node = node[direct_child_name.to_i - 1]
+        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
+        return child_node_by_name(child_node, nested_child_name) if nested_child_name
+        return child_node
+      end
+
+      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+      child_node = node.send(direct_child_name)
+      return child_node_by_name(child_node, nested_child_name) if nested_child_name
+      return child_node
     end
 
     if node.respond_to?(direct_child_name)
@@ -185,15 +178,11 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     elsif direct_child_name.include?('(') && direct_child_name.include?(')')
       child_node = eval("node.#{direct_child_name}")
     else
-      child_node = nil
+      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
 
     return child_node_by_name(child_node, nested_child_name) if nested_child_name
 
-    return nil if child_node.nil?
-
-    return child_node if child_node.is_a?(Parser::AST::Node)
-
-    return child_node
+    child_node
   end
 end

@@ -58,7 +58,7 @@ RSpec.describe NodeMutation::ParserAdapter do
       node = parse(source)
       expect {
         adapter.rewritten_source(node, '{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}')
-      }.to raise_error('can not parse "{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}"')
+      }.to raise_error('first}) is not supported for :new')
     end
   end
 
