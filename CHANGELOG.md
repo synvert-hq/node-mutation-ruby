@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.6.0 (2022-10-19)
+
+* Raise `NodeMutation::MethodNotSupported` if not respond to child node name
+
 ## 1.5.1 (2022-10-19)
 
 * Better error message for unknown code
