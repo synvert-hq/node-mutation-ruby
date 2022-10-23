@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.6.1 (2022-10-24)
+
+* Better error message when node does not respond to a key
+
 ## 1.6.0 (2022-10-19)
 
 * Raise `NodeMutation::MethodNotSupported` if not respond to child node name
