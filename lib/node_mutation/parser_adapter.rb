@@ -13,7 +13,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
-      if node.respond_to?(old_code.split('.').first)
+      first_key = old_code.split('.').first
+      if node.respond_to?(first_key)
         evaluated = child_node_by_name(node, old_code)
         case evaluated
         when Parser::AST::Node
@@ -44,7 +45,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
           raise "can not parse \"#{code}\""
         end
       else
-        raise "can not parse \"#{code}\""
+        raise NodeMutation::MethodNotSupported, "#{first_key} is not supported for #{get_source(node)}"
       end
     end
   end

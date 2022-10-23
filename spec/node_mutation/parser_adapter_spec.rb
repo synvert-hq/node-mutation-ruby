@@ -50,7 +50,7 @@ RSpec.describe NodeMutation::ParserAdapter do
       node = parse(source)
       expect {
         p adapter.rewritten_source(node, '{{foobar}}')
-      }.to raise_error('can not parse "{{foobar}}"')
+      }.to raise_error('foobar is not supported for class Synvert; end')
     end
 
     it 'raises an error for unknown code' do
