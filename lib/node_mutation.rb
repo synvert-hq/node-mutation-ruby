@@ -262,13 +262,19 @@ class NodeMutation
     conflict_actions = []
     return [] if i < 0
 
-    start = @actions[i].start
+    begin_pos = @actions[i].start
+    end_pos = @actions[i].end
     while j > -1
-      if start < @actions[j].end
+      # if we have two insert actions at same position.
+      same_position = begin_pos == @actions[j].start && begin_pos == end_pos && @actions[j].start == @actions[j].end
+      # if we have two actions with overlapped range.
+      overlapped_position = begin_pos < @actions[j].end
+      if same_position || overlapped_position
         conflict_actions << @actions.delete_at(j)
       else
         i = j
-        start = @actions[i].start
+        begin_pos = @actions[i].start
+        end_pos = @actions[i].end
       end
       j -= 1
     end
