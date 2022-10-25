@@ -40,7 +40,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets conflict with KEEP_RUNNING strategy' do
-      described_class.configure(strategy: NodeMutation::KEEP_RUNNING)
+      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
       mutation.actions.push(OpenStruct.new(
         start: "class ".length,
         end: "class Foobar".length,
@@ -68,7 +68,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets conflict with THROW_ERROR strategy' do
-      described_class.configure(strategy: NodeMutation::THROW_ERROR)
+      described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
       mutation.actions.push(OpenStruct.new(
         start: "class ".length,
         end: "class Foobar".length,
@@ -87,6 +87,56 @@ RSpec.describe NodeMutation do
       expect {
         mutation.process
       }.to raise_error(NodeMutation::ConflictActionError)
+    end
+
+    it 'gets conflict when insert at the same position' do
+      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
+      action1 = OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      )
+      action2 = OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      )
+      mutation.actions.push(action1)
+      mutation.actions.push(action2)
+      result = mutation.process
+      expect(result).to be_affected
+      expect(result).to be_conflicted
+      expect(result.new_source).to eq <<~EOS
+        class Foobar < Base
+          def foo; end
+          def bar; end
+        end
+      EOS
+    end
+
+    it 'gets no conflict with ALLOW_INSERT_AT_SAME_POSITION strategy' do
+      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING | NodeMutation::Strategy::ALLOW_INSERT_AT_SAME_POSITION)
+      action1 = OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      )
+      action2 = OpenStruct.new(
+        start: "class Foobar".length,
+        end: "class Foobar".length,
+        new_code: " < Base"
+      )
+      mutation.actions.push(action1)
+      mutation.actions.push(action2)
+      result = mutation.process
+      expect(result).to be_affected
+      expect(result).not_to be_conflicted
+      expect(result.new_source).to eq <<~EOS
+        class Foobar < Base < Base
+          def foo; end
+          def bar; end
+        end
+      EOS
     end
   end
 
@@ -125,7 +175,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets conflict with KEEP_RUNNING strategy' do
-      described_class.configure(strategy: NodeMutation::KEEP_RUNNING)
+      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
       action1 = OpenStruct.new(
         start: "class ".length,
         end: "class Foobar".length,
@@ -151,7 +201,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets conflict with THROW_ERROR strategy' do
-      described_class.configure(strategy: NodeMutation::THROW_ERROR)
+      described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
       mutation.actions.push(OpenStruct.new(
         start: "class ".length,
         end: "class Foobar".length,

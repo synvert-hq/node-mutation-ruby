@@ -9,9 +9,6 @@ class NodeMutation
   class MethodNotSupported < StandardError; end
   class ConflictActionError < StandardError; end
 
-  KEEP_RUNNING = 1
-  THROW_ERROR = 2
-
   autoload :Adapter, "node_mutation/adapter"
   autoload :ParserAdapter, "node_mutation/parser_adapter"
   autoload :Action, 'node_mutation/action'
@@ -25,6 +22,7 @@ class NodeMutation
   autoload :WrapAction, 'node_mutation/action/wrap_action'
   autoload :NoopAction, 'node_mutation/action/noop_action'
   autoload :Result, 'node_mutation/result'
+  autoload :Strategy, 'node_mutation/strategy'
 
   attr_reader :actions
 
@@ -47,10 +45,10 @@ class NodeMutation
   end
 
   # Get the strategy
-  # @return [Integer] current strategy, could be {NodeMutation::KEEP_RUNNING} or {NodeMutation::THROW_ERROR},
-  # by default is {NodeMutation::KEEP_RUNNING}
+  # @return [Integer] current strategy, could be {NodeMutation::Strategy::KEEP_RUNNING} or {NodeMutation::Strategy::THROW_ERROR},
+  # by default is {NodeMutation::Strategy::KEEP_RUNNING}
   def self.strategy
-    @strategy ||= KEEP_RUNNING
+    @strategy ||= Strategy::KEEP_RUNNING
   end
 
   # Initialize a NodeMutation.
@@ -214,7 +212,7 @@ class NodeMutation
     source = +@source
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
-    if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
+    if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
     @actions.reverse_each do |action|
@@ -242,7 +240,7 @@ class NodeMutation
     conflict_actions = []
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
-    if conflict_actions.size > 0 && NodeMutation.strategy == THROW_ERROR
+    if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
     NodeMutation::Result.new(
@@ -269,7 +267,7 @@ class NodeMutation
       same_position = begin_pos == @actions[j].start && begin_pos == end_pos && @actions[j].start == @actions[j].end
       # if we have two actions with overlapped range.
       overlapped_position = begin_pos < @actions[j].end
-      if same_position || overlapped_position
+      if (!strategy?(Strategy::ALLOW_INSERT_AT_SAME_POSITION) && same_position) || overlapped_position
         conflict_actions << @actions.delete_at(j)
       else
         i = j
@@ -279,6 +277,10 @@ class NodeMutation
       j -= 1
     end
     conflict_actions
+  end
+
+  def strategy?(strategy)
+    NodeMutation.strategy & strategy == strategy
   end
 
   def format_actions(actions)
