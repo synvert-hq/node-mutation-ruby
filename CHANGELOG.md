@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.7.1 (2022-10-26)
+
+* Return empty string for `NilClass` in `ParserAdapter#rewritten_source`
+
 ## 1.7.0 (2022-10-25)
 
 * Add a new strategy `ALLOW_INSERT_AT_SAME_POSITION`
