@@ -41,6 +41,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
           end
         when String, Symbol, Integer, Float
           evaluated
+        when NilClass
+          ''
         else
           raise "can not parse \"#{code}\""
         end

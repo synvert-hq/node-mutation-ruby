@@ -45,6 +45,12 @@ RSpec.describe NodeMutation::ParserAdapter do
       EOS
     end
 
+    it 'rewriters for nil receiver' do
+      source = 'find(:first)'
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{receiver}}')).to eq ''
+    end
+
     it 'raises an error with unknown method' do
       source = 'class Synvert; end'
       node = parse(source)
