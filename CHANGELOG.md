@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.8.1 (2022-12-26)
+
+* `child_node_by_name` index starts from `0`
+
 ## 1.8.0 (2022-12-26)
 
 * `child_node_range` index starts from `0`
