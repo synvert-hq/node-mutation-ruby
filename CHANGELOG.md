@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.8.0 (2022-12-26)
+
+* `child_node_range` index starts from `0`
+
 ## 1.7.1 (2022-10-26)
 
 * Return empty string for `NilClass` in `ParserAdapter#rewritten_source`
