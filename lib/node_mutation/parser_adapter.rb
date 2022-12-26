@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+INDEX_REGEXP = /\A-?\d+\z/
+
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
@@ -60,7 +62,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
 
     if node.is_a?(Array)
-      if direct_child_name =~ /\A-?\d+\z/
+      if direct_child_name =~ INDEX_REGEXP
         child_node = node[direct_child_name.to_i]
         raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
@@ -163,8 +165,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
 
     if node.is_a?(Array)
-      if direct_child_name =~ /\A\d+\z/
-        child_node = node[direct_child_name.to_i - 1]
+      if direct_child_name =~ INDEX_REGEXP
+        child_node = node[direct_child_name.to_i]
         raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_by_name(child_node, nested_child_name) if nested_child_name
         return child_node
