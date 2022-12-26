@@ -298,15 +298,23 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
 
       it 'checks arguments' do
-        node = parse('foo.bar(test)')
+        node = parse('foo.bar(arg1, arg2)')
         range = adapter.child_node_range(node, :arguments)
+        expect(range.start).to eq 8
+        expect(range.end).to eq 18
+
+        range = adapter.child_node_range(node, 'arguments.0')
         expect(range.start).to eq 8
         expect(range.end).to eq 12
 
-        node = parse('foobar(test)')
+        range = adapter.child_node_range(node, 'arguments.-1')
+        expect(range.start).to eq 14
+        expect(range.end).to eq 18
+
+        node = parse('foobar(arg1, arg2)')
         range = adapter.child_node_range(node, :arguments)
         expect(range.start).to eq 7
-        expect(range.end).to eq 11
+        expect(range.end).to eq 17
 
         node = parse('foo.bar')
         range = adapter.child_node_range(node, :arguments)
@@ -347,7 +355,7 @@ RSpec.describe NodeMutation::ParserAdapter do
     context 'array' do
       it 'checks array by index' do
         node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.2')
+        range = adapter.child_node_range(node, 'caller.arguments.1')
         expect(range.start).to eq 16
         expect(range.end).to eq 27
       end
