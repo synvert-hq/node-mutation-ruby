@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'ostruct'
-require 'active_support/core_ext/array'
 
 require_relative "node_mutation/version"
 

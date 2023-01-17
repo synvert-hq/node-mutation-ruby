@@ -362,14 +362,14 @@ RSpec.describe NodeMutation::ParserAdapter do
 
       it 'checks array by method' do
         node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.second')
+        range = adapter.child_node_range(node, 'caller.arguments.last')
         expect(range.start).to eq 16
         expect(range.end).to eq 27
       end
 
       it "checks array's value" do
         node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.second.class_value')
+        range = adapter.child_node_range(node, 'caller.arguments.last.class_value')
         expect(range.start).to eq 23
         expect(range.end).to eq 27
       end
