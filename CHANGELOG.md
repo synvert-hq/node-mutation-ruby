@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.8.2 (2023-01-17)
+
+* Drop `activesupport`
+
 ## 1.8.1 (2022-12-26)
 
 * `child_node_by_name` index starts from `0`
