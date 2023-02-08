@@ -2,8 +2,6 @@
 
 # Action defines rewriter action, insert, replace or delete code.
 class NodeMutation::Action
-  DEFAULT_INDENT = 2
-
   # @!attribute [r] start
   #   @return [Integer] start position
   # @!attribute [r] end

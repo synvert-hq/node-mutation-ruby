@@ -17,6 +17,6 @@ class NodeMutation::AppendAction < NodeMutation::Action
   # @param node [Parser::AST::Node]
   # @return [String] n times whitesphace
   def indent(node)
-    ' ' *  (NodeMutation.adapter.get_start_loc(node).column + DEFAULT_INDENT)
+    ' ' *  (NodeMutation.adapter.get_start_loc(node).column + NodeMutation.tab_width)
   end
 end
