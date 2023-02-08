@@ -25,29 +25,42 @@ class NodeMutation
 
   attr_reader :actions
 
-  # Configure NodeMutation
-  # @param [Hash] options options to configure
-  # @option options [NodeMutation::Adapter] :adapter the adpater
-  def self.configure(options)
-    if options[:adapter]
-      @adapter = options[:adapter]
+  class <<self
+    # Configure NodeMutation
+    # @param [Hash] options options to configure
+    # @option options [NodeMutation::Adapter] :adapter the adpater
+    # @option options [NodeMutation::Strategy] :strategy the strategy
+    # @option options [Integer] :tab_width the tab width
+    def configure(options)
+      if options[:adapter]
+        @adapter = options[:adapter]
+      end
+      if options[:strategy]
+        @strategy = options[:strategy]
+      end
+      if options[:tab_width]
+        @tab_width = options[:tab_width]
+      end
     end
-    if options[:strategy]
-      @strategy = options[:strategy]
+
+    # Get the adapter
+    # @return [NodeMutation::Adapter] current adapter, by default is {NodeMutation::ParserAdapter}
+    def adapter
+      @adapter ||= ParserAdapter.new
     end
-  end
 
-  # Get the adapter
-  # @return [NodeMutation::Adapter] current adapter, by default is {NodeMutation::ParserAdapter}
-  def self.adapter
-    @adapter ||= ParserAdapter.new
-  end
+    # Get the strategy
+    # @return [Integer] current strategy, could be {NodeMutation::Strategy::KEEP_RUNNING} or {NodeMutation::Strategy::THROW_ERROR},
+    # by default is {NodeMutation::Strategy::KEEP_RUNNING}
+    def strategy
+      @strategy ||= Strategy::KEEP_RUNNING
+    end
 
-  # Get the strategy
-  # @return [Integer] current strategy, could be {NodeMutation::Strategy::KEEP_RUNNING} or {NodeMutation::Strategy::THROW_ERROR},
-  # by default is {NodeMutation::Strategy::KEEP_RUNNING}
-  def self.strategy
-    @strategy ||= Strategy::KEEP_RUNNING
+    # Get tab width
+    # @return [Integer] tab width, by default is 2
+    def tab_width
+      @tab_width ||= 2
+    end
   end
 
   # Initialize a NodeMutation.

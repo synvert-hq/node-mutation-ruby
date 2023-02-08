@@ -13,11 +13,13 @@ module NodeMutation[T]
 
   attr_reader actions: Array[NodeMutation::Action]
 
-  def self.configure: (options: { adapter: NodeMutation::Adapter, strategy: Integer }) -> void
+  def self.configure: (options: { adapter: NodeMutation::Adapter, strategy: Integer, tab_width: Integer }) -> void
 
   def self.adapter: () -> NodeMutation::Adapter
 
   def self.strategy: () -> Integer
+
+  def self.tab_width: () -> Integer
 
   def initialize: (source: String) -> NodeMutation
 

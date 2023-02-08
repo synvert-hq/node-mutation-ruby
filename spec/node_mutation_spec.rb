@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe NodeMutation do
+  describe '#configure' do
+    it 'sets tab_width' do
+      expect(described_class.tab_width).to eq 2
+      described_class.configure(tab_width: 4)
+      expect(described_class.tab_width).to eq 4
+    end
+  end
+
   describe '#process' do
     let(:source) {<<~EOS}
       class Foobar
