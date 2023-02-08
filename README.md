@@ -63,14 +63,34 @@ result.conflicted
 result.new_source
 ```
 
-## Write Adapter
+## Configuration
+
+### adapter
 
 Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all,
 we define an [Adapter](https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
 if you implement the Adapter interface, you can set it as NodeMutation's adapter.
 
-```typescript
-NodeMutation.configure({ adapter: ParserAdapter.new })
+```ruby
+NodeMutation.configure(adapter: ParserAdapter.new) // default is ParserAdapter
+```
+
+### strategy
+
+It provides 3 strategies to handle conflicts when processing actions:
+
+1. `Strategy.KEEP_RUNNING`: keep running and ignore the conflict action.
+2. `Strategy.THROW_ERROR`: throw error when conflict action is found.
+3. `Strategy.ALLOW_INSERT_AT_SAME_POSITION`: allow insert action at the same position.
+
+```ruby
+NodeMutation.configure(strategy: Strategy.KEEP_RUNNING | Strategy.ALLOW_INSERT_AT_SAME_POSITION); // default is Strategy.THROW_ERROR
+```
+
+### tab_width
+
+```ruby
+NodeMutation.configure(tab_width: 4); // default is 2
 ```
 
 ## Development
