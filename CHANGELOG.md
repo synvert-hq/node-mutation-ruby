@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.9.0 (2023-02-08)
+
+* Configure `tab_width`
+* Make use of `NodeMutation.tab_width`
+
 ## 1.8.2 (2023-01-17)
 
 * Drop `activesupport`
