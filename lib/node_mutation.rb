@@ -39,7 +39,7 @@ class NodeMutation
         @strategy = options[:strategy]
       end
       if options[:tab_width]
-        @tab_width = options[:tab_width]
+        @tab_width = options[:tab_width].to_i
       end
     end
 
