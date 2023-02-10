@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.9.1 (2023-02-10)
+
+* Make sure `tab_width` is an Integer
+
 ## 1.9.0 (2023-02-08)
 
 * Configure `tab_width`
