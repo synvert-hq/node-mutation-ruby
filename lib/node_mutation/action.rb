@@ -54,7 +54,7 @@ class NodeMutation::Action
 
   # Squeeze spaces from source code.
   def squeeze_spaces
-    if file_source[@start - 1] == ' ' && file_source[@end] == ' '
+    if file_source[@start - 1] == ' ' && [' ', "\n", ';'].include?(file_source[@end])
       @start -= 1
     end
   end
