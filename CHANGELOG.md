@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.9.2 (2023-02-11)
+
+* Squeeze space if end with space, newline or semicolon
+
 ## 1.9.1 (2023-02-10)
 
 * Make sure `tab_width` is an Integer
