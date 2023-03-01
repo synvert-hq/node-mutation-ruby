@@ -57,7 +57,7 @@ RSpec.describe NodeMutation::ReplaceWithAction do
     subject {
       source = "foo = 'foobar'"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::ReplaceWithAction.new(node, "foo = '{{right_value.children.0.slice(0, 3)}}'").process
+      NodeMutation::ReplaceWithAction.new(node, "foo = '{{value.children.0.slice(0, 3)}}'").process
     }
 
     it 'gets start' do
