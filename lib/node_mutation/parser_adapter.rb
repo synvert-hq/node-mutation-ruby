@@ -95,6 +95,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       OpenStruct.new(start: node.loc.operator.begin_pos, end: node.loc.operator.end_pos) if node.loc.operator
     when %i[defs self]
       OpenStruct.new(start: node.loc.operator.begin_pos - 'self'.length, end: node.loc.operator.begin_pos)
+    when %i[lvasgn variable], %i[ivasgn variable], %i[cvasgn variable], %i[gvasgn variable]
+      OpenStruct.new(start: node.loc.name.begin_pos, end: node.loc.name.end_pos)
     when %i[send dot], %i[csend dot]
       OpenStruct.new(start: node.loc.dot.begin_pos, end: node.loc.dot.end_pos) if node.loc.dot
     when %i[send message], %i[csend message]

@@ -55,7 +55,7 @@ RSpec.describe NodeMutation::ParserAdapter do
       source = 'class Synvert; end'
       node = parse(source)
       expect {
-        p adapter.rewritten_source(node, '{{foobar}}')
+        adapter.rewritten_source(node, '{{foobar}}')
       }.to raise_error('foobar is not supported for class Synvert; end')
     end
 
@@ -81,6 +81,45 @@ RSpec.describe NodeMutation::ParserAdapter do
   end
 
   describe '#child_node_range' do
+    context 'and_asgn' do
+      it 'checks variable' do
+        node = parse('foo &&= bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 3
+      end
+
+      it 'checks value' do
+        node = parse('foo &&= bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 8
+        expect(range.end).to eq 11
+      end
+    end
+
+    context 'array' do
+      it 'checks array by index' do
+        node = parse('factory :admin, class: User do; end')
+        range = adapter.child_node_range(node, 'caller.arguments.1')
+        expect(range.start).to eq 16
+        expect(range.end).to eq 27
+      end
+
+      it 'checks array by method' do
+        node = parse('factory :admin, class: User do; end')
+        range = adapter.child_node_range(node, 'caller.arguments.last')
+        expect(range.start).to eq 16
+        expect(range.end).to eq 27
+      end
+
+      it "checks array's value" do
+        node = parse('factory :admin, class: User do; end')
+        range = adapter.child_node_range(node, 'caller.arguments.last.class_value')
+        expect(range.start).to eq 23
+        expect(range.end).to eq 27
+      end
+    end
+
     context 'block node' do
       it 'checks caller' do
         node = parse('Factory.define :user do |user|; end')
@@ -197,6 +236,22 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
     end
 
+    context 'cvasgn node' do
+      it 'checks variable' do
+        node = parse('@@foo = bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 5
+      end
+
+      it 'checks value' do
+        node = parse('@@foo = bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 8
+        expect(range.end).to eq 11
+      end
+    end
+
     context 'def node' do
       it 'checks name' do
         node = parse('def foo(bar); end')
@@ -254,6 +309,86 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :parentheses)
         expect(range.start).to eq 12
         expect(range.end).to eq 17
+      end
+    end
+
+    context 'gvasgn node' do
+      it 'checks variable' do
+        node = parse('$foo = bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 4
+      end
+
+      it 'checks value' do
+        node = parse('$foo = bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 7
+        expect(range.end).to eq 10
+      end
+    end
+
+    context 'ivasgn node' do
+      it 'checks variable' do
+        node = parse('@foo = bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 4
+      end
+
+      it 'checks value' do
+        node = parse('@foo = bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 7
+        expect(range.end).to eq 10
+      end
+    end
+
+    context 'lvasgn node' do
+      it 'checks variable' do
+        node = parse('foo = bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 3
+      end
+
+      it 'checks value' do
+        node = parse('foo = bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 6
+        expect(range.end).to eq 9
+      end
+    end
+
+    context 'or_asgn node' do
+      it 'checks variable' do
+        node = parse('foo ||= bar')
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 3
+      end
+
+      it 'checks value' do
+        node = parse('foo ||= bar')
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 8
+        expect(range.end).to eq 11
+      end
+    end
+
+    context 'mvasgn node' do
+      it 'checks variable' do
+        node = parse("foo, bar = 'foo', 'bar'")
+        range = adapter.child_node_range(node, :variable)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 8
+      end
+
+      it 'checks value' do
+        node = parse("foo, bar = 'foo', 'bar'")
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 11
+        expect(range.end).to eq 23
       end
     end
 
@@ -349,29 +484,6 @@ RSpec.describe NodeMutation::ParserAdapter do
         expect {
           adapter.child_node_range(node, "arguments.unknown")
         }.to raise_error(NodeMutation::MethodNotSupported, "unknown is not supported for foo, bar")
-      end
-    end
-
-    context 'array' do
-      it 'checks array by index' do
-        node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.1')
-        expect(range.start).to eq 16
-        expect(range.end).to eq 27
-      end
-
-      it 'checks array by method' do
-        node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.last')
-        expect(range.start).to eq 16
-        expect(range.end).to eq 27
-      end
-
-      it "checks array's value" do
-        node = parse('factory :admin, class: User do; end')
-        range = adapter.child_node_range(node, 'caller.arguments.last.class_value')
-        expect(range.start).to eq 23
-        expect(range.end).to eq 27
       end
     end
   end
