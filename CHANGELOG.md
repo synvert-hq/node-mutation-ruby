@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.10.0 (2023-03-01)
+
+* Support `variable` of `lvasgn`, `ivasgn`, `cvasgn`, and `gvasgn` node in `child_node_range`
+* Update `parser_node_ext` to 1.0.0
+
 ## 1.9.3 (2023-02-15)
 
 * Remove engine
