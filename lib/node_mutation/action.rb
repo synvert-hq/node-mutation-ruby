@@ -30,7 +30,8 @@ class NodeMutation::Action
   # @return [String] rewritten code.
   def new_code
     if rewritten_source.split("\n").length > 1
-      "\n\n" + rewritten_source.split("\n").map { |line| indent(@node) + line }.join("\n")
+      "\n\n" + rewritten_source.split("\n").map { |line| indent(@node) + line }
+                               .join("\n")
     else
       "\n" + indent(@node) + rewritten_source
     end

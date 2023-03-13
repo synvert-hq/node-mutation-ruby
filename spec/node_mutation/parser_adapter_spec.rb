@@ -63,7 +63,10 @@ RSpec.describe NodeMutation::ParserAdapter do
       source = 'Notifications::Updater.expects(:new).returns(@srv)'
       node = parse(source)
       expect {
-        adapter.rewritten_source(node, '{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}')
+        adapter.rewritten_source(
+          node,
+          '{{receiver.receiver}}).to receive({{receiver.arguments.first}).and_return({{caller.arguments.first}}'
+        )
       }.to raise_error('first}) is not supported for :new')
     end
   end
