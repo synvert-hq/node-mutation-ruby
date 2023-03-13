@@ -5,7 +5,6 @@ require_relative "node_mutation/version"
 class NodeMutation
   class MethodNotSupported < StandardError; end
   class ConflictActionError < StandardError; end
-  ActionResult = Struct.new(:start, :end, :new_code)
 
   autoload :Adapter, "node_mutation/adapter"
   autoload :ParserAdapter, "node_mutation/parser_adapter"
@@ -19,6 +18,8 @@ class NodeMutation
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
   autoload :NoopAction, 'node_mutation/action/noop_action'
+  autoload :Range, 'node_mutation/range'
+  autoload :Location, 'node_mutation/location'
   autoload :Result, 'node_mutation/result'
   autoload :Strategy, 'node_mutation/strategy'
 
@@ -250,7 +251,7 @@ class NodeMutation
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
-    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, actions: format_actions(@actions))
+    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, actions: @actions)
   end
 
   private
@@ -284,9 +285,5 @@ class NodeMutation
 
   def strategy?(strategy)
     NodeMutation.strategy & strategy == strategy
-  end
-
-  def format_actions(actions)
-    actions.map { |action| ActionResult.new(action.start, action.end, action.new_code) }
   end
 end

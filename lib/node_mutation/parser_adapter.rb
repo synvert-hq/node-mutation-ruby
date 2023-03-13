@@ -3,9 +3,6 @@
 INDEX_REGEXP = /\A-?\d+\z/
 
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
-  Range = Struct.new(:start, :end)
-  Location = Struct.new(:line, :column)
-
   def get_source(node)
     if node.is_a?(Array)
       source = file_content(node.first)
@@ -71,7 +68,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
               "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
 
-        return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
+        return NodeMutation::Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
       end
 
       raise NodeMutation::MethodNotSupported,
@@ -80,33 +77,33 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
       return child_node_range(child_node, nested_child_name) if nested_child_name
 
-      return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
+      return NodeMutation::Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
     end
 
     case [node.type, child_name.to_sym]
     when %i[block pipes], %i[def parentheses], %i[defs parentheses]
-      Range.new(node.arguments.first.loc.expression.begin_pos - 1, node.arguments.last.loc.expression.end_pos + 1)
+      NodeMutation::Range.new(node.arguments.first.loc.expression.begin_pos - 1, node.arguments.last.loc.expression.end_pos + 1)
     when %i[block arguments], %i[def arguments], %i[defs arguments]
-      Range.new(node.arguments.first.loc.expression.begin_pos, node.arguments.last.loc.expression.end_pos)
+      NodeMutation::Range.new(node.arguments.first.loc.expression.begin_pos, node.arguments.last.loc.expression.end_pos)
     when %i[class name], %i[const name], %i[def name], %i[defs name]
-      Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
+      NodeMutation::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[defs dot]
-      Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
+      NodeMutation::Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
     when %i[defs self]
-      Range.new(node.loc.operator.begin_pos - 'self'.length, node.loc.operator.begin_pos)
+      NodeMutation::Range.new(node.loc.operator.begin_pos - 'self'.length, node.loc.operator.begin_pos)
     when %i[lvasgn variable], %i[ivasgn variable], %i[cvasgn variable], %i[gvasgn variable]
-      Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
+      NodeMutation::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[send dot], %i[csend dot]
-      Range.new(node.loc.dot.begin_pos, node.loc.dot.end_pos) if node.loc.dot
+      NodeMutation::Range.new(node.loc.dot.begin_pos, node.loc.dot.end_pos) if node.loc.dot
     when %i[send message], %i[csend message]
       if node.loc.operator
-        Range.new(node.loc.selector.begin_pos, node.loc.operator.end_pos)
+        NodeMutation::Range.new(node.loc.selector.begin_pos, node.loc.operator.end_pos)
       else
-        Range.new(node.loc.selector.begin_pos, node.loc.selector.end_pos)
+        NodeMutation::Range.new(node.loc.selector.begin_pos, node.loc.selector.end_pos)
       end
     when %i[send parentheses], %i[csend parentheses]
       if node.loc.begin && node.loc.end
-        Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
+        NodeMutation::Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
     else
       raise NodeMutation::MethodNotSupported,
@@ -120,7 +117,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
       if child_node.is_a?(Parser::AST::Node)
         return(
-          Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
+          NodeMutation::Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
         )
       end
 
@@ -128,7 +125,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       return nil if child_node.empty?
 
       return(
-        Range.new(child_node.first.loc.expression.begin_pos, child_node.last.loc.expression.end_pos)
+        NodeMutation::Range.new(child_node.first.loc.expression.begin_pos, child_node.last.loc.expression.end_pos)
       )
     end
   end
@@ -143,12 +140,12 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
   def get_start_loc(node)
     begin_loc = node.loc.expression.begin
-    Location.new(begin_loc.line, begin_loc.column)
+    NodeMutation::Location.new(begin_loc.line, begin_loc.column)
   end
 
   def get_end_loc(node)
     end_loc = node.loc.expression.end
-    Location.new(end_loc.line, end_loc.column)
+    NodeMutation::Location.new(end_loc.line, end_loc.column)
   end
 
   def get_indent(node)

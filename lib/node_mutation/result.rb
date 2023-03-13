@@ -30,7 +30,11 @@ class NodeMutation::Result
   def to_hash
     hash = { file_path: file_path }
     @options.each do |key, value|
-      hash[key] = value.is_a?(Array) ? value.map { |action| action.to_h } : value
+      if key == :actions
+        hash[:actions] = value.map { |action| { start: action.start, end: action.end, new_code: action.new_code } }
+      else
+        hash[key] = value
+      end
     end
     hash
   end

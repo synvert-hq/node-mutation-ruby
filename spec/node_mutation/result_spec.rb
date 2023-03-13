@@ -16,8 +16,8 @@ RSpec.describe NodeMutation::Result do
         affected: true,
         conflicted: false,
         actions: [
-          NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"),
-          NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
+          ActionResult.new("class ".length, "class Foobar".length, "Synvert"),
+          ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
         ]
       )
       result.file_path = 'code.rb'

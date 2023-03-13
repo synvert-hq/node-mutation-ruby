@@ -2,6 +2,8 @@
 
 require "node_mutation"
 
+ActionResult = Struct.new(:start, :end, :new_code)
+
 Dir[File.join(File.dirname(__FILE__), 'support', '*')].each do |path|
   require path
 end
