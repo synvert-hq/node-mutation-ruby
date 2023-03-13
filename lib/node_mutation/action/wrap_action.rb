@@ -20,7 +20,7 @@ class NodeMutation::WrapAction < NodeMutation::Action
   def new_code
     "#{@code}\n#{' ' * @indent}" +
       NodeMutation.adapter.get_source(@node).split("\n").map { |line| "  #{line}" }
-            .join("\n") +
+                  .join("\n") +
       "\n#{' ' * @indent}end"
   end
 
