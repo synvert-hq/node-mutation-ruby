@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "pp"
 require "node_mutation"
 
 Dir[File.join(File.dirname(__FILE__), 'support', '*')].each do |path|
