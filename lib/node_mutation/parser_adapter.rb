@@ -82,7 +82,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
     case [node.type, child_name.to_sym]
     when %i[block pipes], %i[def parentheses], %i[defs parentheses]
-      NodeMutation::Range.new(node.arguments.first.loc.expression.begin_pos - 1, node.arguments.last.loc.expression.end_pos + 1)
+      NodeMutation::Range.new(
+        node.arguments.first.loc.expression.begin_pos - 1,
+        node.arguments.last.loc.expression.end_pos + 1
+      )
     when %i[block arguments], %i[def arguments], %i[defs arguments]
       NodeMutation::Range.new(node.arguments.first.loc.expression.begin_pos, node.arguments.last.loc.expression.end_pos)
     when %i[class name], %i[const name], %i[def name], %i[defs name]
