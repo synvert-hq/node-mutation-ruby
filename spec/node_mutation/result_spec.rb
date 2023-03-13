@@ -23,16 +23,8 @@ RSpec.describe NodeMutation::Result do
         affected: true,
         conflicted: false,
         actions: [
-          OpenStruct.new(
-            start: "class ".length,
-            end: "class Foobar".length,
-            new_code: "Synvert"
-          ).marshal_dump,
-          OpenStruct.new(
-            start: "class Foobar".length,
-            end: "class Foobar".length,
-            new_code: " < Base"
-          ).marshal_dump
+          NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"),
+          NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
         ]
       )
       result.file_path = 'code.rb'

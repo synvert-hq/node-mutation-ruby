@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 require_relative "node_mutation/version"
 
 class NodeMutation
   class MethodNotSupported < StandardError; end
   class ConflictActionError < StandardError; end
+  ActionResult = Struct.new(:start, :end, :new_code)
 
   autoload :Adapter, "node_mutation/adapter"
   autoload :ParserAdapter, "node_mutation/parser_adapter"
@@ -220,7 +219,6 @@ class NodeMutation
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
-    conflict_actions = []
     source = +@source
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
@@ -249,7 +247,6 @@ class NodeMutation
       return NodeMutation::Result.new(affected: false, conflicted: false, actions: [])
     end
 
-    conflict_actions = []
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
@@ -296,6 +293,6 @@ class NodeMutation
   end
 
   def format_actions(actions)
-    actions.map { |action| OpenStruct.new(start: action.start, end: action.end, new_code: action.new_code ) }
+    actions.map { |action| ActionResult.new(action.start, action.end, action.new_code ) }
   end
 end

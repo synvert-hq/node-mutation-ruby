@@ -25,16 +25,8 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets no conflict' do
-      mutation.actions.push(OpenStruct.new(
-        start: 0,
-        end: 0,
-        new_code: "# frozen_string_literal: true\n"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      ))
+      mutation.actions.push(NodeMutation::ActionResult.new(0, 0, "# frozen_string_literal: true\n"))
+      mutation.actions.push(NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"))
       result = mutation.process
       expect(result).to be_affected
       expect(result).not_to be_conflicted
@@ -49,21 +41,9 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with KEEP_RUNNING strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      mutation.actions.push(OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: 0,
-        end: "class Foobar".length,
-        new_code: "class Foobar < Base"
-      ))
+      mutation.actions.push(NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"))
+      mutation.actions.push(NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(NodeMutation::ActionResult.new(0, "class Foobar".length, "class Foobar < Base"))
       result = mutation.process
       expect(result).to be_affected
       expect(result).to be_conflicted
@@ -77,38 +57,16 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: 0,
-        end: "class Foobar".length,
-        new_code: "class Foobar < Base"
-      ))
-      expect {
-        mutation.process
-      }.to raise_error(NodeMutation::ConflictActionError)
+      mutation.actions.push(NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"))
+      mutation.actions.push(NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(NodeMutation::ActionResult.new(0, "class Foobar".length, "class Foobar < Base"))
+      expect { mutation.process }.to raise_error(NodeMutation::ConflictActionError)
     end
 
     it 'gets conflict when insert at the same position' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      action1 = OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      )
-      action2 = OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      )
+      action1 = NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
+      action2 = NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
       mutation.actions.push(action1)
       mutation.actions.push(action2)
       result = mutation.process
@@ -124,16 +82,8 @@ RSpec.describe NodeMutation do
 
     it 'gets no conflict with ALLOW_INSERT_AT_SAME_POSITION strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING | NodeMutation::Strategy::ALLOW_INSERT_AT_SAME_POSITION)
-      action1 = OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      )
-      action2 = OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      )
+      action1 = NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
+      action2 = NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
       mutation.actions.push(action1)
       mutation.actions.push(action2)
       result = mutation.process
@@ -164,16 +114,8 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets no conflict' do
-      action1 = OpenStruct.new(
-        start: 0,
-        end: 0,
-        new_code: "# frozen_string_literal: true\n"
-      )
-      action2 = OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      )
+      action1 = NodeMutation::ActionResult.new(0, 0, "# frozen_string_literal: true\n")
+      action2 = NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert")
       mutation.actions.push(action1)
       mutation.actions.push(action2)
       result = mutation.test
@@ -184,21 +126,9 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with KEEP_RUNNING strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      action1 = OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      )
-      action2 = OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      )
-      action3 = OpenStruct.new(
-        start: 0,
-        end: "class Foobar".length,
-        new_code: "class Foobar < Base"
-      )
+      action1 = NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert")
+      action2 = NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base")
+      action3 = NodeMutation::ActionResult.new(0, "class Foobar".length, "class Foobar < Base")
       mutation.actions.push(action1)
       mutation.actions.push(action2)
       mutation.actions.push(action3)
@@ -210,21 +140,9 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(OpenStruct.new(
-        start: "class ".length,
-        end: "class Foobar".length,
-        new_code: "Synvert"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: "class Foobar".length,
-        end: "class Foobar".length,
-        new_code: " < Base"
-      ))
-      mutation.actions.push(OpenStruct.new(
-        start: 0,
-        end: "class Foobar".length,
-        new_code: "class Foobar < Base"
-      ))
+      mutation.actions.push(NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"))
+      mutation.actions.push(NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(NodeMutation::ActionResult.new(0, "class Foobar".length, "class Foobar < Base"))
       expect {
         mutation.process
       }.to raise_error(NodeMutation::ConflictActionError)

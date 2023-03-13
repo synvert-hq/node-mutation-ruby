@@ -5,15 +5,15 @@ class NodeMutation::Adapter[T]
 
   def file_content: (node: T) -> String
 
-  def child_node_range: (node: T, child_name: String) -> OpenStruct
+  def child_node_range: (node: T, child_name: String) -> NodeMutation::ParserAdapter::Range
 
   def get_start: (node: T) -> Integer
 
   def get_end: (node: T) -> Integer
 
-  def get_start_loc: (node: T) -> OpenStruct
+  def get_start_loc: (node: T) -> NodeMutation::ParserAdapter::Location
 
-  def get_end_loc: (node: T) -> OpenStruct
+  def get_end_loc: (node: T) -> NodeMutation::ParserAdapter::Location
 
   def get_indent: (node: T) -> Integer
 end

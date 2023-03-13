@@ -3,6 +3,9 @@
 INDEX_REGEXP = /\A-?\d+\z/
 
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
+  Range = Struct.new(:start, :end)
+  Location = Struct.new(:line, :column)
+
   def get_source(node)
     if node.is_a?(Array)
       source = file_content(node.first)
@@ -66,48 +69,39 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         child_node = node[direct_child_name.to_i]
         raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
-        return OpenStruct.new(start: child_node.loc.expression.begin_pos, end: child_node.loc.expression.end_pos)
+        return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
       end
 
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
       child_node = node.send(direct_child_name)
       return child_node_range(child_node, nested_child_name) if nested_child_name
-      return OpenStruct.new(
-        start: child_node.loc.expression.begin_pos,
-        end: child_node.loc.expression.end_pos
-      )
+      return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
     end
 
     case [node.type, child_name.to_sym]
     when %i[block pipes], %i[def parentheses], %i[defs parentheses]
-      OpenStruct.new(
-        start: node.arguments.first.loc.expression.begin_pos - 1,
-        end: node.arguments.last.loc.expression.end_pos + 1
-      )
+      Range.new(node.arguments.first.loc.expression.begin_pos - 1, node.arguments.last.loc.expression.end_pos + 1)
     when %i[block arguments], %i[def arguments], %i[defs arguments]
-      OpenStruct.new(
-        start: node.arguments.first.loc.expression.begin_pos,
-        end: node.arguments.last.loc.expression.end_pos
-      )
+      Range.new(node.arguments.first.loc.expression.begin_pos, node.arguments.last.loc.expression.end_pos)
     when %i[class name], %i[const name], %i[def name], %i[defs name]
-      OpenStruct.new(start: node.loc.name.begin_pos, end: node.loc.name.end_pos)
+      Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[defs dot]
-      OpenStruct.new(start: node.loc.operator.begin_pos, end: node.loc.operator.end_pos) if node.loc.operator
+      Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
     when %i[defs self]
-      OpenStruct.new(start: node.loc.operator.begin_pos - 'self'.length, end: node.loc.operator.begin_pos)
+      Range.new(node.loc.operator.begin_pos - 'self'.length, node.loc.operator.begin_pos)
     when %i[lvasgn variable], %i[ivasgn variable], %i[cvasgn variable], %i[gvasgn variable]
-      OpenStruct.new(start: node.loc.name.begin_pos, end: node.loc.name.end_pos)
+      Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[send dot], %i[csend dot]
-      OpenStruct.new(start: node.loc.dot.begin_pos, end: node.loc.dot.end_pos) if node.loc.dot
+      Range.new(node.loc.dot.begin_pos, node.loc.dot.end_pos) if node.loc.dot
     when %i[send message], %i[csend message]
       if node.loc.operator
-        OpenStruct.new(start: node.loc.selector.begin_pos, end: node.loc.operator.end_pos)
+        Range.new(node.loc.selector.begin_pos, node.loc.operator.end_pos)
       else
-        OpenStruct.new(start: node.loc.selector.begin_pos, end: node.loc.selector.end_pos)
+        Range.new(node.loc.selector.begin_pos, node.loc.selector.end_pos)
       end
     when %i[send parentheses], %i[csend parentheses]
       if node.loc.begin && node.loc.end
-        OpenStruct.new(start: node.loc.begin.begin_pos, end: node.loc.end.end_pos)
+        Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
@@ -120,10 +114,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
       if child_node.is_a?(Parser::AST::Node)
         return(
-          OpenStruct.new(
-            start: child_node.loc.expression.begin_pos,
-            end: child_node.loc.expression.end_pos
-          )
+          Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
         )
       end
 
@@ -131,10 +122,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       return nil if child_node.empty?
 
       return(
-        OpenStruct.new(
-          start: child_node.first.loc.expression.begin_pos,
-          end: child_node.last.loc.expression.end_pos
-        )
+        Range.new(child_node.first.loc.expression.begin_pos, child_node.last.loc.expression.end_pos)
       )
     end
   end
@@ -149,12 +137,12 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
   def get_start_loc(node)
     begin_loc = node.loc.expression.begin
-    OpenStruct.new(line: begin_loc.line, column: begin_loc.column)
+    Location.new(begin_loc.line, begin_loc.column)
   end
 
   def get_end_loc(node)
     end_loc = node.loc.expression.end
-    OpenStruct.new(line: end_loc.line, column: end_loc.column)
+    Location.new(end_loc.line, end_loc.column)
   end
 
   def get_indent(node)
