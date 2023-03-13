@@ -23,9 +23,9 @@ class NodeMutation::DeleteAction < NodeMutation::Action
   # Calculate the begin and end positions.
   def calculate_position
     @start = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector) }
-                            .compact.map(&:start).min
+                       .compact.map(&:start).min
     @end = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector) }
-                          .compact.map(&:end).max
+                     .compact.map(&:end).max
     squeeze_spaces
     remove_comma if @and_comma
   end

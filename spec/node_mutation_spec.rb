@@ -10,7 +10,7 @@ RSpec.describe NodeMutation do
   end
 
   describe '#process' do
-    let(:source) {<<~EOS}
+    let(:source) { <<~EOS }
       class Foobar
         def foo; end
         def bar; end
@@ -60,7 +60,8 @@ RSpec.describe NodeMutation do
       mutation.actions.push(NodeMutation::ActionResult.new("class ".length, "class Foobar".length, "Synvert"))
       mutation.actions.push(NodeMutation::ActionResult.new("class Foobar".length, "class Foobar".length, " < Base"))
       mutation.actions.push(NodeMutation::ActionResult.new(0, "class Foobar".length, "class Foobar < Base"))
-      expect { mutation.process }.to raise_error(NodeMutation::ConflictActionError)
+      expect { mutation.process }
+        .to raise_error(NodeMutation::ConflictActionError)
     end
 
     it 'gets conflict when insert at the same position' do
@@ -99,7 +100,7 @@ RSpec.describe NodeMutation do
   end
 
   describe '#test' do
-    let(:source) {<<~EOS}
+    let(:source) { <<~EOS }
       class Foobar
         def foo; end
         def bar; end

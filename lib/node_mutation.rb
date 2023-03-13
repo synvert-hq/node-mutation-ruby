@@ -24,7 +24,7 @@ class NodeMutation
 
   attr_reader :actions
 
-  class <<self
+  class << self
     # Configure NodeMutation
     # @param [Hash] options options to configure
     # @option options [NodeMutation::Adapter] :adapter the adpater
@@ -225,14 +225,11 @@ class NodeMutation
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
+
     @actions.reverse_each do |action|
       source[action.start...action.end] = action.new_code if action.new_code
     end
-    NodeMutation::Result.new(
-      affected: true,
-      conflicted: !conflict_actions.empty?,
-      new_source: source
-    )
+    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, new_source: source)
   end
 
   # Test actions and return the actions.
@@ -252,11 +249,8 @@ class NodeMutation
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
-    NodeMutation::Result.new(
-      affected: true,
-      conflicted: !conflict_actions.empty?,
-      actions: format_actions(@actions)
-    )
+
+    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, actions: format_actions(@actions))
   end
 
   private
@@ -293,6 +287,6 @@ class NodeMutation
   end
 
   def format_actions(actions)
-    actions.map { |action| ActionResult.new(action.start, action.end, action.new_code ) }
+    actions.map { |action| ActionResult.new(action.start, action.end, action.new_code) }
   end
 end

@@ -67,14 +67,19 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     if node.is_a?(Array)
       if direct_child_name =~ INDEX_REGEXP
         child_node = node[direct_child_name.to_i]
-        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
+        raise NodeMutation::MethodNotSupported,
+              "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
+
         return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
       end
 
-      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+      raise NodeMutation::MethodNotSupported,
+            "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+
       child_node = node.send(direct_child_name)
       return child_node_range(child_node, nested_child_name) if nested_child_name
+
       return Range.new(child_node.loc.expression.begin_pos, child_node.loc.expression.end_pos)
     end
 
@@ -104,7 +109,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
     else
-      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+      raise NodeMutation::MethodNotSupported,
+            "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
 
       child_node = node.send(direct_child_name)
 
@@ -157,14 +163,19 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     if node.is_a?(Array)
       if direct_child_name =~ INDEX_REGEXP
         child_node = node[direct_child_name.to_i]
-        raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
+        raise NodeMutation::MethodNotSupported,
+              "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_by_name(child_node, nested_child_name) if nested_child_name
+
         return child_node
       end
 
-      raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+      raise NodeMutation::MethodNotSupported,
+            "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+
       child_node = node.send(direct_child_name)
       return child_node_by_name(child_node, nested_child_name) if nested_child_name
+
       return child_node
     end
 
