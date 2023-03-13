@@ -107,7 +107,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="NodeMutation/Action.html" title="NodeMutation::Action (class)">Action</a></span>, <span class='object_link'><a href="NodeMutation/ActionResult.html" title="NodeMutation::ActionResult (class)">ActionResult</a></span>, <span class='object_link'><a href="NodeMutation/Adapter.html" title="NodeMutation::Adapter (class)">Adapter</a></span>, <span class='object_link'><a href="NodeMutation/AppendAction.html" title="NodeMutation::AppendAction (class)">AppendAction</a></span>, <span class='object_link'><a href="NodeMutation/ConflictActionError.html" title="NodeMutation::ConflictActionError (class)">ConflictActionError</a></span>, <span class='object_link'><a href="NodeMutation/DeleteAction.html" title="NodeMutation::DeleteAction (class)">DeleteAction</a></span>, <span class='object_link'><a href="NodeMutation/InsertAction.html" title="NodeMutation::InsertAction (class)">InsertAction</a></span>, <span class='object_link'><a href="NodeMutation/MethodNotSupported.html" title="NodeMutation::MethodNotSupported (class)">MethodNotSupported</a></span>, <span class='object_link'><a href="NodeMutation/NoopAction.html" title="NodeMutation::NoopAction (class)">NoopAction</a></span>, <span class='object_link'><a href="NodeMutation/ParserAdapter.html" title="NodeMutation::ParserAdapter (class)">ParserAdapter</a></span>, <span class='object_link'><a href="NodeMutation/PrependAction.html" title="NodeMutation::PrependAction (class)">PrependAction</a></span>, <span class='object_link'><a href="NodeMutation/RemoveAction.html" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span>, <span class='object_link'><a href="NodeMutation/ReplaceAction.html" title="NodeMutation::ReplaceAction (class)">ReplaceAction</a></span>, <span class='object_link'><a href="NodeMutation/ReplaceWithAction.html" title="NodeMutation::ReplaceWithAction (class)">ReplaceWithAction</a></span>, <span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span>, <span class='object_link'><a href="NodeMutation/Strategy.html" title="NodeMutation::Strategy (class)">Strategy</a></span>, <span class='object_link'><a href="NodeMutation/WrapAction.html" title="NodeMutation::WrapAction (class)">WrapAction</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="NodeMutation/Action.html" title="NodeMutation::Action (class)">Action</a></span>, <span class='object_link'><a href="NodeMutation/Adapter.html" title="NodeMutation::Adapter (class)">Adapter</a></span>, <span class='object_link'><a href="NodeMutation/AppendAction.html" title="NodeMutation::AppendAction (class)">AppendAction</a></span>, <span class='object_link'><a href="NodeMutation/ConflictActionError.html" title="NodeMutation::ConflictActionError (class)">ConflictActionError</a></span>, <span class='object_link'><a href="NodeMutation/DeleteAction.html" title="NodeMutation::DeleteAction (class)">DeleteAction</a></span>, <span class='object_link'><a href="NodeMutation/InsertAction.html" title="NodeMutation::InsertAction (class)">InsertAction</a></span>, <span class='object_link'><a href="NodeMutation/MethodNotSupported.html" title="NodeMutation::MethodNotSupported (class)">MethodNotSupported</a></span>, <span class='object_link'><a href="NodeMutation/NoopAction.html" title="NodeMutation::NoopAction (class)">NoopAction</a></span>, <span class='object_link'><a href="NodeMutation/ParserAdapter.html" title="NodeMutation::ParserAdapter (class)">ParserAdapter</a></span>, <span class='object_link'><a href="NodeMutation/PrependAction.html" title="NodeMutation::PrependAction (class)">PrependAction</a></span>, <span class='object_link'><a href="NodeMutation/RemoveAction.html" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span>, <span class='object_link'><a href="NodeMutation/ReplaceAction.html" title="NodeMutation::ReplaceAction (class)">ReplaceAction</a></span>, <span class='object_link'><a href="NodeMutation/ReplaceWithAction.html" title="NodeMutation::ReplaceWithAction (class)">ReplaceWithAction</a></span>, <span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span>, <span class='object_link'><a href="NodeMutation/Strategy.html" title="NodeMutation::Strategy (class)">Strategy</a></span>, <span class='object_link'><a href="NodeMutation/WrapAction.html" title="NodeMutation::WrapAction (class)">WrapAction</a></span>
     
   
 </p>
@@ -623,13 +623,13 @@
       <pre class="lines">
 
 
-67
 68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='ivar'>@source</span> <span class='op'>=</span> <span class='id identifier rubyid_source'>source</span>
@@ -673,12 +673,12 @@
       <pre class="lines">
 
 
-25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_actions'>actions</span>
   <span class='ivar'>@actions</span>
@@ -739,12 +739,12 @@
       <pre class="lines">
 
 
-47
 48
-49</pre>
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_adapter'>adapter</span>
   <span class='ivar'>@adapter</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="NodeMutation/ParserAdapter.html" title="NodeMutation::ParserAdapter (class)">ParserAdapter</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="#initialize-instance_method" title="NodeMutation#initialize (method)">new</a></span></span>
@@ -848,7 +848,6 @@
       <pre class="lines">
 
 
-33
 34
 35
 36
@@ -858,10 +857,11 @@
 40
 41
 42
-43</pre>
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configure'>configure</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:adapter</span><span class='rbracket'>]</span>
@@ -923,12 +923,12 @@
       <pre class="lines">
 
 
-54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_strategy'>strategy</span>
   <span class='ivar'>@strategy</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="NodeMutation/Strategy.html" title="NodeMutation::Strategy (class)">Strategy</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NodeMutation/Strategy.html#KEEP_RUNNING-constant" title="NodeMutation::Strategy::KEEP_RUNNING (constant)">KEEP_RUNNING</a></span></span>
@@ -982,12 +982,12 @@
       <pre class="lines">
 
 
-60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tab_width'>tab_width</span>
   <span class='ivar'>@tab_width</span> <span class='op'>||=</span> <span class='int'>2</span>
@@ -1083,12 +1083,12 @@
       <pre class="lines">
 
 
-87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/AppendAction.html" title="NodeMutation::AppendAction (class)">AppendAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Action.html#initialize-instance_method" title="NodeMutation::Action#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1208,12 +1208,12 @@
       <pre class="lines">
 
 
-103
 104
-105</pre>
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/DeleteAction.html" title="NodeMutation::DeleteAction (class)">DeleteAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/DeleteAction.html#initialize-instance_method" title="NodeMutation::DeleteAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1334,12 +1334,12 @@
       <pre class="lines">
 
 
-119
 120
-121</pre>
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/InsertAction.html" title="NodeMutation::InsertAction (class)">InsertAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/InsertAction.html#initialize-instance_method" title="NodeMutation::InsertAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='id identifier rubyid_at'>at</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='id identifier rubyid_to'>to</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1395,12 +1395,12 @@
       <pre class="lines">
 
 
-206
 207
-208</pre>
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_noop'>noop</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/NoopAction.html" title="NodeMutation::NoopAction (class)">NoopAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/NoopAction.html#initialize-instance_method" title="NodeMutation::NoopAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1490,12 +1490,12 @@
       <pre class="lines">
 
 
-138
 139
-140</pre>
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_prepend'>prepend</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/PrependAction.html" title="NodeMutation::PrependAction (class)">PrependAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Action.html#initialize-instance_method" title="NodeMutation::Action#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1546,7 +1546,6 @@
       <pre class="lines">
 
 
-217
 218
 219
 220
@@ -1562,10 +1561,11 @@
 230
 231
 232
-233</pre>
+233
+234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process'>process</span>
   <span class='kw'>if</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>0</span>
@@ -1683,12 +1683,12 @@
       <pre class="lines">
 
 
-152
 153
-154</pre>
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/RemoveAction.html" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/RemoveAction.html#initialize-instance_method" title="NodeMutation::RemoveAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1790,12 +1790,12 @@
       <pre class="lines">
 
 
-168
 169
-170</pre>
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>with:</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/ReplaceAction.html" title="NodeMutation::ReplaceAction (class)">ReplaceAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/ReplaceAction.html#initialize-instance_method" title="NodeMutation::ReplaceAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='id identifier rubyid_with'>with</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1880,12 +1880,12 @@
       <pre class="lines">
 
 
-182
 183
-184</pre>
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_replace_with'>replace_with</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/ReplaceWithAction.html" title="NodeMutation::ReplaceWithAction (class)">ReplaceWithAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Action.html#initialize-instance_method" title="NodeMutation::Action#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -1936,7 +1936,6 @@
       <pre class="lines">
 
 
-242
 243
 244
 245
@@ -1948,10 +1947,11 @@
 251
 252
 253
-254</pre>
+254
+255</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 243</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span>
   <span class='kw'>if</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>0</span>
@@ -1964,7 +1964,7 @@
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="NodeMutation/ConflictActionError.html" title="NodeMutation::ConflictActionError (class)">ConflictActionError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>mutation actions are conflicted</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  <span class='const'><span class='object_link'><a href="" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Result.html#initialize-instance_method" title="NodeMutation::Result#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>affected:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>conflicted:</span> <span class='op'>!</span><span class='id identifier rubyid_conflict_actions'>conflict_actions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span> <span class='label'>actions:</span> <span class='id identifier rubyid_format_actions'>format_actions</span><span class='lparen'>(</span><span class='ivar'>@actions</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Result.html#initialize-instance_method" title="NodeMutation::Result#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>affected:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>conflicted:</span> <span class='op'>!</span><span class='id identifier rubyid_conflict_actions'>conflict_actions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='comma'>,</span> <span class='label'>actions:</span> <span class='ivar'>@actions</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2050,12 +2050,12 @@
       <pre class="lines">
 
 
-200
 201
-202</pre>
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>with:</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="NodeMutation/WrapAction.html" title="NodeMutation::WrapAction (class)">WrapAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/WrapAction.html#initialize-instance_method" title="NodeMutation::WrapAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='id identifier rubyid_with'>with</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="NodeMutation/Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
@@ -2070,7 +2070,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Mar 13 12:54:22 2023 by
+  Generated on Mon Mar 13 13:51:37 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.1).
 </div>
