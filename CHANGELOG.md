@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.10.1 (2023-03-13)
+
+* Remove `OpenStruct`, use `Struct` instead
+
 ## 1.10.0 (2023-03-01)
 
 * Support `variable` of `lvasgn`, `ivasgn`, `cvasgn`, and `gvasgn` node in `child_node_range`
