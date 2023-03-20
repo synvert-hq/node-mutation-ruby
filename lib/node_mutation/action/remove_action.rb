@@ -21,15 +21,43 @@ class NodeMutation::RemoveAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    if take_whole_line?
-      @start = start_index
-      @end = end_index
-      squeeze_lines
-    else
-      @start = NodeMutation.adapter.get_start(@node)
-      @end = NodeMutation.adapter.get_end(@node)
-      squeeze_spaces
-      remove_comma if @and_command
+    @start = NodeMutation.adapter.get_start(@node)
+    @end = NodeMutation.adapter.get_end(@node)
+    remove_comma if @and_comma
+    remove_whitespace
+    remove_newline if take_whole_line?
+  end
+
+  def remove_newline
+    leading_count = 1
+    loop do
+      if file_source[@start - leading_count] == "\n"
+        break
+      elsif ["\t", ' '].include?(file_source[@start - leading_count])
+        leading_count += 1
+      else
+        break
+      end
+    end
+
+    trailing_count = 0
+    loop do
+      if file_source[@end + trailing_count] == "\n"
+        break
+      elsif ["\t", ' '].include?(file_source[@end + trailing_count])
+        trailing_count += 1
+      else
+        break
+      end
+    end
+
+    if file_source[@end + trailing_count] == "\n"
+      @end += trailing_count + 1
+      return
+    end
+
+    if file_source[@start - leading_count] == "\n"
+      @start -= leading_count
     end
   end
 
@@ -37,18 +65,6 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   #
   # @return [Boolean]
   def take_whole_line?
-    NodeMutation.adapter.get_source(@node) == file_source[start_index...end_index].strip
-  end
-
-  # Get the start position of the line
-  def start_index
-    index = file_source[0..NodeMutation.adapter.get_start(@node)].rindex("\n")
-    index ? index + "\n".length : NodeMutation.adapter.get_start(@node)
-  end
-
-  # Get the end position of the line
-  def end_index
-    index = file_source[NodeMutation.adapter.get_end(@node)..-1].index("\n")
-    index ? NodeMutation.adapter.get_end(@node) + index + "\n".length : NodeMutation.adapter.get_end(@node)
+    NodeMutation.adapter.get_source(@node) == file_source[@start...@end].strip.chomp(',')
   end
 end

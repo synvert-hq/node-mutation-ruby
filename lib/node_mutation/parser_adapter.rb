@@ -5,6 +5,8 @@ INDEX_REGEXP = /\A-?\d+\z/
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
+      return "" if node.empty?
+
       source = file_content(node.first)
       source[node.first.loc.expression.begin_pos...node.last.loc.expression.end_pos]
     else
