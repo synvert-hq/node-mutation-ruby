@@ -178,7 +178,8 @@ RSpec.describe NodeMutation do
         node,
         '.first',
         at: 'end',
-        to: 'receiver'
+        to: 'receiver',
+        and_comma: false
       ).and_return(action)
       expect(action).to receive(:process)
       mutation.insert node, '.first', to: 'receiver'
@@ -189,7 +190,8 @@ RSpec.describe NodeMutation do
         node,
         'URI.',
         at: 'beginning',
-        to: nil
+        to: nil,
+        and_comma: false
       ).and_return(action)
       expect(action).to receive(:process)
       mutation.insert node, 'URI.', at: 'beginning'

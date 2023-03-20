@@ -92,8 +92,7 @@ class NodeMutation
   # Delete source code of the child ast node.
   # @param node [Node] ast node
   # @param selectors [Array<Symbol>] selector names of child node.
-  # @param options [Hash]
-  # @option and_comma [Boolean] delete extra comma.
+  # @param and_comma [Boolean] delete extra comma.
   # @example
   # source code of the ast node is
   #     FactoryBot.create(...)
@@ -101,8 +100,8 @@ class NodeMutation
   #     mutation.delete(node, :receiver, :dot)
   # the source code will be rewritten to
   #     create(...)
-  def delete(node, *selectors, **options)
-    @actions << DeleteAction.new(node, *selectors, **options).process
+  def delete(node, *selectors, and_comma: false)
+    @actions << DeleteAction.new(node, *selectors, and_comma: and_comma).process
   end
 
   # Insert code to the ast node.
@@ -110,6 +109,7 @@ class NodeMutation
   # @param code [String] code need to be inserted.
   # @param at [String] insert position, beginning or end
   # @param to [String] where to insert, if it is nil, will insert to current node.
+  # @param and_comma [Boolean] insert extra comma.
   # @example
   # source code of the ast node is
   #     open('http://test.com')
@@ -117,8 +117,8 @@ class NodeMutation
   #     mutation.insert(node, 'URI.', at: 'beginning')
   # the source code will be rewritten to
   #     URI.open('http://test.com')
-  def insert(node, code, at: 'end', to: nil)
-    @actions << InsertAction.new(node, code, at: at, to: to).process
+  def insert(node, code, at: 'end', to: nil, and_comma: false)
+    @actions << InsertAction.new(node, code, at: at, to: to, and_comma: and_comma).process
   end
 
   # Prepend code to the ast node.
@@ -142,16 +142,15 @@ class NodeMutation
 
   # Remove source code of the ast node.
   # @param node [Node] ast node
-  # @param options [Hash] options.
-  # @option and_comma [Boolean] delete extra comma.
+  # @param and_comma [Boolean] delete extra comma.
   # @example
   # source code of the ast node is
   #     puts "test"
   # then we call
   #     mutation.remove(node)
   # the source code will be removed
-  def remove(node, **options)
-    @actions << RemoveAction.new(node, **options).process
+  def remove(node, and_comma: false)
+    @actions << RemoveAction.new(node, and_comma: and_comma).process
   end
 
   # Replace child node of the ast node with new code.

@@ -8,17 +8,23 @@ class NodeMutation::InsertAction < NodeMutation::Action
   # @param code [String] to be inserted
   # @param at [String] position to insert, beginning or end
   # @param to [<nil|String>] name of child node
-  def initialize(node, code, at: 'end', to: nil)
+  # @param and_comma [Boolean] insert extra comma.
+  def initialize(node, code, at: 'end', to: nil, and_comma: false)
     super(node, code)
     @at = at
     @to = to
+    @and_comma = and_comma
   end
 
   # The rewritten source code.
   #
   # @return [String] rewritten code.
   def new_code
-    rewritten_source
+    if @and_comma
+      @at == 'end' ? ", #{rewritten_source}" : "#{rewritten_source}, "
+    else
+      rewritten_source
+    end
   end
 
   private
