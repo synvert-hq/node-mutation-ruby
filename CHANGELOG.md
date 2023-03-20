@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.11.0 (2023-03-20)
+
+* Calculate position properly for `add_comma`
+* Add `and_comma` param to `insert` dsl
+
 ## 1.10.1 (2023-03-13)
 
 * Remove `OpenStruct`, use `Struct` instead
