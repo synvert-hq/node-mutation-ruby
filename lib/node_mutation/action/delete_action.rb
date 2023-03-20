@@ -26,7 +26,7 @@ class NodeMutation::DeleteAction < NodeMutation::Action
                        .compact.map(&:start).min
     @end = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector) }
                      .compact.map(&:end).max
-    squeeze_spaces
     remove_comma if @and_comma
+    remove_whitespace
   end
 end

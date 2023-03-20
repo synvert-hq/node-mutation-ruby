@@ -21,15 +21,13 @@ class NodeMutation::RemoveAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
+    @start = NodeMutation.adapter.get_start(@node)
+    @end = NodeMutation.adapter.get_end(@node)
+    remove_comma if @and_comma
+    remove_whitespace
     if take_whole_line?
-      @start = start_index
-      @end = end_index
+      remove_newline
       squeeze_lines
-    else
-      @start = NodeMutation.adapter.get_start(@node)
-      @end = NodeMutation.adapter.get_end(@node)
-      squeeze_spaces
-      remove_comma if @and_command
     end
   end
 
@@ -37,18 +35,50 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   #
   # @return [Boolean]
   def take_whole_line?
-    NodeMutation.adapter.get_source(@node) == file_source[start_index...end_index].strip
+    NodeMutation.adapter.get_source(@node) == file_source[@start...@end].strip.chomp(',')
   end
 
-  # Get the start position of the line
-  def start_index
-    index = file_source[0..NodeMutation.adapter.get_start(@node)].rindex("\n")
-    index ? index + "\n".length : NodeMutation.adapter.get_start(@node)
+  def remove_newline
+    leading_count = 1
+    loop do
+      if file_source[@start - leading_count] == "\n"
+        break
+      elsif ["\t", ' '].include?(file_source[@start - leading_count])
+        leading_count += 1
+      else
+        break
+      end
+    end
+
+    trailing_count = 0
+    loop do
+      if file_source[@end + trailing_count] == "\n"
+        break
+      elsif ["\t", ' '].include?(file_source[@end + trailing_count])
+        trailing_count += 1
+      else
+        break
+      end
+    end
+
+    if file_source[@end + trailing_count] == "\n"
+      @end += trailing_count + 1
+    end
+
+    if file_source[@start - leading_count] == "\n"
+      @start -= leading_count - 1
+    end
   end
 
-  # Get the end position of the line
-  def end_index
-    index = file_source[NodeMutation.adapter.get_end(@node)..-1].index("\n")
-    index ? NodeMutation.adapter.get_end(@node) + index + "\n".length : NodeMutation.adapter.get_end(@node)
+  def squeeze_lines
+    lines = file_source.split("\n")
+    begin_line = NodeMutation.adapter.get_start_loc(@node).line
+    end_line = NodeMutation.adapter.get_end_loc(@node).line
+    before_line_is_blank = begin_line == 1 || lines[begin_line - 2] == ''
+    after_line_is_blank = lines[end_line] == ''
+
+    if lines.length > 1 && before_line_is_blank && after_line_is_blank
+      @end += "\n".length
+    end
   end
 end
