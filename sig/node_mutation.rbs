@@ -1,15 +1,11 @@
 module NodeMutation[T]
-  VERSION: Stringo
+  VERSION: String
 
   class MethodNotSupported < StandardError
   end
 
   class ConflictActionError < StandardError
   end
-
-  KEEP_RUNNING: Integer
-
-  THROW_ERROR: Integer
 
   attr_reader actions: Array[NodeMutation::Action]
 

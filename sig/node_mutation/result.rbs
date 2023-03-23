@@ -1,15 +1,13 @@
 class NodeMutation::Result
   attr_accessor file_path (): String
+  attr_accessor new_source (): String
+  attr_accessor actions (): Array[NodeMutation::Struct::Action]
 
   def initialize: (source: String) -> NodeMutation::Result
 
   def affected?: () -> bool
 
   def conflicted?: () -> bool
-
-  def new_source: () -> String
-
-  def actions: () -> Array[Hash]
 
   def to_json: (*args) -> String
 end
