@@ -19,7 +19,10 @@ class NodeMutation::Result
   end
 
   def actions=(actions)
-    @actions = actions.map { |action| NodeMutation::Struct::Action.new(start: action.start, end: action.end, new_code: action.new_code) }
+    @actions =
+      actions.map { |action|
+        NodeMutation::Struct::Action.new(start: action.start, end: action.end, new_code: action.new_code)
+      }
   end
 
   def to_json(*args)
