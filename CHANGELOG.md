@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.12.1 (2023-03-23)
+
+* Define `Action`, `Location` and `Range` in `NodeMutation::Struct`
+
 ## 1.12.0 (2023-03-23)
 
 * Support `{key}_pair` for a `hash` node
