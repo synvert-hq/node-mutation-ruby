@@ -1,41 +1,31 @@
 # frozen_string_literal: true
 
 class NodeMutation::Result
-  attr_accessor :file_path
+  attr_accessor :file_path, :new_source
+  attr_reader :actions
 
-  def initialize(options)
-    @options = options
+  def initialize(affected:, conflicted:)
+    @affected = affected
+    @conflicted = conflicted
+    @actions = []
   end
 
   def affected?
-    @options[:affected]
+    @affected
   end
 
   def conflicted?
-    @options[:conflicted]
+    @conflicted
   end
 
-  def actions
-    @options[:actions]
-  end
-
-  def new_source
-    @options[:new_source]
+  def actions=(actions)
+    @actions = actions.map { |action| NodeMutation::Struct::Action.new(start: action.start, end: action.end, new_code: action.new_code) }
   end
 
   def to_json(*args)
-    to_hash.to_json(*args)
-  end
-
-  def to_hash
-    hash = { file_path: file_path }
-    @options.each do |key, value|
-      if key == :actions
-        hash[:actions] = value.map { |action| { start: action.start, end: action.end, new_code: action.new_code } }
-      else
-        hash[key] = value
-      end
-    end
-    hash
+    data = { affected: affected?, conflicted: conflicted? }
+    data[:new_source] = new_source if new_source
+    data[:actions] = actions unless actions.empty?
+    data.to_json(*args)
   end
 end

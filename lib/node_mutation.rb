@@ -18,10 +18,9 @@ class NodeMutation
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
   autoload :WrapAction, 'node_mutation/action/wrap_action'
   autoload :NoopAction, 'node_mutation/action/noop_action'
-  autoload :Range, 'node_mutation/range'
-  autoload :Location, 'node_mutation/location'
   autoload :Result, 'node_mutation/result'
   autoload :Strategy, 'node_mutation/strategy'
+  autoload :Struct, 'node_mutation/struct'
 
   attr_reader :actions
 
@@ -229,7 +228,9 @@ class NodeMutation
     @actions.reverse_each do |action|
       source[action.start...action.end] = action.new_code if action.new_code
     end
-    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, new_source: source)
+    result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
+    result.new_source = source
+    result
   end
 
   # Test actions and return the actions.
@@ -241,7 +242,7 @@ class NodeMutation
   # @return {NodeMutation::Result}
   def test
     if @actions.length == 0
-      return NodeMutation::Result.new(affected: false, conflicted: false, actions: [])
+      return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     @actions.sort_by! { |action| [action.start, action.end] }
@@ -250,7 +251,9 @@ class NodeMutation
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
-    NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?, actions: @actions)
+    result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
+    result.actions = @actions
+    result
   end
 
   private
