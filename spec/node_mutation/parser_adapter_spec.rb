@@ -26,6 +26,26 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(adapter.rewritten_source(node, '{{arguments}}')).to eq 'a, b'
     end
 
+    it 'rewrites for last argument' do
+      source = 'test { |a, b| }'
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{arguments.-1}}')).to eq 'b'
+    end
+
+    it 'rewrites for hash' do
+      source = 'after_commit :do_index, on: :create, if: :indexable?'
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{arguments.-1}}')).to eq 'on: :create, if: :indexable?'
+    end
+
+    it 'rewrites for hash pair' do
+      source = 'after_commit :do_index, on: :create, if: :indexable?'
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{arguments.-1.on_pair}}')).to eq 'on: :create'
+      node = node.arguments.last
+      expect(adapter.rewritten_source(node, '{{on_pair}}')).to eq 'on: :create'
+    end
+
     it 'rewrites array with multi line given as argument for method' do
       source = <<~EOS.strip
         long_name_method([
@@ -328,6 +348,15 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :value)
         expect(range.start).to eq 7
         expect(range.end).to eq 10
+      end
+    end
+
+    context 'hash node' do
+      it 'checks foo_pair' do
+        node = parse("{ foo: 'foo', bar: 'bar' }")
+        range = adapter.child_node_range(node, :foo_pair)
+        expect(range.start).to eq 2
+        expect(range.end).to eq 12
       end
     end
 

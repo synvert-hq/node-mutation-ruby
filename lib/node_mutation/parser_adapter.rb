@@ -17,41 +17,36 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
-      first_key = old_code.split('.').first
-      if node.respond_to?(first_key)
-        evaluated = child_node_by_name(node, old_code)
-        case evaluated
-        when Parser::AST::Node
-          if evaluated.type == :args
-            evaluated.loc.expression.source[1...-1]
-          else
-            evaluated.loc.expression.source
-          end
-        when Array
-          if evaluated.size > 0
-            file_source = file_content(evaluated.first)
-            source = file_source[evaluated.first.loc.expression.begin_pos...evaluated.last.loc.expression.end_pos]
-            lines = source.split "\n"
-            lines_count = lines.length
-            if lines_count > 1 && lines_count == evaluated.size
-              new_code = []
-              lines.each_with_index { |line, index|
-                new_code << (index == 0 ? line : line[evaluated.first.indent - 2..-1])
-              }
-              new_code.join("\n")
-            else
-              source
-            end
-          end
-        when String, Symbol, Integer, Float
-          evaluated
-        when NilClass
-          ''
+      evaluated = child_node_by_name(node, old_code)
+      case evaluated
+      when Parser::AST::Node
+        if evaluated.type == :args
+          evaluated.loc.expression.source[1...-1]
         else
-          raise "can not parse \"#{code}\""
+          evaluated.loc.expression.source
         end
+      when Array
+        if evaluated.size > 0
+          file_source = file_content(evaluated.first)
+          source = file_source[evaluated.first.loc.expression.begin_pos...evaluated.last.loc.expression.end_pos]
+          lines = source.split "\n"
+          lines_count = lines.length
+          if lines_count > 1 && lines_count == evaluated.size
+            new_code = []
+            lines.each_with_index { |line, index|
+              new_code << (index == 0 ? line : line[evaluated.first.indent - 2..-1])
+            }
+            new_code.join("\n")
+          else
+            source
+          end
+        end
+      when String, Symbol, Integer, Float
+        evaluated
+      when NilClass
+        ''
       else
-        raise NodeMutation::MethodNotSupported, "#{first_key} is not supported for #{get_source(node)}"
+        raise "can not parse \"#{code}\""
       end
     end
   end
@@ -111,6 +106,15 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         NodeMutation::Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
     else
+      if node.type == :hash && child_name.to_s.end_with?('_pair')
+        pair_node = node.pairs.find { |pair| pair.key.to_value.to_s == child_name.to_s[0..-6] }
+        raise NodeMutation::MethodNotSupported,
+              "#{direct_child_name} is not supported for #{get_source(node)}" unless pair_node
+        return child_node_range(pair, nested_child_name) if nested_child_name
+
+        return NodeMutation::Range.new(pair_node.loc.expression.begin_pos, pair_node.loc.expression.end_pos)
+      end
+
       raise NodeMutation::MethodNotSupported,
             "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
 
@@ -179,6 +183,15 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       return child_node_by_name(child_node, nested_child_name) if nested_child_name
 
       return child_node
+    end
+
+    if node.is_a?(Parser::AST::Node) && node.type == :hash && direct_child_name.end_with?('_pair')
+      pair_node = node.pairs.find { |pair| pair.key.to_value.to_s == direct_child_name[0..-6] }
+      raise NodeMutation::MethodNotSupported,
+            "#{direct_child_name} is not supported for #{get_source(node)}" unless pair_node
+      return child_node_by_name(pair_node, nested_child_name) if nested_child_name
+
+      return pair_node
     end
 
     if node.respond_to?(direct_child_name)
