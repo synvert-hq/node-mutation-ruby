@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.12.0 (2023-03-23)
+
+* Support `{key}_pair` for a `hash` node
+
 ## 1.11.0 (2023-03-20)
 
 * Calculate position properly for `add_comma`
