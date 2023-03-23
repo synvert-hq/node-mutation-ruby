@@ -84,7 +84,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         node.arguments.last.loc.expression.end_pos + 1
       )
     when %i[block arguments], %i[def arguments], %i[defs arguments]
-      NodeMutation::Struct::Range.new(node.arguments.first.loc.expression.begin_pos, node.arguments.last.loc.expression.end_pos)
+      NodeMutation::Struct::Range.new(
+        node.arguments.first.loc.expression.begin_pos,
+        node.arguments.last.loc.expression.end_pos
+      )
     when %i[class name], %i[const name], %i[def name], %i[defs name]
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[defs dot]
@@ -134,7 +137,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       return nil if child_node.empty?
 
       return(
-        NodeMutation::Struct::Range.new(child_node.first.loc.expression.begin_pos, child_node.last.loc.expression.end_pos)
+        NodeMutation::Struct::Range.new(
+          child_node.first.loc.expression.begin_pos,
+          child_node.last.loc.expression.end_pos
+        )
       )
     end
   end
