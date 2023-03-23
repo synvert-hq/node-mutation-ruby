@@ -9,7 +9,7 @@ class NodeMutation::Result
 
   def new_source: () -> String
 
-  def actions: () -> Array[Hash]
+  def actions: () -> Array[NodeMutation::Struct::Action]
 
   def to_json: (*args) -> String
 end

@@ -1,0 +1,17 @@
+class NodeMutation::Struct
+  class Action < ::Struct
+    prop :start, Integer
+    prop :end, Integer
+    prop :new_code, String
+  end
+
+  class Location < ::Struct
+    prop :line, Integer
+    prop :column, Integer
+  end
+
+  class Range < ::Struct
+    prop :start, Integer
+    prop :end, Integer
+  end
+end

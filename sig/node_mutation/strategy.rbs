@@ -1,0 +1,7 @@
+class NodeMutation::Strategy
+  KEEP_RUNNING: Integer
+
+  THROW_ERROR: Integer
+
+  ALLOW_INSERT_AT_SAME_POSITION: Integer
+end
