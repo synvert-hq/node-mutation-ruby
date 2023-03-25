@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.12.2 (2023-03-25)
+
+* `remove_whitespace` handles more cases
+
 ## 1.12.1 (2023-03-23)
 
 * Define `Action`, `Location` and `Range` in `NodeMutation::Struct`
