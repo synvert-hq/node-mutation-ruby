@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.12.3 (2023-03-30)
+
+* `remove_whitespace` for both before and after whitespace
+
 ## 1.12.2 (2023-03-25)
 
 * `remove_whitespace` handles more cases
