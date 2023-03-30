@@ -102,6 +102,15 @@ RSpec.describe NodeMutation::Action do
       expect(action.start).to eq '%i(foo'.length
       expect(action.end).to eq '%i(foo bar'.length
     end
+
+    it 'removes both after and after whitespaces' do
+      action.instance_variable_set(:@file_source, 'arr.size == ')
+      action.instance_variable_set(:@start, 'arr.size '.length)
+      action.instance_variable_set(:@end, 'arr.size =='.length)
+      action.send(:remove_whitespace)
+      expect(action.start).to eq 'arr.size'.length
+      expect(action.end).to eq 'arr.size == '.length
+    end
   end
 
   describe '#remove_comma' do
