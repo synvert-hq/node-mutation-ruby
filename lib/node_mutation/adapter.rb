@@ -51,15 +51,17 @@ class NodeMutation::Adapter
 
   # Get start location of ast node
   # @param node [Node] ast node
-  # @return [{ line: Number, column: Number }] start location
-  def get_start_loc(node)
+  # @param child_name [String] child name selector
+  # @return [{ line: Number, column: Number }] start location of node or child node
+  def get_start_loc(node, child_name = nil)
     raise NotImplementedError, "get_start_loc is not implemented"
   end
 
   # Get end location of ast node
   # @param node [Node] ast node
-  # @return [{ line: Number, column: Number }] end location
-  def get_end_loc(node)
+  # @param child_name [String] child name selector
+  # @return [{ line: Number, column: Number }] end location of node or child node
+  def get_end_loc(node, child_name = nil)
     raise NotImplementedError, "get_end_loc is not implemented"
   end
 

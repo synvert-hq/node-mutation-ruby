@@ -551,6 +551,13 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(start_loc.line).to eq 1
       expect(start_loc.column).to eq 0
     end
+
+    it 'gets start location for name child' do
+      node = parse("class Synvert\nend")
+      start_loc = adapter.get_start_loc(node, :name)
+      expect(start_loc.line).to eq 1
+      expect(start_loc.column).to eq 'class '.length
+    end
   end
 
   describe '#get_end_loc' do
@@ -559,6 +566,13 @@ RSpec.describe NodeMutation::ParserAdapter do
       end_loc = adapter.get_end_loc(node)
       expect(end_loc.line).to eq 2
       expect(end_loc.column).to eq 3
+    end
+
+    it 'gets end location for name child' do
+      node = parse("class Synvert\nend")
+      end_loc = adapter.get_end_loc(node, :name)
+      expect(end_loc.line).to eq 1
+      expect(end_loc.column).to eq 'class Synvert'.length
     end
   end
 
