@@ -57,9 +57,9 @@ class NodeMutation::Action
   # e.g. `%i[foo bar]`, if we remove `foo`, the whitespace should also be removed,
   # the code should be changed to `%i[bar]`.
   def remove_whitespace
-    if file_source[@end] == ' ' && file_source[@start - 1] == ' '
+    if file_source[@start - 1] == ' ' && file_source[@end] == ' '
       @start -= 1
-      @end += 1
+      @end += 1 if file_source[@end + 1].nil?
       return
     end
 
