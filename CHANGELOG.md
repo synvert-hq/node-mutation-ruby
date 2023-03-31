@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.13.0 (2023-03-31)
+
+* Adapter `get_start` and `get_end` can parse child node
+* Adapter `get_start_loc` and `get_end_loc` can parse child node
+
 ## 1.12.3 (2023-03-30)
 
 * `remove_whitespace` for both before and after whitespace
