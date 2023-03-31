@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.13.1 (2023-03-31)
+
+* Remove both whitespaces only when next char is nil
+
 ## 1.13.0 (2023-03-31)
 
 * Adapter `get_start` and `get_end` can parse child node
