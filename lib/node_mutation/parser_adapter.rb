@@ -145,11 +145,13 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     end
   end
 
-  def get_start(node)
+  def get_start(node, child_name = nil)
+    node = child_node_by_name(node, child_name) if child_name
     node.loc.expression.begin_pos
   end
 
-  def get_end(node)
+  def get_end(node, child_name = nil)
+    node = child_node_by_name(node, child_name) if child_name
     node.loc.expression.end_pos
   end
 

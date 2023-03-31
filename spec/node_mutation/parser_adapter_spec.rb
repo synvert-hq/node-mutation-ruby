@@ -521,17 +521,26 @@ RSpec.describe NodeMutation::ParserAdapter do
   end
 
   describe '#get_start' do
-    it 'gets start count' do
+    it 'gets start position' do
       node = parse("class Synvert\nend")
       expect(adapter.get_start(node)).to eq 0
+    end
+
+    it 'gets start position for name child' do
+      node = parse("class Synvert\nend")
+      expect(adapter.get_start(node, :name)).to eq 'class '.length
     end
   end
 
   describe '#get_end' do
-    it 'gets end count' do
-      code = "class Synvert\nend"
-      node = parse(code)
-      expect(adapter.get_end(node)).to eq code.length
+    it 'gets end position' do
+      node = parse("class Synvert\nend")
+      expect(adapter.get_end(node)).to eq "class Synvert\nend".length
+    end
+
+    it 'gets end position for name child' do
+      node = parse("class Synvert\nend")
+      expect(adapter.get_end(node, :name)).to eq 'class Synvert'.length
     end
   end
 

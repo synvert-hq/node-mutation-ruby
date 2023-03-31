@@ -35,15 +35,17 @@ class NodeMutation::Adapter
 
   # Get start position of ast node
   # @param node [Node] ast node
-  # @return [Number] start position
-  def get_start(node)
+  # @param child_name [String] child name selector
+  # @return [Number] start position of node or child node
+  def get_start(node, child_name = nil)
     raise NotImplementedError, "get_start is not implemented"
   end
 
   # Get end position of ast node
   # @param node [Node] ast node
-  # @return [Number] end position
-  def get_end(node)
+  # @param child_name [String] child name selector
+  # @return [Number] end position of node or child node
+  def get_end(node, child_name = nil)
     raise NotImplementedError, "get_end is not implemented"
   end
 
