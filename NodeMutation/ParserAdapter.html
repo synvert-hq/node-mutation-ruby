@@ -163,7 +163,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_end-instance_method" title="#get_end (instance method)">#<strong>get_end</strong>(node)  &#x21d2; Object </a>
+      <a href="#get_end-instance_method" title="#get_end (instance method)">#<strong>get_end</strong>(node, child_name = nil)  &#x21d2; Object </a>
     
 
     
@@ -185,7 +185,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_end_loc-instance_method" title="#get_end_loc (instance method)">#<strong>get_end_loc</strong>(node)  &#x21d2; Object </a>
+      <a href="#get_end_loc-instance_method" title="#get_end_loc (instance method)">#<strong>get_end_loc</strong>(node, child_name = nil)  &#x21d2; Object </a>
     
 
     
@@ -251,7 +251,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_start-instance_method" title="#get_start (instance method)">#<strong>get_start</strong>(node)  &#x21d2; Object </a>
+      <a href="#get_start-instance_method" title="#get_start (instance method)">#<strong>get_start</strong>(node, child_name = nil)  &#x21d2; Object </a>
     
 
     
@@ -273,7 +273,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_start_loc-instance_method" title="#get_start_loc (instance method)">#<strong>get_start_loc</strong>(node)  &#x21d2; Object </a>
+      <a href="#get_start_loc-instance_method" title="#get_start_loc (instance method)">#<strong>get_start_loc</strong>(node, child_name = nil)  &#x21d2; Object </a>
     
 
     
@@ -564,7 +564,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_end-instance_method">
   
-    #<strong>get_end</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_end</strong>(node, child_name = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -576,14 +576,16 @@
       <pre class="lines">
 
 
-152
 153
-154</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 153</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_end_pos'>end_pos</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -594,7 +596,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_end_loc-instance_method">
   
-    #<strong>get_end_loc</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_end_loc</strong>(node, child_name = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -606,15 +608,17 @@
       <pre class="lines">
 
 
-161
-162
-163
-164</pre>
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 164</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
   <span class='id identifier rubyid_end_loc'>end_loc</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_end'>end</span>
   <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Location.html" title="NodeMutation::Struct::Location (class)">Location</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_end_loc'>end_loc</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_end_loc'>end_loc</span><span class='period'>.</span><span class='id identifier rubyid_column'>column</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -638,12 +642,12 @@
       <pre class="lines">
 
 
-166
-167
-168</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_indent'>get_indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file_content'>file_content</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A *</span><span class='regexp_end'>/</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
@@ -700,7 +704,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_start-instance_method">
   
-    #<strong>get_start</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_start</strong>(node, child_name = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -714,12 +718,14 @@
 
 148
 149
-150</pre>
+150
+151</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 148</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_begin_pos'>begin_pos</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -730,7 +736,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_start_loc-instance_method">
   
-    #<strong>get_start_loc</strong>(node)  &#x21d2; <tt>Object</tt> 
+    #<strong>get_start_loc</strong>(node, child_name = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -742,15 +748,17 @@
       <pre class="lines">
 
 
-156
-157
 158
-159</pre>
+159
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 158</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
   <span class='id identifier rubyid_begin_loc'>begin_loc</span> <span class='op'>=</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_begin'>begin</span>
   <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Location.html" title="NodeMutation::Struct::Location (class)">Location</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_begin_loc'>begin_loc</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span><span class='comma'>,</span> <span class='id identifier rubyid_begin_loc'>begin_loc</span><span class='period'>.</span><span class='id identifier rubyid_column'>column</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -860,7 +868,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Mar 30 12:33:22 2023 by
+  Generated on Fri Mar 31 03:31:12 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.1).
 </div>

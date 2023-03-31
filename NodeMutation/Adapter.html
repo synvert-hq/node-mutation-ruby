@@ -169,7 +169,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_end-instance_method" title="#get_end (instance method)">#<strong>get_end</strong>(node)  &#x21d2; Number </a>
+      <a href="#get_end-instance_method" title="#get_end (instance method)">#<strong>get_end</strong>(node, child_name = nil)  &#x21d2; Number </a>
     
 
     
@@ -193,7 +193,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_end_loc-instance_method" title="#get_end_loc (instance method)">#<strong>get_end_loc</strong>(node)  &#x21d2; { line: Number, column: Number } </a>
+      <a href="#get_end_loc-instance_method" title="#get_end_loc (instance method)">#<strong>get_end_loc</strong>(node, child_name = nil)  &#x21d2; { line: Number, column: Number } </a>
     
 
     
@@ -265,7 +265,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_start-instance_method" title="#get_start (instance method)">#<strong>get_start</strong>(node)  &#x21d2; Number </a>
+      <a href="#get_start-instance_method" title="#get_start (instance method)">#<strong>get_start</strong>(node, child_name = nil)  &#x21d2; Number </a>
     
 
     
@@ -289,7 +289,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_start_loc-instance_method" title="#get_start_loc (instance method)">#<strong>get_start_loc</strong>(node)  &#x21d2; { line: Number, column: Number } </a>
+      <a href="#get_start_loc-instance_method" title="#get_start_loc (instance method)">#<strong>get_start_loc</strong>(node, child_name = nil)  &#x21d2; { line: Number, column: Number } </a>
     
 
     
@@ -546,7 +546,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_end-instance_method">
   
-    #<strong>get_end</strong>(node)  &#x21d2; <tt>Number</tt> 
+    #<strong>get_end</strong>(node, child_name = nil)  &#x21d2; <tt>Number</tt> 
   
 
   
@@ -580,6 +580,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>child_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>child name selector</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -594,7 +612,7 @@
       
         &mdash;
         <div class='inline'>
-<p>end position</p>
+<p>end position of node or child node</p>
 </div>
       
     </li>
@@ -620,14 +638,14 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 48</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_end is not implemented</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -638,7 +656,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_end_loc-instance_method">
   
-    #<strong>get_end_loc</strong>(node)  &#x21d2; <tt>{ line: Number, column: Number }</tt> 
+    #<strong>get_end_loc</strong>(node, child_name = nil)  &#x21d2; <tt>{ line: Number, column: Number }</tt> 
   
 
   
@@ -672,6 +690,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>child_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>child name selector</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -686,7 +722,7 @@
       
         &mdash;
         <div class='inline'>
-<p>end location</p>
+<p>end location of node or child node</p>
 </div>
       
     </li>
@@ -712,14 +748,14 @@
       <pre class="lines">
 
 
-60
-61
-62</pre>
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 64</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_end_loc is not implemented</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -804,12 +840,12 @@
       <pre class="lines">
 
 
-67
-68
-69</pre>
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_indent'>get_indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_indent is not implemented</span><span class='tstring_end'>&quot;</span></span>
@@ -914,7 +950,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_start-instance_method">
   
-    #<strong>get_start</strong>(node)  &#x21d2; <tt>Number</tt> 
+    #<strong>get_start</strong>(node, child_name = nil)  &#x21d2; <tt>Number</tt> 
   
 
   
@@ -948,6 +984,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>child_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>child name selector</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -962,7 +1016,7 @@
       
         &mdash;
         <div class='inline'>
-<p>start position</p>
+<p>start position of node or child node</p>
 </div>
       
     </li>
@@ -988,14 +1042,14 @@
       <pre class="lines">
 
 
-39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 40</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_start is not implemented</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1006,7 +1060,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_start_loc-instance_method">
   
-    #<strong>get_start_loc</strong>(node)  &#x21d2; <tt>{ line: Number, column: Number }</tt> 
+    #<strong>get_start_loc</strong>(node, child_name = nil)  &#x21d2; <tt>{ line: Number, column: Number }</tt> 
   
 
   
@@ -1040,6 +1094,24 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>child_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>child name selector</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -1054,7 +1126,7 @@
       
         &mdash;
         <div class='inline'>
-<p>start location</p>
+<p>start location of node or child node</p>
 </div>
       
     </li>
@@ -1080,14 +1152,14 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter.rb', line 56</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_start_loc is not implemented</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1220,7 +1292,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Mar 30 12:33:22 2023 by
+  Generated on Fri Mar 31 03:31:12 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.1).
 </div>
