@@ -22,7 +22,13 @@ class NodeMutation
   autoload :Strategy, 'node_mutation/strategy'
   autoload :Struct, 'node_mutation/struct'
 
+  # @!attribute [r] actions
+  #   @return [Array<NodeMutation::Struct::Action>]
   attr_reader :actions
+
+  # @!attribute [rw] transform_proc
+  #  @return [Proc] proc to transfor the actions
+  attr_accessor :transform_proc
 
   class << self
     # Configure NodeMutation
@@ -219,6 +225,7 @@ class NodeMutation
     end
 
     source = +@source
+    @transform_proc.call(@actions) if @transform_proc
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
@@ -245,6 +252,7 @@ class NodeMutation
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
+    @transform_proc.call(@actions) if @transform_proc
     @actions.sort_by! { |action| [action.start, action.end] }
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)

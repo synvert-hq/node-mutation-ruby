@@ -97,6 +97,60 @@ RSpec.describe NodeMutation do
         end
       EOS
     end
+
+    context '#transform_proc' do
+      let(:source) { <<~EOS }
+        if current_user
+          current_user.login
+        if current_user
+          current_user.name
+      EOS
+      let(:encoded_source) { <<~EOS }
+        if current_user
+          current_user.login
+        end
+        if current_user
+          current_user.name
+        end
+      EOS
+
+      it 'transforms the new source' do
+        mutation.transform_proc = proc do |actions|
+          start = 0
+          indices = []
+          loop do
+            index = encoded_source[start..-1].index("end\n")
+            break unless index
+
+            indices << start + index
+            start += index + "end\n".length
+          end
+          indices.each do |index|
+            actions.each do |action|
+              action.start -= "end\n".length if action.start > index
+              action.end -= "end\n".length if action.end > index
+            end
+          end
+        end
+        mutation.actions.push(NodeMutation::Struct::Action.new(
+          "if current_user\n  ".length,
+          "if current_user\n  current_user.login".length, "current_user.username"
+        ))
+        mutation.actions.push(NodeMutation::Struct::Action.new(
+          "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
+          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
+        ))
+        result = mutation.process
+        expect(result).to be_affected
+        expect(result).not_to be_conflicted
+        expect(result.new_source).to eq <<~EOS
+          if current_user
+            current_user.username
+          if current_user
+            current_user.username
+        EOS
+      end
+    end
   end
 
   describe '#test' do
@@ -147,6 +201,61 @@ RSpec.describe NodeMutation do
       expect {
         mutation.process
       }.to raise_error(NodeMutation::ConflictActionError)
+    end
+
+    context '#transform_proc' do
+      let(:source) { <<~EOS }
+        if current_user
+          current_user.login
+        if current_user
+          current_user.name
+      EOS
+      let(:encoded_source) { <<~EOS }
+        if current_user
+          current_user.login
+        end
+        if current_user
+          current_user.name
+        end
+      EOS
+
+      it 'transforms the actions' do
+        mutation.transform_proc = proc do |actions|
+          start = 0
+          indices = []
+          loop do
+            index = encoded_source[start..-1].index("end\n")
+            break unless index
+
+            indices << start + index
+            start += index + "end\n".length
+          end
+          indices.each do |index|
+            actions.each do |action|
+              action.start -= "end\n".length if action.start > index
+              action.end -= "end\n".length if action.end > index
+            end
+          end
+        end
+        action1 = NodeMutation::Struct::Action.new(
+          "if current_user\n  ".length,
+          "if current_user\n  current_user.login".length, "current_user.username"
+        )
+        action2 = NodeMutation::Struct::Action.new(
+          "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
+          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
+        )
+        new_action2 = NodeMutation::Struct::Action.new(
+          "if current_user\n  current_user.login\nif_current_user\n  ".length,
+          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length, "current_user.username"
+        )
+        mutation.actions.push(action1)
+        mutation.actions.push(action2)
+        result = mutation.test
+        expect(result).to be_affected
+        expect(result).not_to be_conflicted
+        expect(result.actions).to eq [action1, new_action2]
+      end
     end
   end
 
