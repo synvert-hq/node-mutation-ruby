@@ -122,7 +122,7 @@ RSpec.describe NodeMutation do
             index = encoded_source[start..-1].index("end\n")
             break unless index
 
-            indices << start + index
+            indices << (start + index)
             start += index + "end\n".length
           end
           indices.each do |index|
@@ -227,7 +227,7 @@ RSpec.describe NodeMutation do
             index = encoded_source[start..-1].index("end\n")
             break unless index
 
-            indices << start + index
+            indices << (start + index)
             start += index + "end\n".length
           end
           indices.each do |index|
