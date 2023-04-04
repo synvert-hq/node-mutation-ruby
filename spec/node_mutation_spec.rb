@@ -115,31 +115,38 @@ RSpec.describe NodeMutation do
       EOS
 
       it 'transforms the new source' do
-        mutation.transform_proc = proc do |actions|
-          start = 0
-          indices = []
-          loop do
-            index = encoded_source[start..-1].index("end\n")
-            break unless index
+        mutation.transform_proc =
+          proc do |actions|
+            start = 0
+            indices = []
+            loop do
+              index = encoded_source[start..-1].index("end\n")
+              break unless index
 
-            indices << start + index
-            start += index + "end\n".length
-          end
-          indices.each do |index|
-            actions.each do |action|
-              action.start -= "end\n".length if action.start > index
-              action.end -= "end\n".length if action.end > index
+              indices << start + index
+              start += index + "end\n".length
+            end
+            indices.each do |index|
+              actions.each do |action|
+                action.start -= "end\n".length if action.start > index
+                action.end -= "end\n".length if action.end > index
+              end
             end
           end
-        end
-        mutation.actions.push(NodeMutation::Struct::Action.new(
-          "if current_user\n  ".length,
-          "if current_user\n  current_user.login".length, "current_user.username"
-        ))
-        mutation.actions.push(NodeMutation::Struct::Action.new(
-          "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
-        ))
+        mutation.actions.push(
+          NodeMutation::Struct::Action.new(
+            "if current_user\n  ".length,
+            "if current_user\n  current_user.login".length,
+            "current_user.username"
+          )
+        )
+        mutation.actions.push(
+          NodeMutation::Struct::Action.new(
+            "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
+            "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length,
+            "current_user.username"
+          )
+        )
         result = mutation.process
         expect(result).to be_affected
         expect(result).not_to be_conflicted
@@ -220,34 +227,38 @@ RSpec.describe NodeMutation do
       EOS
 
       it 'transforms the actions' do
-        mutation.transform_proc = proc do |actions|
-          start = 0
-          indices = []
-          loop do
-            index = encoded_source[start..-1].index("end\n")
-            break unless index
+        mutation.transform_proc =
+          proc do |actions|
+            start = 0
+            indices = []
+            loop do
+              index = encoded_source[start..-1].index("end\n")
+              break unless index
 
-            indices << start + index
-            start += index + "end\n".length
-          end
-          indices.each do |index|
-            actions.each do |action|
-              action.start -= "end\n".length if action.start > index
-              action.end -= "end\n".length if action.end > index
+              indices << start + index
+              start += index + "end\n".length
+            end
+            indices.each do |index|
+              actions.each do |action|
+                action.start -= "end\n".length if action.start > index
+                action.end -= "end\n".length if action.end > index
+              end
             end
           end
-        end
         action1 = NodeMutation::Struct::Action.new(
           "if current_user\n  ".length,
-          "if current_user\n  current_user.login".length, "current_user.username"
+          "if current_user\n  current_user.login".length,
+          "current_user.username"
         )
         action2 = NodeMutation::Struct::Action.new(
           "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
+          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length,
+          "current_user.username"
         )
         new_action2 = NodeMutation::Struct::Action.new(
           "if current_user\n  current_user.login\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length, "current_user.username"
+          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length,
+          "current_user.username"
         )
         mutation.actions.push(action1)
         mutation.actions.push(action2)
