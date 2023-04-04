@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.13.2 (2023-04-01)
+
+* Support `cvar`, `gvar`, `ivar`, and `lvar` name in `child_node_range`
+
 ## 1.13.1 (2023-03-31)
 
 * Remove both whitespaces only when next char is nil
