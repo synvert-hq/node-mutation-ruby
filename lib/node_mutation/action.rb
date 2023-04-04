@@ -2,11 +2,11 @@
 
 # Action defines rewriter action, insert, replace or delete code.
 class NodeMutation::Action
-  # @!attribute [r] start
+  # @!attribute [rw] start
   #   @return [Integer] start position
-  # @!attribute [r] end
+  # @!attribute [rw] end
   #   @return [Integer] end position
-  attr_reader :start, :end
+  attr_accessor :start, :end
 
   # Initialize an action.
   #
