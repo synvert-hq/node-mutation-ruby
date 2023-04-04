@@ -432,7 +432,14 @@
 143
 144
 145
-146</pre>
+146
+147
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 58</span>
@@ -470,7 +477,14 @@
       <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_begin_pos'>begin_pos</span><span class='comma'>,</span>
       <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_expression'>expression</span><span class='period'>.</span><span class='id identifier rubyid_end_pos'>end_pos</span>
     <span class='rparen'>)</span>
-  <span class='kw'>when</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>class</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>const</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>cvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>def</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>defs</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>gvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ivar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>lvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span>
+  <span class='kw'>when</span> <span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+    </span><span class='tstring_content'>class</span><span class='words_sep'>
+    </span><span class='tstring_content'>name</span><span class='words_sep'>
+  </span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+    </span><span class='tstring_content'>const</span><span class='words_sep'>
+    </span><span class='tstring_content'>name</span><span class='words_sep'>
+  </span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>cvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>def</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>defs</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>gvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>ivar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>lvar</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span>
+
     <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Range.html" title="NodeMutation::Struct::Range (class)">Range</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_begin_pos'>begin_pos</span><span class='comma'>,</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_end_pos'>end_pos</span><span class='rparen'>)</span>
   <span class='kw'>when</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>defs</span><span class='words_sep'> </span><span class='tstring_content'>dot</span><span class='tstring_end'>]</span></span>
     <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Range.html" title="NodeMutation::Struct::Range (class)">Range</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_operator'>operator</span><span class='period'>.</span><span class='id identifier rubyid_begin_pos'>begin_pos</span><span class='comma'>,</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_operator'>operator</span><span class='period'>.</span><span class='id identifier rubyid_end_pos'>end_pos</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_loc'>loc</span><span class='period'>.</span><span class='id identifier rubyid_operator'>operator</span>
@@ -576,13 +590,13 @@
       <pre class="lines">
 
 
-153
-154
-155
-156</pre>
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -608,14 +622,14 @@
       <pre class="lines">
 
 
-164
-165
-166
-167
-168</pre>
+171
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -642,12 +656,12 @@
       <pre class="lines">
 
 
-170
-171
-172</pre>
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_indent'>get_indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file_content'>file_content</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_line'>line</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A *</span><span class='regexp_end'>/</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
@@ -716,13 +730,13 @@
       <pre class="lines">
 
 
-148
-149
-150
-151</pre>
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -748,14 +762,14 @@
       <pre class="lines">
 
 
-158
-159
-160
-161
-162</pre>
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/parser_adapter.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -868,7 +882,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Apr  4 14:44:44 2023 by
+  Generated on Tue Apr  4 14:44:49 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.2.2).
 </div>
