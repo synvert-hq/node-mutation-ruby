@@ -35,18 +35,20 @@ mutation = NodeMutation.new(source)
 mutation.append node, 'include FactoryGirl::Syntax::Methods'
 # delete source code of the child ast node
 mutation.delete node, :dot, :message, and_comma: true
+# indent code
+mutation.indent node, tab_size: 1
 # insert code to the ast node.
 mutation.insert node, 'URI.', at: 'beginning'
 # prepend code to the ast node.
 mutation.prepend node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
 # remove source code of the ast node
-mutation.remove(node: Node)
+mutation.remove node, and_comma: true
 # replace child node of the ast node with new code
 mutation.replace node, :message, with: 'test'
 # replace the ast node with new code
 mutation.replace_with node, 'create {{arguments}}'
-# wrap node within a block, class or module
-mutation.wrap node, with: 'module Foo'
+# wrap node with prefix and suffix code
+mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
 # no operation
 mutation.noop
 ```
