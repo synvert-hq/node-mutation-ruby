@@ -81,10 +81,9 @@ It provides 3 strategies to handle conflicts when processing actions:
 
 1. `Strategy.KEEP_RUNNING`: keep running and ignore the conflict action.
 2. `Strategy.THROW_ERROR`: throw error when conflict action is found.
-3. `Strategy.ALLOW_INSERT_AT_SAME_POSITION`: allow insert action at the same position.
 
 ```ruby
-NodeMutation.configure(strategy: Strategy.KEEP_RUNNING | Strategy.ALLOW_INSERT_AT_SAME_POSITION); // default is Strategy.THROW_ERROR
+NodeMutation.configure(strategy: Strategy.KEEP_RUNNING); // default is Strategy.THROW_ERROR
 ```
 
 ### tab_width

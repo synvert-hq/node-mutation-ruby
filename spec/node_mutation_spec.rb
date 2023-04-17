@@ -64,25 +64,8 @@ RSpec.describe NodeMutation do
         .to raise_error(NodeMutation::ConflictActionError)
     end
 
-    it 'gets conflict when insert at the same position' do
+    it 'gets no conflict when insert at the same position' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      action1 = NodeMutation::Struct::Action.new("class Foobar".length, "class Foobar".length, " < Base")
-      action2 = NodeMutation::Struct::Action.new("class Foobar".length, "class Foobar".length, " < Base")
-      mutation.actions.push(action1)
-      mutation.actions.push(action2)
-      result = mutation.process
-      expect(result).to be_affected
-      expect(result).to be_conflicted
-      expect(result.new_source).to eq <<~EOS
-        class Foobar < Base
-          def foo; end
-          def bar; end
-        end
-      EOS
-    end
-
-    it 'gets no conflict with ALLOW_INSERT_AT_SAME_POSITION strategy' do
-      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING | NodeMutation::Strategy::ALLOW_INSERT_AT_SAME_POSITION)
       action1 = NodeMutation::Struct::Action.new("class Foobar".length, "class Foobar".length, " < Base")
       action2 = NodeMutation::Struct::Action.new("class Foobar".length, "class Foobar".length, " < Base")
       mutation.actions.push(action1)

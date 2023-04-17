@@ -281,11 +281,8 @@ class NodeMutation
     begin_pos = @actions[i].start
     end_pos = @actions[i].end
     while j > -1
-      # if we have two insert actions at same position.
-      same_position = begin_pos == @actions[j].start && begin_pos == end_pos && @actions[j].start == @actions[j].end
       # if we have two actions with overlapped range.
-      overlapped_position = begin_pos < @actions[j].end
-      if (!strategy?(Strategy::ALLOW_INSERT_AT_SAME_POSITION) && same_position) || overlapped_position
+      if begin_pos < @actions[j].end
         conflict_actions << @actions.delete_at(j)
       else
         i = j
