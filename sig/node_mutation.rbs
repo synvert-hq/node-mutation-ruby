@@ -23,6 +23,8 @@ module NodeMutation[T]
 
   def delete: (node: T, *selectors: Array[String], **options: { and_comma: bool }) -> void
 
+  def indent: (node: T, ?tab_size: Integer) -> void
+
   def insert: (node: T, code: String, ?at: "beginning" | "end", ?to: nil | String) -> void
 
   def prepend: (node: T, code: String) -> void
@@ -33,7 +35,7 @@ module NodeMutation[T]
 
   def replace_with: (node: T, code: String) -> void
 
-  def wrap: (node: T, prefix: String, suffix: String, newline: bool) -> void
+  def wrap: (node: T, prefix: String, suffix: String, ?newline: bool) -> void
 
   def noop: (node: T) -> void
 
