@@ -88,7 +88,14 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         node.arguments.first.loc.expression.begin_pos,
         node.arguments.last.loc.expression.end_pos
       )
-    when %i[class name], %i[const name], %i[cvar name], %i[def name], %i[defs name], %i[gvar name], %i[ivar name], %i[lvar name]
+    when %i[
+      class
+      name
+    ], %i[
+      const
+      name
+    ], %i[cvar name], %i[def name], %i[defs name], %i[gvar name], %i[ivar name], %i[lvar name]
+
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[defs dot]
       NodeMutation::Struct::Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
