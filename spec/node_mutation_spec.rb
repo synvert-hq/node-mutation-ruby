@@ -335,10 +335,22 @@ RSpec.describe NodeMutation do
       mutation.delete node, :dot, :message, and_comma: true
     end
 
-    it 'parses wrap with' do
-      expect(NodeMutation::WrapAction).to receive(:new).with(node, with: 'module Foo').and_return(action)
+    it 'parses wrap' do
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, '3.times { ', at: 'beginning').and_return(action)
       expect(action).to receive(:process)
-      mutation.wrap node, with: 'module Foo'
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, ' }', at: 'end').and_return(action)
+      expect(action).to receive(:process)
+      mutation.wrap node, prefix: '3.times { ', suffix: ' }'
+    end
+
+    it 'parses wrap with newline' do
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, 'module Foo', at: 'beginning').and_return(action)
+      expect(action).to receive(:process)
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, 'end', at: 'end').and_return(action)
+      expect(action).to receive(:process)
+      expect(NodeMutation::IndentAction).to receive(:new).with(node).and_return(action)
+      expect(action).to receive(:process)
+      mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
     end
 
     it 'parses noop' do

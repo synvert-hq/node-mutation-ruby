@@ -17,7 +17,6 @@ class NodeMutation
   autoload :PrependAction, 'node_mutation/action/prepend_action'
   autoload :ReplaceAction, 'node_mutation/action/replace_action'
   autoload :ReplaceWithAction, 'node_mutation/action/replace_with_action'
-  autoload :WrapAction, 'node_mutation/action/wrap_action'
   autoload :NoopAction, 'node_mutation/action/noop_action'
   autoload :Result, 'node_mutation/result'
   autoload :Strategy, 'node_mutation/strategy'
@@ -189,22 +188,26 @@ class NodeMutation
     @actions << ReplaceWithAction.new(node, code).process
   end
 
-  # Wrap source code of the ast node with new code.
+  # Wrap source code of the ast node with prefix and suffix code.
   # @param node [Node] ast node
-  # @param with [String] code need to be wrapped with.
+  # @param prefix [String] prefix code need to be wrapped with.
+  # @param suffix [String] suffix code need to be wrapped with.
+  # @param newline [Boolean] add newline after prefix and before suffix.
   # @example
   # source code of the ast node is
   #     class Foobar
   #     end
   # then we call
-  #     wrap(node, with: 'module Synvert')
+  #     wrap(node, prefix: 'module Synvert', suffix: 'end', newline: true)
   # the source code will be rewritten to
   #     module Synvert
   #       class Foobar
   #       end
   #     end
-  def wrap(node, with:)
-    @actions << WrapAction.new(node, with: with).process
+  def wrap(node, prefix:, suffix:, newline: false)
+    @actions << InsertAction.new(node, prefix, at: 'beginning').process
+    @actions << InsertAction.new(node, suffix, at: 'end').process
+    @actions << IndentAction.new(node).process if newline
   end
 
   # No operation.
