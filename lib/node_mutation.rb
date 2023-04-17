@@ -207,8 +207,8 @@ class NodeMutation
   def wrap(node, prefix:, suffix:, newline: false)
     if newline
       indentation = NodeMutation.adapter.get_start_loc(node).column
-      @actions << InsertAction.new(node, prefix + "\n" + ' ' * indentation, at: 'beginning').process
-      @actions << InsertAction.new(node, "\n" + ' ' * indentation + suffix, at: 'end').process
+      @actions << InsertAction.new(node, prefix + "\n" + (' ' * indentation), at: 'beginning').process
+      @actions << InsertAction.new(node, "\n" + (' ' * indentation) + suffix, at: 'end').process
       @actions << IndentAction.new(node).process
     else
       @actions << InsertAction.new(node, prefix, at: 'beginning').process
