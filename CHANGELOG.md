@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.15.2 (2023-04-17)
+
+* Support `const` `double_colon` in child_node_range
+
 ## 1.15.1 (2023-04-17)
 
 * Fix `wrap` code for newline
