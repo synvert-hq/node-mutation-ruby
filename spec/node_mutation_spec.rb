@@ -327,9 +327,10 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses wrap with newline' do
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, 'module Foo', at: 'beginning').and_return(action)
+      expect(NodeMutation.adapter).to receive(:get_start_loc).with(node).and_return(NodeMutation::Struct::Location.new(1, 2))
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, "module Foo\n  ", at: 'beginning').and_return(action)
       expect(action).to receive(:process)
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, 'end', at: 'end').and_return(action)
+      expect(NodeMutation::InsertAction).to receive(:new).with(node, "\n  end", at: 'end').and_return(action)
       expect(action).to receive(:process)
       expect(NodeMutation::IndentAction).to receive(:new).with(node).and_return(action)
       expect(action).to receive(:process)

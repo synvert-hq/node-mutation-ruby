@@ -33,7 +33,7 @@ module NodeMutation[T]
 
   def replace_with: (node: T, code: String) -> void
 
-  def wrap: (node: T, with: String) -> void
+  def wrap: (node: T, prefix: String, suffix: String, newline: bool) -> void
 
   def noop: (node: T) -> void
 
