@@ -1,5 +1,11 @@
 # NodeMutation
 
+## 1.15.0 (2023-04-17)
+
+* Add `indent` action
+* Use two `InsertAction` and one `IndentAction` instead of `WrapAction`
+* Drop `ALLOW_INSERT_AT_SAME_POSITION` strategy
+
 ## 1.14.0 (2023-04-04)
 
 * Add `transform_proc` to transform the actions
