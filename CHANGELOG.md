@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.15.1 (2023-04-17)
+
+* Fix `wrap` code for newline
+
 ## 1.15.0 (2023-04-17)
 
 * Add `indent` action
