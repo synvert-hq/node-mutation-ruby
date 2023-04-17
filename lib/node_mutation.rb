@@ -11,6 +11,7 @@ class NodeMutation
   autoload :Action, 'node_mutation/action'
   autoload :AppendAction, 'node_mutation/action/append_action'
   autoload :DeleteAction, 'node_mutation/action/delete_action'
+  autoload :IndentAction, 'node_mutation/action/indent_action'
   autoload :InsertAction, 'node_mutation/action/insert_action'
   autoload :RemoveAction, 'node_mutation/action/remove_action'
   autoload :PrependAction, 'node_mutation/action/prepend_action'
