@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.34
   
 </title>
 
@@ -96,18 +96,20 @@
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>include FactoryGirl::Syntax::Methods</span><span class='tstring_end'>&#39;</span></span>
 <span class='comment'># delete source code of the child ast node
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:dot</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>true</span>
+<span class='comment'># indent code
+</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_indent'>indent</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>tab_size:</span> <span class='int'>1</span>
 <span class='comment'># insert code to the ast node.
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>URI.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginning</span><span class='tstring_end'>&#39;</span></span>
 <span class='comment'># prepend code to the ast node.
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_prepend'>prepend</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{{arguments.first}}.include FactoryGirl::Syntax::Methods</span><span class='tstring_end'>&#39;</span></span>
 <span class='comment'># remove source code of the ast node
-</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='label'>node:</span> <span class='const'>Node</span><span class='rparen'>)</span>
+</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>true</span>
 <span class='comment'># replace child node of the ast node with new code
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>test</span><span class='tstring_end'>&#39;</span></span>
 <span class='comment'># replace the ast node with new code
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace_with'>replace_with</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>create {{arguments}}</span><span class='tstring_end'>&#39;</span></span>
-<span class='comment'># wrap node within a block, class or module
-</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>module Foo</span><span class='tstring_end'>&#39;</span></span>
+<span class='comment'># wrap node with prefix and suffix code
+</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>module Foo</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>suffix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>newline:</span> <span class='kw'>true</span>
 <span class='comment'># no operation
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_noop'>noop</span>
 </code></pre>
@@ -140,11 +142,9 @@
 <p><code>Strategy.KEEP_RUNNING</code>: keep running and ignore the conflict action.</p>
 </li><li>
 <p><code>Strategy.THROW_ERROR</code>: throw error when conflict action is found.</p>
-</li><li>
-<p><code>Strategy.ALLOW_INSERT_AT_SAME_POSITION</code>: allow insert action at the same position.</p>
 </li></ol>
 
-<pre class="code ruby"><code class="ruby">NodeMutation.configure(strategy: Strategy.KEEP_RUNNING | Strategy.ALLOW_INSERT_AT_SAME_POSITION); // default is Strategy.THROW_ERROR
+<pre class="code ruby"><code class="ruby">NodeMutation.configure(strategy: Strategy.KEEP_RUNNING); // default is Strategy.THROW_ERROR
 </code></pre>
 
 <h3 id="label-tab_width">tab_width</h3>
@@ -164,9 +164,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Apr  4 14:54:20 2023 by
+  Generated on Mon Apr 17 05:33:01 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.28 (ruby-3.2.2).
+  0.9.34 (ruby-3.2.2).
 </div>
 
     </div>
