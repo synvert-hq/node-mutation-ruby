@@ -207,6 +207,13 @@ RSpec.describe NodeMutation::ParserAdapter do
         expect(range.start).to eq 0
         expect(range.end).to eq 'Synvert'.length
       end
+
+      it 'checks coloncolon' do
+        node = parse('Foo::Bar')
+        range = adapter.child_node_range(node, :double_colon)
+        expect(range.start).to eq 'Foo'.length
+        expect(range.end).to eq 'Foo::'.length
+      end
     end
 
     context 'csend node' do
