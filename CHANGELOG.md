@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.15.3 (2023-04-18)
+
+* Add `type` to `Action`
+
 ## 1.15.2 (2023-04-17)
 
 * Support `const` `double_colon` in child_node_range
