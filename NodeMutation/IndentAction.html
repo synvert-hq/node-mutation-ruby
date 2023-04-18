@@ -121,7 +121,7 @@
   <h2>Instance Attribute Summary</h2>
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Action.html" title="NodeMutation::Action (class)">Action</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Action.html#end-instance_method" title="NodeMutation::Action#end (method)">#end</a></span>, <span class='object_link'><a href="Action.html#start-instance_method" title="NodeMutation::Action#start (method)">#start</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Action.html#end-instance_method" title="NodeMutation::Action#end (method)">#end</a></span>, <span class='object_link'><a href="Action.html#start-instance_method" title="NodeMutation::Action#start (method)">#start</a></span>, <span class='object_link'><a href="Action.html#type-instance_method" title="NodeMutation::Action#type (method)">#type</a></span></p>
 
 
   
@@ -261,7 +261,8 @@
 9
 10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/action/indent_action.rb', line 9</span>
@@ -269,6 +270,7 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_tab_size'>tab_size</span> <span class='op'>=</span> <span class='int'>1</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@tab_size</span> <span class='op'>=</span> <span class='id identifier rubyid_tab_size'>tab_size</span>
+  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='symbol'>:replace</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -326,13 +328,13 @@
       <pre class="lines">
 
 
-17
 18
 19
-20</pre>
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/indent_action.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/indent_action.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_code'>new_code</span>
   <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='period'>.</span><span class='id identifier rubyid_adapter'><span class='object_link'><a href="../NodeMutation.html#adapter-class_method" title="NodeMutation.adapter (method)">adapter</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get_source'><span class='object_link'><a href="Adapter.html#get_source-instance_method" title="NodeMutation::Adapter#get_source (method)">get_source</a></span></span><span class='lparen'>(</span><span class='ivar'>@node</span><span class='rparen'>)</span>
@@ -348,7 +350,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Apr 17 09:48:15 2023 by
+  Generated on Tue Apr 18 12:14:42 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

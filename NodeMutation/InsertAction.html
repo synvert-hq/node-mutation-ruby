@@ -121,7 +121,7 @@
   <h2>Instance Attribute Summary</h2>
   
   <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Action.html" title="NodeMutation::Action (class)">Action</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Action.html#end-instance_method" title="NodeMutation::Action#end (method)">#end</a></span>, <span class='object_link'><a href="Action.html#start-instance_method" title="NodeMutation::Action#start (method)">#start</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Action.html#end-instance_method" title="NodeMutation::Action#end (method)">#end</a></span>, <span class='object_link'><a href="Action.html#start-instance_method" title="NodeMutation::Action#start (method)">#start</a></span>, <span class='object_link'><a href="Action.html#type-instance_method" title="NodeMutation::Action#type (method)">#type</a></span></p>
 
 
   
@@ -315,7 +315,8 @@
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/action/insert_action.rb', line 12</span>
@@ -325,6 +326,7 @@
   <span class='ivar'>@at</span> <span class='op'>=</span> <span class='id identifier rubyid_at'>at</span>
   <span class='ivar'>@to</span> <span class='op'>=</span> <span class='id identifier rubyid_to'>to</span>
   <span class='ivar'>@and_comma</span> <span class='op'>=</span> <span class='id identifier rubyid_and_comma'>and_comma</span>
+  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='symbol'>:insert</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -382,16 +384,16 @@
       <pre class="lines">
 
 
-22
 23
 24
 25
 26
 27
-28</pre>
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/insert_action.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/insert_action.rb', line 23</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_code'>new_code</span>
   <span class='kw'>if</span> <span class='ivar'>@and_comma</span>
@@ -410,7 +412,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Apr 17 09:48:15 2023 by
+  Generated on Tue Apr 18 12:14:42 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
