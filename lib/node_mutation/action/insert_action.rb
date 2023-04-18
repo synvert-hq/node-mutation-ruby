@@ -14,6 +14,7 @@ class NodeMutation::InsertAction < NodeMutation::Action
     @at = at
     @to = to
     @and_comma = and_comma
+    @type = :insert
   end
 
   # The rewritten source code.

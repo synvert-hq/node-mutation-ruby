@@ -2,6 +2,11 @@
 
 # ReplaceWithAction to replace code.
 class NodeMutation::ReplaceWithAction < NodeMutation::Action
+  def initialize(node, code)
+    super(node, code)
+    @type = :replace
+  end
+
   # The rewritten source code with proper indent.
   #
   # @return [String] rewritten code.

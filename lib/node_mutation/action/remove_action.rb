@@ -10,6 +10,7 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   def initialize(node, and_comma: false)
     super(node, nil)
     @and_comma = and_comma
+    @type = :delete
   end
 
   # The rewritten code, always empty string.

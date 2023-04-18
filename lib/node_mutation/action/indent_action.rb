@@ -9,6 +9,7 @@ class NodeMutation::IndentAction < NodeMutation::Action
   def initialize(node, tab_size = 1)
     super(node, nil)
     @tab_size = tab_size
+    @type = :replace
   end
 
   # The rewritten source code with proper indent.

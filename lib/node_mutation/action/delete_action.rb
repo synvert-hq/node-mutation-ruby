@@ -11,6 +11,7 @@ class NodeMutation::DeleteAction < NodeMutation::Action
     super(node, nil)
     @selectors = selectors
     @and_comma = and_comma
+    @type = :delete
   end
 
   # The rewritten code, always empty string.

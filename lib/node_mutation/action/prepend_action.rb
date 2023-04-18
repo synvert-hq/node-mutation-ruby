@@ -2,6 +2,11 @@
 
 # PrependAction to prepend code to the top of node body.
 class NodeMutation::PrependAction < NodeMutation::Action
+  def initialize(node, code)
+    super(node, code)
+    @type = :insert
+  end
+
   private
 
   DO_LENGTH = ' do'.length

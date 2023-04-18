@@ -2,6 +2,11 @@
 
 # AppendAction appends code to the bottom of node body.
 class NodeMutation::AppendAction < NodeMutation::Action
+  def initialize(node, code)
+    super(node, code)
+    @type = :insert
+  end
+
   private
 
   END_LENGTH = "\nend".length

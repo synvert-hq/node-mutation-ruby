@@ -10,6 +10,7 @@ class NodeMutation::ReplaceAction < NodeMutation::Action
   def initialize(node, *selectors, with:)
     super(node, with)
     @selectors = selectors
+    @type = :replace
   end
 
   # The rewritten source code.

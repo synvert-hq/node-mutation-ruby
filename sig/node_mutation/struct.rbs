@@ -1,5 +1,6 @@
 class NodeMutation::Struct
   class Action < ::Struct
+    prop :type, Symbol
     prop :start, Integer
     prop :end, Integer
     prop :new_code, String
