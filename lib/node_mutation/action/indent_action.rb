@@ -17,7 +17,7 @@ class NodeMutation::IndentAction < NodeMutation::Action
   # @return [String] rewritten code.
   def new_code
     source = NodeMutation.adapter.get_source(@node)
-    source.each_line.map { |line| ' ' * NodeMutation.tab_width * @tab_size + line }.join
+    source.each_line.map { |line| (' ' * NodeMutation.tab_width * @tab_size) + line }.join
   end
 
   private
