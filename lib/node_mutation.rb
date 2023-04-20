@@ -7,7 +7,7 @@ class NodeMutation
   class ConflictActionError < StandardError; end
 
   autoload :Adapter, "node_mutation/adapter"
-  autoload :ParserAdapter, "node_mutation/parser_adapter"
+  autoload :ParserAdapter, "node_mutation/adapter/parser"
   autoload :Action, 'node_mutation/action'
   autoload :AppendAction, 'node_mutation/action/append_action'
   autoload :DeleteAction, 'node_mutation/action/delete_action'
