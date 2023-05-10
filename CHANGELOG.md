@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.16.0 (2023-05-10)
+
+* Support {key}_value for a hash node
+
 ## 1.15.3 (2023-04-18)
 
 * Add `type` to `Action`

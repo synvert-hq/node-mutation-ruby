@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class NodeMutation
-  VERSION = "1.15.3"
+  VERSION = "1.16.0"
 end
