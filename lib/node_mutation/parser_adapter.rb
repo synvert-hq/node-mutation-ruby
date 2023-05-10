@@ -88,7 +88,14 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         node.arguments.first.loc.expression.begin_pos,
         node.arguments.last.loc.expression.end_pos
       )
-    when %i[class name], %i[const name], %i[cvar name], %i[def name], %i[defs name], %i[gvar name], %i[ivar name], %i[lvar name]
+    when %i[
+      class
+      name
+    ], %i[
+      const
+      name
+    ], %i[cvar name], %i[def name], %i[defs name], %i[gvar name], %i[ivar name], %i[lvar name]
+
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[const double_colon]
       NodeMutation::Struct::Range.new(node.loc.double_colon.begin_pos, node.loc.double_colon.end_pos)
@@ -126,7 +133,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
               "#{direct_child_name} is not supported for #{get_source(node)}" unless pair_node
         return child_node_range(pair.value, nested_child_name) if nested_child_name
 
-        return NodeMutation::Struct::Range.new(pair_node.value.loc.expression.begin_pos, pair_node.value.loc.expression.end_pos)
+        return NodeMutation::Struct::Range.new(
+          pair_node.value.loc.expression.begin_pos,
+          pair_node.value.loc.expression.end_pos
+        )
       end
 
       raise NodeMutation::MethodNotSupported,
