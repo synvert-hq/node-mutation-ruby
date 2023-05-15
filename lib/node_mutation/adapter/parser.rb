@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-INDEX_REGEXP = /\A-?\d+\z/
-
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)

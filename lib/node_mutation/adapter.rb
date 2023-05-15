@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NodeMutation::Adapter
+  INDEX_REGEXP = /\A-?\d+\z/
+
   # Get source code of the ast node
   # @param node [Node] ast node
   # @return [String] source code
