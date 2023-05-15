@@ -26,7 +26,14 @@ RSpec.describe NodeMutation do
 
     it 'gets no conflict' do
       mutation.actions.push(NodeMutation::Struct::Action.new(:insert, 0, 0, "# frozen_string_literal: true\n"))
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert"))
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :replace,
+          "class ".length,
+          "class Foobar".length,
+          "Synvert"
+        )
+      )
       result = mutation.process
       expect(result).to be_affected
       expect(result).not_to be_conflicted
@@ -41,8 +48,22 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with KEEP_RUNNING strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert"))
-      mutation.actions.push(NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :replace,
+          "class ".length,
+          "class Foobar".length,
+          "Synvert"
+        )
+      )
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :insert,
+          "class Foobar".length,
+          "class Foobar".length,
+          " < Base"
+        )
+      )
       mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
       result = mutation.process
       expect(result).to be_affected
@@ -57,8 +78,22 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert"))
-      mutation.actions.push(NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :replace,
+          "class ".length,
+          "class Foobar".length,
+          "Synvert"
+        )
+      )
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :insert,
+          "class Foobar".length,
+          "class Foobar".length,
+          " < Base"
+        )
+      )
       mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
       expect { mutation.process }
         .to raise_error(NodeMutation::ConflictActionError)
@@ -98,33 +133,40 @@ RSpec.describe NodeMutation do
       EOS
 
       it 'transforms the new source' do
-        mutation.transform_proc = proc do |actions|
-          start = 0
-          indices = []
-          loop do
-            index = encoded_source[start..-1].index("end\n")
-            break unless index
+        mutation.transform_proc =
+          proc do |actions|
+            start = 0
+            indices = []
+            loop do
+              index = encoded_source[start..-1].index("end\n")
+              break unless index
 
-            indices << (start + index)
-            start += index + "end\n".length
-          end
-          indices.each do |index|
-            actions.each do |action|
-              action.start -= "end\n".length if action.start > index
-              action.end -= "end\n".length if action.end > index
+              indices << (start + index)
+              start += index + "end\n".length
+            end
+            indices.each do |index|
+              actions.each do |action|
+                action.start -= "end\n".length if action.start > index
+                action.end -= "end\n".length if action.end > index
+              end
             end
           end
-        end
-        mutation.actions.push(NodeMutation::Struct::Action.new(
-          :replace,
-          "if current_user\n  ".length,
-          "if current_user\n  current_user.login".length, "current_user.username"
-        ))
-        mutation.actions.push(NodeMutation::Struct::Action.new(
-          :replace,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
-        ))
+        mutation.actions.push(
+          NodeMutation::Struct::Action.new(
+            :replace,
+            "if current_user\n  ".length,
+            "if current_user\n  current_user.login".length,
+            "current_user.username"
+          )
+        )
+        mutation.actions.push(
+          NodeMutation::Struct::Action.new(
+            :replace,
+            "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
+            "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length,
+            "current_user.username"
+          )
+        )
         result = mutation.process
         expect(result).to be_affected
         expect(result).not_to be_conflicted
@@ -180,8 +222,22 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert"))
-      mutation.actions.push(NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base"))
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :replace,
+          "class ".length,
+          "class Foobar".length,
+          "Synvert"
+        )
+      )
+      mutation.actions.push(
+        NodeMutation::Struct::Action.new(
+          :insert,
+          "class Foobar".length,
+          "class Foobar".length,
+          " < Base"
+        )
+      )
       mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
       expect {
         mutation.process
@@ -205,37 +261,41 @@ RSpec.describe NodeMutation do
       EOS
 
       it 'transforms the actions' do
-        mutation.transform_proc = proc do |actions|
-          start = 0
-          indices = []
-          loop do
-            index = encoded_source[start..-1].index("end\n")
-            break unless index
+        mutation.transform_proc =
+          proc do |actions|
+            start = 0
+            indices = []
+            loop do
+              index = encoded_source[start..-1].index("end\n")
+              break unless index
 
-            indices << (start + index)
-            start += index + "end\n".length
-          end
-          indices.each do |index|
-            actions.each do |action|
-              action.start -= "end\n".length if action.start > index
-              action.end -= "end\n".length if action.end > index
+              indices << (start + index)
+              start += index + "end\n".length
+            end
+            indices.each do |index|
+              actions.each do |action|
+                action.start -= "end\n".length if action.start > index
+                action.end -= "end\n".length if action.end > index
+              end
             end
           end
-        end
         action1 = NodeMutation::Struct::Action.new(
           :replace,
           "if current_user\n  ".length,
-          "if current_user\n  current_user.login".length, "current_user.username"
+          "if current_user\n  current_user.login".length,
+          "current_user.username"
         )
         action2 = NodeMutation::Struct::Action.new(
           :replace,
           "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length, "current_user.username"
+          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length,
+          "current_user.username"
         )
         new_action2 = NodeMutation::Struct::Action.new(
           :replace,
           "if current_user\n  current_user.login\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length, "current_user.username"
+          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length,
+          "current_user.username"
         )
         mutation.actions.push(action1)
         mutation.actions.push(action2)
@@ -332,8 +392,16 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses wrap with newline' do
-      expect(NodeMutation.adapter).to receive(:get_start_loc).with(node).and_return(NodeMutation::Struct::Location.new(1, 2))
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, "module Foo\n  ", at: 'beginning').and_return(action)
+      expect(NodeMutation.adapter).to receive(:get_start_loc).with(node).and_return(
+        NodeMutation::Struct::Location.new(
+          1, 2
+        )
+      )
+      expect(NodeMutation::InsertAction).to receive(:new).with(
+        node,
+        "module Foo\n  ",
+        at: 'beginning'
+      ).and_return(action)
       expect(action).to receive(:process)
       expect(NodeMutation::InsertAction).to receive(:new).with(node, "\n  end", at: 'end').and_return(action)
       expect(action).to receive(:process)
