@@ -11,5 +11,6 @@ gem "rspec", "~> 3.0"
 
 gem "parser"
 gem "parser_node_ext"
+gem "syntax_tree_ext"
 gem "guard"
 gem "guard-rspec"
