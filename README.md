@@ -74,7 +74,7 @@ we define an [Adapter](https://github.com/xinminlabs/node-mutation-ruby/blob/mai
 if you implement the Adapter interface, you can set it as NodeMutation's adapter.
 
 ```ruby
-NodeMutation.configure(adapter: ParserAdapter.new) // default is ParserAdapter
+NodeMutation.configure(adapter: SyntaxTreeAdapter.new) // default is ParserAdapter
 ```
 
 ### strategy

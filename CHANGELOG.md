@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.17.0 (2023-05-15)
+
+* Add `SyntaxTreeAdapter`
+
 ## 1.16.0 (2023-05-10)
 
 * Support {key}_value for a hash node
