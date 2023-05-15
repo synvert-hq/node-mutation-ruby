@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'parser'
+require 'parser_node_ext'
+
 class NodeMutation::ParserAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)

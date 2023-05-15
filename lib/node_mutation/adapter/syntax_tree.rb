@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'syntax_tree'
+require 'syntax_tree_ext'
+
 class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
