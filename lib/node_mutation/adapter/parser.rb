@@ -109,15 +109,6 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         NodeMutation::Struct::Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
     else
-      if node.type == :hash && child_name.to_s.end_with?('_pair')
-        pair_node = node.pairs.find { |pair| pair.key.to_value.to_s == child_name.to_s[0..-6] }
-        raise NodeMutation::MethodNotSupported,
-              "#{direct_child_name} is not supported for #{get_source(node)}" unless pair_node
-        return child_node_range(pair, nested_child_name) if nested_child_name
-
-        return NodeMutation::Struct::Range.new(pair_node.loc.expression.begin_pos, pair_node.loc.expression.end_pos)
-      end
-
       raise NodeMutation::MethodNotSupported,
             "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
 
@@ -193,15 +184,6 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       return child_node_by_name(child_node, nested_child_name) if nested_child_name
 
       return child_node
-    end
-
-    if node.is_a?(Parser::AST::Node) && node.type == :hash && direct_child_name.end_with?('_pair')
-      pair_node = node.pairs.find { |pair| pair.key.to_value.to_s == direct_child_name[0..-6] }
-      raise NodeMutation::MethodNotSupported,
-            "#{direct_child_name} is not supported for #{get_source(node)}" unless pair_node
-      return child_node_by_name(pair_node, nested_child_name) if nested_child_name
-
-      return pair_node
     end
 
     if node.respond_to?(direct_child_name)
