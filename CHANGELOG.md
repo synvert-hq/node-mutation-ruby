@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.17.1 (2023-05-16)
+
+* Require `parser` and `syntax_tree` in adapter
+
 ## 1.17.0 (2023-05-15)
 
 * Add `SyntaxTreeAdapter`
