@@ -132,7 +132,7 @@
 
 <p>Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all, we define an <a href="https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb">Adapter</a> interface, if you implement the Adapter interface, you can set it as NodeMutation’s adapter.</p>
 
-<pre class="code ruby"><code class="ruby">NodeMutation.configure(adapter: ParserAdapter.new) // default is ParserAdapter
+<pre class="code ruby"><code class="ruby">NodeMutation.configure(adapter: SyntaxTreeAdapter.new) // default is ParserAdapter
 </code></pre>
 
 <h3 id="label-strategy">strategy</h3>
@@ -164,7 +164,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Tue Apr 18 12:14:51 2023 by
+  Generated on Mon May 15 05:35:00 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
