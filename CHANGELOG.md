@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.18.0 (2023-05-16)
+
+* Rename `file_content` to `file_source`
+* Add `SyntaxTreeAdapter#file_source`
+
 ## 1.17.1 (2023-05-16)
 
 * Require `parser` and `syntax_tree` in adapter
