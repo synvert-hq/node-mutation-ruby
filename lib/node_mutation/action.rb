@@ -108,6 +108,6 @@ class NodeMutation::Action
   #
   # @return [String]
   def file_source
-    @file_source ||= NodeMutation.adapter.file_content(@node)
+    @file_source ||= NodeMutation.adapter.file_source(@node)
   end
 end

@@ -8,7 +8,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     if node.is_a?(Array)
       return "" if node.empty?
 
-      source = file_content(node.first)
+      source = file_source(node.first)
       source[node.first.loc.expression.begin_pos...node.last.loc.expression.end_pos]
     else
       node.loc.expression.source
@@ -28,7 +28,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
         end
       when Array
         if evaluated.size > 0
-          file_source = file_content(evaluated.first)
+          file_source = file_source(evaluated.first)
           source = file_source[evaluated.first.loc.expression.begin_pos...evaluated.last.loc.expression.end_pos]
           lines = source.split "\n"
           lines_count = lines.length
@@ -52,7 +52,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     end
   end
 
-  def file_content(node)
+  def file_source(node)
     node.loc.expression.source_buffer.source
   end
 
@@ -162,7 +162,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   end
 
   def get_indent(node)
-    file_content(node).split("\n")[get_start_loc(node).line - 1][/\A */].size
+    file_source(node).split("\n")[get_start_loc(node).line - 1][/\A */].size
   end
 
   private

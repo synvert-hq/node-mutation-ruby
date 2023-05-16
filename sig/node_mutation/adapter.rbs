@@ -3,7 +3,7 @@ class NodeMutation::Adapter[T]
 
   def rewritten_source: (node: T, code: String) -> String
 
-  def file_content: (node: T) -> String
+  def file_source: (node: T) -> String
 
   def child_node_range: (node: T, child_name: String) -> NodeMutation::Struct::Range
 

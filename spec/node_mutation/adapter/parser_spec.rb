@@ -99,7 +99,7 @@ RSpec.describe NodeMutation::ParserAdapter do
     end
   end
 
-  describe '#file_content' do
+  describe '#file_source' do
     it 'gets content of file' do
       source = <<~EOS
         class Synvert
@@ -107,7 +107,7 @@ RSpec.describe NodeMutation::ParserAdapter do
         end
       EOS
       node = parse(source).body.first
-      expect(adapter.file_content(node)).to eq source
+      expect(adapter.file_source(node)).to eq source
     end
   end
 

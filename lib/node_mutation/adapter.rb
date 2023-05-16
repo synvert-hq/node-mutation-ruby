@@ -23,8 +23,8 @@ class NodeMutation::Adapter
   # The file content of the ast node file
   # @param node [Node] ast node
   # @return file content
-  def file_content(node)
-    raise NotImplementedError, "file_content is not implemented"
+  def file_source(node)
+    raise NotImplementedError, "file_source is not implemented"
   end
 
   # Get the start/end range of the child node
