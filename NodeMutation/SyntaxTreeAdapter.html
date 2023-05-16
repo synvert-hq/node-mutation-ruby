@@ -147,6 +147,28 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#file_source-instance_method" title="#file_source (instance method)">#<strong>file_source</strong>(node)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_end-instance_method" title="#get_end (instance method)">#<strong>get_end</strong>(node, child_name = nil)  &#x21d2; Object </a>
     
 
@@ -308,11 +330,6 @@
   
   
   
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Adapter.html" title="NodeMutation::Adapter (class)">Adapter</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Adapter.html#file_content-instance_method" title="NodeMutation::Adapter#file_content (method)">#file_content</a></span></p>
-
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -333,19 +350,19 @@
       <pre class="lines">
 
 
-47
-48
-49
-50
 51
 52
 53
 54
 55
-56</pre>
+56
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_child_node'>child_node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span>
@@ -356,6 +373,36 @@
   <span class='kw'>end</span>
 
   <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Range.html" title="NodeMutation::Struct::Range (class)">Range</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_start_char'>start_char</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_end_char'>end_char</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="file_source-instance_method">
+  
+    #<strong>file_source</strong>(node)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_file_source'>file_source</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_source'>source</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -377,13 +424,13 @@
       <pre class="lines">
 
 
-63
-64
-65
-66</pre>
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -409,13 +456,13 @@
       <pre class="lines">
 
 
-73
-74
-75
-76</pre>
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -441,12 +488,12 @@
       <pre class="lines">
 
 
-78
-79
-80</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_indent'>get_indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_start_column'>start_column</span>
@@ -509,13 +556,13 @@
       <pre class="lines">
 
 
-58
-59
-60
-61</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -541,13 +588,13 @@
       <pre class="lines">
 
 
-68
-69
-70
-71</pre>
+72
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -649,7 +696,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 15 22:19:41 2023 by
+  Generated on Tue May 16 05:16:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
