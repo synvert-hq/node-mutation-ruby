@@ -44,6 +44,10 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
     end
   end
 
+  def file_source(node)
+    node.source
+  end
+
   def child_node_range(node, child_name)
     child_node = child_node_by_name(node, child_name)
     return nil if child_node.nil?

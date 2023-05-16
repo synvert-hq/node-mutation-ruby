@@ -109,6 +109,18 @@ RSpec.describe NodeMutation::SyntaxTreeAdapter do
     end
   end
 
+  describe '#file_source' do
+    it 'gets content of file' do
+      source = <<~EOS
+        class Synvert
+          def foobar; end
+        end
+      EOS
+      node = syntax_tree_parse(source)
+      expect(adapter.file_source(node)).to eq source
+    end
+  end
+
   describe '#child_node_range' do
     context 'ArgParen node' do
       it 'checks arguments' do
