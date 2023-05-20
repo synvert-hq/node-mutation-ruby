@@ -186,6 +186,17 @@ RSpec.describe NodeMutation::ParserAdapter do
         expect(range.start).to eq 8
         expect(range.end).to eq 14
       end
+
+      it 'checks body' do
+        node = parse("Factory.define :user do |user|; name { 'Test' }; end")
+        range = adapter.child_node_range(node, :body)
+        expect(range.start).to eq 32
+        expect(range.end).to eq 47
+
+        node = parse("Factory.define :user do; end")
+        range = adapter.child_node_range(node, :body)
+        expect(range).to be_nil
+      end
     end
 
     context 'class node' do
@@ -204,6 +215,17 @@ RSpec.describe NodeMutation::ParserAdapter do
 
         node = parse('class Post; end')
         range = adapter.child_node_range(node, :parent_class)
+        expect(range).to be_nil
+      end
+
+      it 'checks body' do
+        node = parse('class Post < ActiveRecord::Base; def title; end; end')
+        range = adapter.child_node_range(node, :body)
+        expect(range.start).to eq 33
+        expect(range.end).to eq 47
+
+        node = parse('class Post < ActiveRecord::Base; end')
+        range = adapter.child_node_range(node, :body)
         expect(range).to be_nil
       end
     end
@@ -311,6 +333,17 @@ RSpec.describe NodeMutation::ParserAdapter do
         expect(range.start).to eq 7
         expect(range.end).to eq 12
       end
+
+      it 'checks body' do
+        node = parse("def foo(bar); 'foobar'; end")
+        range = adapter.child_node_range(node, :body)
+        expect(range.start).to eq 14
+        expect(range.end).to eq 22
+
+        node = parse('def foo(bar); end')
+        range = adapter.child_node_range(node, :body)
+        expect(range).to be_nil
+      end
     end
 
     context 'defs node' do
@@ -347,6 +380,17 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :parentheses)
         expect(range.start).to eq 12
         expect(range.end).to eq 17
+      end
+
+      it 'checks body' do
+        node = parse("def self.foo(bar); 'foobar'; end")
+        range = adapter.child_node_range(node, :body)
+        expect(range.start).to eq 19
+        expect(range.end).to eq 27
+
+        node = parse('def self.foo(bar); end')
+        range = adapter.child_node_range(node, :body)
+        expect(range).to be_nil
       end
     end
 
