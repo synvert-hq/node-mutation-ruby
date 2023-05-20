@@ -164,6 +164,10 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :arguments)
         expect(range.start).to eq 25
         expect(range.end).to eq 29
+
+        node = parse('Factory.define :user do; end')
+        range = adapter.child_node_range(node, :arguments)
+        expect(range).to be_nil
       end
 
       it 'checks pipes' do
@@ -171,6 +175,10 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :pipes)
         expect(range.start).to eq 24
         expect(range.end).to eq 30
+
+        node = parse('Factory.define :user do; end')
+        range = adapter.child_node_range(node, :pipes)
+        expect(range).to be_nil
       end
 
       it 'checks caller.receiver' do
@@ -325,6 +333,10 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :arguments)
         expect(range.start).to eq 8
         expect(range.end).to eq 11
+
+        node = parse('def foo; end')
+        range = adapter.child_node_range(node, :arguments)
+        expect(range).to be_nil
       end
 
       it 'checks parentheses' do
@@ -373,6 +385,10 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :arguments)
         expect(range.start).to eq 13
         expect(range.end).to eq 16
+
+        node = parse('def self.foo; end')
+        range = adapter.child_node_range(node, :arguments)
+        expect(range).to be_nil
       end
 
       it 'checks parentheses' do

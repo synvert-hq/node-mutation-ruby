@@ -80,15 +80,23 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
     case [node.type, child_name.to_sym]
     when %i[block pipes], %i[def parentheses], %i[defs parentheses]
-      NodeMutation::Struct::Range.new(
-        node.arguments.first.loc.expression.begin_pos - 1,
-        node.arguments.last.loc.expression.end_pos + 1
-      )
+      if node.arguments.empty?
+        nil
+      else
+        NodeMutation::Struct::Range.new(
+          node.arguments.first.loc.expression.begin_pos - 1,
+          node.arguments.last.loc.expression.end_pos + 1
+        )
+      end
     when %i[block arguments], %i[def arguments], %i[defs arguments]
-      NodeMutation::Struct::Range.new(
-        node.arguments.first.loc.expression.begin_pos,
-        node.arguments.last.loc.expression.end_pos
-      )
+      if node.arguments.empty?
+        nil
+      else
+        NodeMutation::Struct::Range.new(
+          node.arguments.first.loc.expression.begin_pos,
+          node.arguments.last.loc.expression.end_pos
+        )
+      end
     when %i[block body], %i[class body], %i[def body], %i[defs body], %i[module body]
       if node.body.empty?
         nil
