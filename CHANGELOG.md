@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.18.1 (2023-05-20)
+
+* Support block/class/def/defs/module `body` in `child_node_range`
+* Return nil if `arguments` is empty in `child_node_range`
+
 ## 1.18.0 (2023-05-16)
 
 * Rename `file_content` to `file_source`
