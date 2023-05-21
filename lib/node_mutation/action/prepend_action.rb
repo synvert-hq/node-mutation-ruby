@@ -9,14 +9,12 @@ class NodeMutation::PrependAction < NodeMutation::Action
 
   private
 
-  DO_LENGTH = ' do'.length
-
   # Calculate the begin and end positions.
   def calculate_position
     node_start = NodeMutation.adapter.get_start(@node)
     node_source = NodeMutation.adapter.get_source(@node)
     first_line = node_source.split("\n").first
-    @start = first_line.end_with?("do") ? node_start + first_line.index("do") + "do".length : node_start + first_line.length
+    @start = first_line.end_with?("do") ? node_start + first_line.rindex("do") + "do".length : node_start + first_line.length
     @end = @start
   end
 
