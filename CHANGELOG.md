@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.18.2 (2023-05-21)
+
+* Use `rindex` to calculate "do" index
+
 ## 1.18.1 (2023-05-20)
 
 * Support block/class/def/defs/module `body` in `child_node_range`
