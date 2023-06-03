@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.18.3 (2023-06-03)
+
+* Fix rbs syntax
+
 ## 1.18.2 (2023-05-21)
 
 * Use `rindex` to calculate "do" index
