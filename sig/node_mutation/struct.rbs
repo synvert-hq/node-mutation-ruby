@@ -1,18 +1,18 @@
 class NodeMutation::Struct
   class Action < ::Struct
-    prop :type, Symbol
-    prop :start, Integer
-    prop :end, Integer
-    prop :new_code, String
+    atr_accessor type (): Symbol
+    atr_accessor start (): Integer
+    atr_accessor end (): Integer
+    atr_accessor new_code (): String
   end
 
   class Location < ::Struct
-    prop :line, Integer
-    prop :column, Integer
+    atr_accessor line (): Integer
+    atr_accessor column (): Integer
   end
 
   class Range < ::Struct
-    prop :start, Integer
-    prop :end, Integer
+    atr_accessor start (): Integer
+    atr_accessor end (): Integer
   end
 end

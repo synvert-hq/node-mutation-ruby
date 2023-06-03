@@ -21,7 +21,7 @@ module NodeMutation[T]
 
   def append: (node: T, code: String) -> void
 
-  def delete: (node: T, *selectors: Array[String], **options: { and_comma: bool }) -> void
+  def delete: (node: T, selectors: Array[String], and_comma: bool) -> void
 
   def indent: (node: T, ?tab_size: Integer) -> void
 
@@ -29,9 +29,9 @@ module NodeMutation[T]
 
   def prepend: (node: T, code: String) -> void
 
-  def remove: (node: T, **options: { and_comma: bool }) -> void
+  def remove: (node: T, and_comma: bool) -> void
 
-  def replace: (node: T, *selectors: Array[String], with: String) -> void
+  def replace: (node: T, selectors: Array[String], with: String) -> void
 
   def replace_with: (node: T, code: String) -> void
 
