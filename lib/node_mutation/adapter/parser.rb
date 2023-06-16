@@ -210,8 +210,6 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
     if node.respond_to?(direct_child_name)
       child_node = node.send(direct_child_name)
-    elsif direct_child_name.include?('(') && direct_child_name.include?(')')
-      child_node = node.instance_eval(direct_child_name)
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
