@@ -15,6 +15,14 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     end
   end
 
+  # It gets the new source code after evaluating the node.
+  # @param node [Parser::AST::Node] The node to evaluate.
+  # @param code [String] The code to evaluate.
+  # @return [String] The new source code.
+  # @example
+  # to_symbol for str node
+  #     node = Parser::CurrentRuby.parse("'foo'")
+  #     rewritten_source(node, 'to_symbol') => ':foo'
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -210,6 +218,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
 
     if node.respond_to?(direct_child_name)
       child_node = node.send(direct_child_name)
+    elsif direct_child_name == 'to_symbol' && node.type == :str
+      child_node = ":#{node.to_value}"
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end

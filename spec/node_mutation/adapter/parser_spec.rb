@@ -73,6 +73,12 @@ RSpec.describe NodeMutation::ParserAdapter do
       EOS
     end
 
+    it 'rewrites for to_symbol' do
+      source = "'foobar'"
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{to_symbol}}')).to eq ':foobar'
+    end
+
     it 'rewriters for nil receiver' do
       source = 'find(:first)'
       node = parse(source)
