@@ -20,6 +20,17 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @param code [String] The code to evaluate.
   # @return [String] The new source code.
   # @example
+  #     node = Parser::CurrentRuby.parse('FactoryBot.define :user do; end')
+  #     rewritten_source(node, '{{call.receiver}}').to eq 'FactoryBot'
+  # index for node array
+  #     node = Parser::CurrentRuby.parse("test(foo, bar)")
+  #     rewritten_source(node, '{{arguments.0}}')).to eq 'foo'
+  # {key}_pair for hash node
+  #     node = Parser::CurrentRuby.parse("'after_commit :do_index, on: :create, if: :indexable?'")
+  #     rewritten_source(node, '{{arguments.-1.on_pair}}')).to eq 'on: :create'
+  # {key}_value for hash node
+  #     node = Parser::CurrentRuby.parse("'after_commit :do_index, on: :create, if: :indexable?'")
+  #     rewritten_source(node, '{{arguments.-1.on_value}}')).to eq ':create'
   # to_single_quote for str node
   #     node = Parser::CurrentRuby.parse('"foo"')
   #     rewritten_source(node, 'to_single_quote') => "'foo'"
