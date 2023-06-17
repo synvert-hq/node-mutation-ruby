@@ -222,6 +222,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       child_node = ":#{node.to_value}"
     elsif direct_child_name == 'to_single_quote' && node.type == :str
       child_node = "'#{node.to_value}'"
+    elsif direct_child_name == 'to_double_quote' && node.type == :str
+      child_node = "\"#{node.to_value}\""
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
