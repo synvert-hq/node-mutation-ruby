@@ -113,6 +113,12 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(adapter.rewritten_source(node, '{{strip_curly_braces}}')).to eq "foo: 'bar'"
     end
 
+    it 'rewrites for wrap_curly_braces' do
+      source = "test(foo: 'bar')"
+      node = parse(source).arguments.first
+      expect(adapter.rewritten_source(node, '{{wrap_curly_braces}}')).to eq "{ foo: 'bar' }"
+    end
+
     it 'rewriters for nil receiver' do
       source = 'find(:first)'
       node = parse(source)

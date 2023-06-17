@@ -35,6 +35,9 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # strip_curly_braces for hash node
   #     node = Parser::CurrentRuby.parse("{ foo: 'bar' }")
   #     rewritten_source(node, 'strip_curly_braces') => "foo: 'bar'"
+  # wrap_curly_braces for hash node
+  #     node = Parser::CurrentRuby.parse("test(foo: 'bar')")
+  #     rewritten_source(node.arguments.first, 'wrap_curly_braces') => "{ foo: 'bar' }"
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -247,6 +250,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       child_node = new_source
     elsif direct_child_name == 'strip_curly_braces' && node.type == :hash
       child_node = node.to_source.sub(/^{(.*)}$/) { Regexp.last_match(1).strip }
+    elsif direct_child_name == 'wrap_curly_braces' && node.type == :hash
+      child_node = "{ #{node.to_source} }"
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
