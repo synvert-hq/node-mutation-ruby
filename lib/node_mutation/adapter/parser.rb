@@ -20,9 +20,18 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @param code [String] The code to evaluate.
   # @return [String] The new source code.
   # @example
+  # to_single_quote for str node
+  #     node = Parser::CurrentRuby.parse('"foo"')
+  #     rewritten_source(node, 'to_single_quote') => "'foo'"
+  # to_double_quote for str node
+  #     node = Parser::CurrentRuby.parse("'foo'")
+  #     rewritten_source(node, 'to_double_quote') => '"foo"'
   # to_symbol for str node
   #     node = Parser::CurrentRuby.parse("'foo'")
   #     rewritten_source(node, 'to_symbol') => ':foo'
+  # to_lambda_literal for block node
+  #     node = Parser::CurrentRuby.parse('lambda { foobar }')
+  #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -224,6 +233,15 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       child_node = "'#{node.to_value}'"
     elsif direct_child_name == 'to_double_quote' && node.type == :str
       child_node = "\"#{node.to_value}\""
+    elsif direct_child_name == 'to_lambda_literal' && node.type == :block && node.caller.type == :send && node.caller.receiver.nil? && node.caller.message == :lambda
+      new_source = node.to_source
+      if node.arguments.size > 1
+        new_source = new_source[0...node.arguments.first.loc.expression.begin_pos - 2] + new_source[node.arguments.last.loc.expression.end_pos + 1..-1]
+        new_source = new_source.sub('lambda', "->(#{node.arguments.map(&:to_source).join(', ')})")
+      else
+        new_source = new_source.sub('lambda', '->')
+      end
+      child_node = new_source
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end

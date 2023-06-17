@@ -91,6 +91,22 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(adapter.rewritten_source(node, '{{to_double_quote}}')).to eq '"foobar"'
     end
 
+    describe '#to_lambda_literal' do
+      context 'lambda node' do
+        it 'converts to lambda literal without arguments' do
+          source = 'lambda { foobar }'
+          node = parse(source)
+          expect(adapter.rewritten_source(node, '{{to_lambda_literal}}')).to eq '-> { foobar }'
+        end
+
+        it 'converts to lambda literal with arguments' do
+          source = 'lambda { |x, y| foobar }'
+          node = parse(source)
+          expect(adapter.rewritten_source(node, '{{to_lambda_literal}}')).to eq '->(x, y) { foobar }'
+        end
+      end
+    end
+
     it 'rewriters for nil receiver' do
       source = 'find(:first)'
       node = parse(source)
