@@ -89,6 +89,12 @@ RSpec.describe NodeMutation::SyntaxTreeAdapter do
       expect(adapter.rewritten_source(node, '{{to_symbol}}')).to eq ':foobar'
     end
 
+    it 'rewrites for to_single_quote' do
+      source = '"foobar"'
+      node = syntax_tree_parse(source)
+      expect(adapter.rewritten_source(node, '{{to_single_quote}}')).to eq "'foobar'"
+    end
+
     it 'rewriters for nil receiver' do
       source = 'find(:first)'
       node = syntax_tree_parse(source)

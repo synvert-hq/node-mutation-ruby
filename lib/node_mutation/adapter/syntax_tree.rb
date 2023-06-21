@@ -28,6 +28,9 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # {key}_value for hash node
   #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_value}}')).to eq ':create'
+  # to_single_quote for str node
+  #     node = SyntaxTree::Parser.new('"foo"').parse.statements.body.first
+  #     rewritten_source(node, 'to_single_quote') => "'foo'"
   # to_symbol for str node
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_symbol') => ':foo'
@@ -143,6 +146,8 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
     elsif direct_child_name == 'to_symbol' && node.is_a?(SyntaxTree::StringLiteral)
       child_node = ":#{node.to_value}"
+    elsif direct_child_name == 'to_single_quote' && node.is_a?(SyntaxTree::StringLiteral)
+      child_node = "'#{node.to_value}'"
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
