@@ -90,6 +90,38 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     node.loc.expression.source_buffer.source
   end
 
+  # Get the range of the child node.
+  # @param node [Parser::AST::Node] The node.
+  # @param child_name [String] THe name to find child node.
+  # @return {NodeMutation::Struct::Range} The range of the child node.
+  # @example
+  #     node = Parser::CurrentRuby.parse('FactoryBot.define :user do; end')
+  #     child_node_range(node, 'caller.receiver') => { start: 0, end: 'FactoryBot'.length }
+  # node array
+  #     node = Parser::CurrentRuby.parse('foobar arg1, arg2)')
+  #     child_node_range(node, 'arguments') => { start: 'foobar '.length, end: 'foobar arg1, arg2'.length }
+  # index for node array
+  #     node = Parser::CurrentRuby.parse('foobar(arg1, arg2)')
+  #     child_node_range(node, 'arguments.-1') => { start: 'foobar(arg1, '.length, end: 'foobar(arg1, arg2'.length }
+  # pips for block node
+  #     node = Parser::CurrentRuby.parse('Factory.define :user do |user|; end')
+  #     child_node_range(node, 'pipes') => { start: 'Factory.deine :user do '.length, end: 'Factory.define :user do |user|'.length }
+  # parentheses for def and defs node
+  #     node = Parser::CurrentRuby.parse('def foo(bar); end')
+  #     child_node_range(node, 'parentheses') => { start: 'def foo'.length, end: 'def foo(bar)'.length }
+  # double_colon for const node
+  #     node = Parser::CurrentRuby.parse('Foo::Bar')
+  #     child_node_range(node, 'double_colon') => { start: 'Foo'.length, end: 'Foo::'.length }
+  # self and dot for defs node
+  #     node = Parser::CurrentRuby.parse('def self.foo(bar); end')
+  #     child_node_range(node, 'self') => { start: 'def '.length, end: 'def self'.length }
+  #     child_node_range(node, 'dot') => { start: 'def self'.length, end: 'def self.'.length }
+  # dot for send and csend node
+  #     node = Parser::CurrentRuby.parse('foo.bar(test)')
+  #     child_node_range(node, 'self') => { start: 'foo'.length, end: 'foo.'.length }
+  # parentheses for send and csend node
+  #     node = Parser::CurrentRuby.parse('foo.bar(test)')
+  #     child_node_range(node, 'parentheses') => { start: 'foo.bar'.length, end: 'foo.bar(test)'.length }
   def child_node_range(node, child_name)
     direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
 
