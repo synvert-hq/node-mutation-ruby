@@ -23,10 +23,10 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   #     node = SyntaxTree::Parser.new("foo.bar(a, b)").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.arguments.parts.-1}}')).to eq 'b'
   # {key}_assoc for HashLiteral node
-  #     node = SyntaxTree::Parser.new("'after_commit :do_index, on: :create, if: :indexable?'").parse.statements.body.first
+  #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_assoc}}')).to eq 'on: :create'
   # {key}_value for hash node
-  #     node = SyntaxTree::Parser.new("'after_commit :do_index, on: :create, if: :indexable?'").parse.statements.body.first
+  #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_value}}')).to eq ':create'
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
