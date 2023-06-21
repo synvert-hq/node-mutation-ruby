@@ -37,6 +37,9 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # to_symbol for StringLiteral node
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_symbol') => ':foo'
+  # to_lambda_literal for block node
+  #     node = Parser::CurrentRuby.parse('lambda { foobar }')
+  #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -153,6 +156,12 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       child_node = "'#{node.to_value}'"
     elsif direct_child_name == 'to_double_quote' && node.is_a?(SyntaxTree::StringLiteral)
       child_node = "\"#{node.to_value}\""
+    elsif direct_child_name == 'to_lambda_literal' && node.is_a?(SyntaxTree::MethodAddBlock) && node.call.message.value == 'lambda'
+      if node.block.block_var
+        child_node = "->(#{node.block.block_var.params.to_source}) {#{node.block.bodystmt.to_source}}"
+      else
+        child_node = "-> {#{node.block.bodystmt.to_source }}"
+      end
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
