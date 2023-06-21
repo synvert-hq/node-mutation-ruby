@@ -43,6 +43,9 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # strip_curly_braces for HashLiteral node
   #     node = SyntaxTree::Parser.new("{ foo: 'bar' }").parse.statements.body.first
   #     rewritten_source(node, 'strip_curly_braces') => "foo: 'bar'"
+  # wrap_curly_braces for BareAssocHash node
+  #     node = SyntaxTree::Parser.new("test(foo: 'bar')").parse.statements.body.first
+  #     rewritten_source(node.arguments.arguments.parts.first, 'wrap_curly_braces') => "{ foo: 'bar' }"
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -90,7 +93,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
   #     child_node_range(node, 'arguments.arguments') => { start: 'foo.bar('.length, end: 'foo.bar(a, b'.length }
   # index for node array
-  #     node = Parser::CurrentRuby.parse('foo.bar(a, b)')
+  #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
   #     child_node_range(node, 'arguments.arguments.parts.-1') => { start: 'foo.bar(a, '.length, end: 'foo.bar(a, b'.length }
   def child_node_range(node, child_name)
     child_node = child_node_by_name(node, child_name)
@@ -167,6 +170,8 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       end
     elsif direct_child_name == 'strip_curly_braces' && node.is_a?(SyntaxTree::HashLiteral)
       child_node = node.to_source.sub(/^{(.*)}$/) { Regexp.last_match(1).strip }
+    elsif direct_child_name == 'wrap_curly_braces' && node.is_a?(SyntaxTree::BareAssocHash)
+      child_node = "{ #{node.to_source} }"
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
