@@ -12,6 +12,22 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
     node.source[node.location.start_char...node.location.end_char]
   end
 
+  # It gets the new source code after evaluating the node.
+  # @param node [SyntaxTree::Node] The node to evaluate.
+  # @param code [String] The code to evaluate.
+  # @return [String] The new source code.
+  # @example
+  #     node = SyntaxTree::Parser.new('class Synvert; end').parse.statements.body.first
+  #     rewritten_source(node, '{{constant}}').to eq 'Synvert'
+  # index for node array
+  #     node = SyntaxTree::Parser.new("foo.bar(a, b)").parse.statements.body.first
+  #     rewritten_source(node, '{{arguments.arguments.parts.-1}}')).to eq 'b'
+  # {key}_assoc for HashLiteral node
+  #     node = SyntaxTree::Parser.new("'after_commit :do_index, on: :create, if: :indexable?'").parse.statements.body.first
+  #     rewritten_source(node, '{{arguments.parts.-1.on_assoc}}')).to eq 'on: :create'
+  # {key}_value for hash node
+  #     node = SyntaxTree::Parser.new("'after_commit :do_index, on: :create, if: :indexable?'").parse.statements.body.first
+  #     rewritten_source(node, '{{arguments.parts.-1.on_value}}')).to eq ':create'
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -48,6 +64,19 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
     node.source
   end
 
+  # Get the range of the child node.
+  # @param node [Parser::AST::Node] The node.
+  # @param child_name [String] THe name to find child node.
+  # @return {NodeMutation::Struct::Range} The range of the child node.
+  # @example
+  #     node = SyntaxTree::Parser.new('foo.bar(test)').parse.statements.body.first
+  #     child_node_range(node, 'receiver') => { start: 0, end: 'foo'.length }
+  # node array
+  #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
+  #     child_node_range(node, 'arguments.arguments') => { start: 'foo.bar('.length, end: 'foo.bar(a, b'.length }
+  # index for node array
+  #     node = Parser::CurrentRuby.parse('foo.bar(a, b)')
+  #     child_node_range(node, 'arguments.arguments.parts.-1') => { start: 'foo.bar(a, '.length, end: 'foo.bar(a, b'.length }
   def child_node_range(node, child_name)
     child_node = child_node_by_name(node, child_name)
     return nil if child_node.nil?

@@ -20,8 +20,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @param code [String] The code to evaluate.
   # @return [String] The new source code.
   # @example
-  #     node = Parser::CurrentRuby.parse('FactoryBot.define :user do; end')
-  #     rewritten_source(node, '{{call.receiver}}').to eq 'FactoryBot'
+  #     node = Parser::CurrentRuby.parse('Factory.define :user do; end')
+  #     rewritten_source(node, '{{call.receiver}}').to eq 'Factory'
   # index for node array
   #     node = Parser::CurrentRuby.parse("test(foo, bar)")
   #     rewritten_source(node, '{{arguments.0}}')).to eq 'foo'
@@ -95,8 +95,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @param child_name [String] THe name to find child node.
   # @return {NodeMutation::Struct::Range} The range of the child node.
   # @example
-  #     node = Parser::CurrentRuby.parse('FactoryBot.define :user do; end')
-  #     child_node_range(node, 'caller.receiver') => { start: 0, end: 'FactoryBot'.length }
+  #     node = Parser::CurrentRuby.parse('Factory.define :user do; end')
+  #     child_node_range(node, 'caller.receiver') => { start: 0, end: 'Factory'.length }
   # node array
   #     node = Parser::CurrentRuby.parse('foobar arg1, arg2)')
   #     child_node_range(node, 'arguments') => { start: 'foobar '.length, end: 'foobar arg1, arg2'.length }
