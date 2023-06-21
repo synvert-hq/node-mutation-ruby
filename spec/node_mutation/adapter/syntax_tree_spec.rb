@@ -117,6 +117,12 @@ RSpec.describe NodeMutation::SyntaxTreeAdapter do
       end
     end
 
+    it 'rewrites for strip_curly_braces' do
+      source = "{ foo: 'bar' }"
+      node = syntax_tree_parse(source)
+      expect(adapter.rewritten_source(node, '{{strip_curly_braces}}')).to eq "foo: 'bar'"
+    end
+
     it 'rewriters for nil receiver' do
       source = 'find(:first)'
       node = syntax_tree_parse(source)

@@ -37,9 +37,12 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # to_symbol for StringLiteral node
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_symbol') => ':foo'
-  # to_lambda_literal for block node
-  #     node = Parser::CurrentRuby.parse('lambda { foobar }')
+  # to_lambda_literal for MethodAddBlock node
+  #     node = SyntaxTree::Parser.new('lambda { foobar }').parse.statements.body.first
   #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
+  # strip_curly_braces for HashLiteral node
+  #     node = SyntaxTree::Parser.new("{ foo: 'bar' }").parse.statements.body.first
+  #     rewritten_source(node, 'strip_curly_braces') => "foo: 'bar'"
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
       old_code = Regexp.last_match(1)
@@ -162,6 +165,8 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       else
         child_node = "-> {#{node.block.bodystmt.to_source }}"
       end
+    elsif direct_child_name == 'strip_curly_braces' && node.is_a?(SyntaxTree::HashLiteral)
+      child_node = node.to_source.sub(/^{(.*)}$/) { Regexp.last_match(1).strip }
     else
       raise NodeMutation::MethodNotSupported, "#{direct_child_name} is not supported for #{get_source(node)}"
     end
