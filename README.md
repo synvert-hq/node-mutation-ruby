@@ -65,6 +65,19 @@ result.conflicted
 result.new_source
 ```
 
+## Evaluated Value
+
+NodeMutation supports to evaluate the value of the node, and use the evaluated value to rewrite the source code.
+
+```ruby
+source = 'after_commit :do_index, on: :create, if: :indexable?'
+node = Parser::CurrentRuby.parse(source)
+mutation.replace node, '{{arguments.-1.on_value}}', with: ':update'
+source # after_commit :do_index, on: :update, if: :indexable?
+```
+
+See more in [ParserAdapter](https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html) and [SyntaxTreeAdapter](https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html)
+
 ## Configuration
 
 ### adapter
