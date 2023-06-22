@@ -44,6 +44,10 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_symbol') => ':foo'
   #
+  #     # to_string for SymbolLiteral node
+  #     node = SyntaxTree::Parser.new(":foo").parse.statements.body.first
+  #     rewritten_source(node, 'to_string') => 'foo'
+  #
   #     # to_lambda_literal for MethodAddBlock node
   #     node = SyntaxTree::Parser.new('lambda { foobar }').parse.statements.body.first
   #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
@@ -167,6 +171,8 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
     elsif direct_child_name == 'to_symbol' && node.is_a?(SyntaxTree::StringLiteral)
       child_node = ":#{node.to_value}"
+    elsif direct_child_name == 'to_string' && node.is_a?(SyntaxTree::SymbolLiteral)
+      child_node = node.to_value.to_s
     elsif direct_child_name == 'to_single_quote' && node.is_a?(SyntaxTree::StringLiteral)
       child_node = "'#{node.to_value}'"
     elsif direct_child_name == 'to_double_quote' && node.is_a?(SyntaxTree::StringLiteral)

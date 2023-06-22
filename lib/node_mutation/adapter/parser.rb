@@ -47,6 +47,10 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   #     node = Parser::CurrentRuby.parse("'foo'")
   #     rewritten_source(node, 'to_symbol') => ':foo'
   #
+  #     # to_string for sym node
+  #     node = Parser::CurrentRuby.parse(":foo")
+  #     rewritten_source(node, 'to_string') => 'foo'
+  #
   #     # to_lambda_literal for block node
   #     node = Parser::CurrentRuby.parse('lambda { foobar }')
   #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
@@ -276,6 +280,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
     elsif direct_child_name == 'to_symbol' && node.type == :str
       child_node = ":#{node.to_value}"
+    elsif direct_child_name == 'to_string' && node.type == :sym
+        child_node = node.to_value.to_s
     elsif direct_child_name == 'to_single_quote' && node.type == :str
       child_node = "'#{node.to_value}'"
     elsif direct_child_name == 'to_double_quote' && node.type == :str

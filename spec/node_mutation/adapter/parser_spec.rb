@@ -79,6 +79,12 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(adapter.rewritten_source(node, '{{to_symbol}}')).to eq ':foobar'
     end
 
+    it 'rewrites for to_string' do
+      source = ":foobar"
+      node = parse(source)
+      expect(adapter.rewritten_source(node, '{{to_string}}')).to eq 'foobar'
+    end
+
     it 'rewrites for to_single_quote' do
       source = '"foobar"'
       node = parse(source)
