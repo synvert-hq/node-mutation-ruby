@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.19.1 (2023-06-22)
+
+* Add `to_string` function
+
 ## 1.19.0 (2023-06-22)
 
 * Drop support for function in `child_node_by_name`
