@@ -1,5 +1,16 @@
 # NodeMutation
 
+## 1.19.0 (2023-06-22)
+
+* Drop support for function in `child_node_by_name`
+* Add `to_symbol` function
+* Add `to_single_quote` function
+* Add `to_double_quote` function
+* Add `to_lambda_literal` function
+* Add `strip_curly_braces` function
+* Add `wrap_curly_braces` function
+* Add more comments
+
 ## 1.18.3 (2023-06-03)
 
 * Fix rbs syntax
