@@ -22,31 +22,40 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @example
   #     node = Parser::CurrentRuby.parse('Factory.define :user do; end')
   #     rewritten_source(node, '{{call.receiver}}').to eq 'Factory'
-  # index for node array
+  #
+  #     # index for node array
   #     node = Parser::CurrentRuby.parse("test(foo, bar)")
   #     rewritten_source(node, '{{arguments.0}}')).to eq 'foo'
-  # {key}_pair for hash node
+  #
+  #     # {key}_pair for hash node
   #     node = Parser::CurrentRuby.parse("after_commit :do_index, on: :create, if: :indexable?")
   #     rewritten_source(node, '{{arguments.-1.on_pair}}')).to eq 'on: :create'
-  # {key}_value for hash node
+  #
+  #     # {key}_value for hash node
   #     node = Parser::CurrentRuby.parse("after_commit :do_index, on: :create, if: :indexable?")
   #     rewritten_source(node, '{{arguments.-1.on_value}}')).to eq ':create'
-  # to_single_quote for str node
+  #
+  #     # to_single_quote for str node
   #     node = Parser::CurrentRuby.parse('"foo"')
   #     rewritten_source(node, 'to_single_quote') => "'foo'"
-  # to_double_quote for str node
+  #
+  #     # to_double_quote for str node
   #     node = Parser::CurrentRuby.parse("'foo'")
   #     rewritten_source(node, 'to_double_quote') => '"foo"'
-  # to_symbol for str node
+  #
+  #     # to_symbol for str node
   #     node = Parser::CurrentRuby.parse("'foo'")
   #     rewritten_source(node, 'to_symbol') => ':foo'
-  # to_lambda_literal for block node
+  #
+  #     # to_lambda_literal for block node
   #     node = Parser::CurrentRuby.parse('lambda { foobar }')
   #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
-  # strip_curly_braces for hash node
+  #
+  #     # strip_curly_braces for hash node
   #     node = Parser::CurrentRuby.parse("{ foo: 'bar' }")
   #     rewritten_source(node, 'strip_curly_braces') => "foo: 'bar'"
-  # wrap_curly_braces for hash node
+  #
+  #     # wrap_curly_braces for hash node
   #     node = Parser::CurrentRuby.parse("test(foo: 'bar')")
   #     rewritten_source(node.arguments.first, 'wrap_curly_braces') => "{ foo: 'bar' }"
   def rewritten_source(node, code)
@@ -97,29 +106,37 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
   # @example
   #     node = Parser::CurrentRuby.parse('Factory.define :user do; end')
   #     child_node_range(node, 'caller.receiver') => { start: 0, end: 'Factory'.length }
-  # node array
+  #
+  #     # node array
   #     node = Parser::CurrentRuby.parse('foobar arg1, arg2)')
   #     child_node_range(node, 'arguments') => { start: 'foobar '.length, end: 'foobar arg1, arg2'.length }
-  # index for node array
+  #
+  #     # index for node array
   #     node = Parser::CurrentRuby.parse('foobar(arg1, arg2)')
   #     child_node_range(node, 'arguments.-1') => { start: 'foobar(arg1, '.length, end: 'foobar(arg1, arg2'.length }
-  # pips for block node
+  #
+  #     # pips for block node
   #     node = Parser::CurrentRuby.parse('Factory.define :user do |user|; end')
   #     child_node_range(node, 'pipes') => { start: 'Factory.deine :user do '.length, end: 'Factory.define :user do |user|'.length }
-  # parentheses for def and defs node
+  #
+  #     # parentheses for def and defs node
   #     node = Parser::CurrentRuby.parse('def foo(bar); end')
   #     child_node_range(node, 'parentheses') => { start: 'def foo'.length, end: 'def foo(bar)'.length }
-  # double_colon for const node
+  #
+  #     # double_colon for const node
   #     node = Parser::CurrentRuby.parse('Foo::Bar')
   #     child_node_range(node, 'double_colon') => { start: 'Foo'.length, end: 'Foo::'.length }
-  # self and dot for defs node
+  #
+  #     # self and dot for defs node
   #     node = Parser::CurrentRuby.parse('def self.foo(bar); end')
   #     child_node_range(node, 'self') => { start: 'def '.length, end: 'def self'.length }
   #     child_node_range(node, 'dot') => { start: 'def self'.length, end: 'def self.'.length }
-  # dot for send and csend node
+  #
+  #     # dot for send and csend node
   #     node = Parser::CurrentRuby.parse('foo.bar(test)')
   #     child_node_range(node, 'self') => { start: 'foo'.length, end: 'foo.'.length }
-  # parentheses for send and csend node
+  #
+  #     # parentheses for send and csend node
   #     node = Parser::CurrentRuby.parse('foo.bar(test)')
   #     child_node_range(node, 'parentheses') => { start: 'foo.bar'.length, end: 'foo.bar(test)'.length }
   def child_node_range(node, child_name)

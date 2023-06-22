@@ -19,31 +19,40 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # @example
   #     node = SyntaxTree::Parser.new('class Synvert; end').parse.statements.body.first
   #     rewritten_source(node, '{{constant}}').to eq 'Synvert'
-  # index for node array
+  #
+  #     # index for node array
   #     node = SyntaxTree::Parser.new("foo.bar(a, b)").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.arguments.parts.-1}}')).to eq 'b'
-  # {key}_assoc for HashLiteral node
+  #
+  #     # {key}_assoc for HashLiteral node
   #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_assoc}}')).to eq 'on: :create'
-  # {key}_value for hash node
+  #
+  #     # {key}_value for hash node
   #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_value}}')).to eq ':create'
-  # to_single_quote for StringLiteral node
+  #
+  #     # to_single_quote for StringLiteral node
   #     node = SyntaxTree::Parser.new('"foo"').parse.statements.body.first
   #     rewritten_source(node, 'to_single_quote') => "'foo'"
-  # to_double_quote for StringLiteral node
+  #
+  #     # to_double_quote for StringLiteral node
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_double_quote') => '"foo"'
-  # to_symbol for StringLiteral node
+  #
+  #     # to_symbol for StringLiteral node
   #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
   #     rewritten_source(node, 'to_symbol') => ':foo'
-  # to_lambda_literal for MethodAddBlock node
+  #
+  #     # to_lambda_literal for MethodAddBlock node
   #     node = SyntaxTree::Parser.new('lambda { foobar }').parse.statements.body.first
   #     rewritten_source(node, 'to_lambda_literal') => '-> { foobar }'
-  # strip_curly_braces for HashLiteral node
+  #
+  #     # strip_curly_braces for HashLiteral node
   #     node = SyntaxTree::Parser.new("{ foo: 'bar' }").parse.statements.body.first
   #     rewritten_source(node, 'strip_curly_braces') => "foo: 'bar'"
-  # wrap_curly_braces for BareAssocHash node
+  #
+  #     # wrap_curly_braces for BareAssocHash node
   #     node = SyntaxTree::Parser.new("test(foo: 'bar')").parse.statements.body.first
   #     rewritten_source(node.arguments.arguments.parts.first, 'wrap_curly_braces') => "{ foo: 'bar' }"
   def rewritten_source(node, code)
