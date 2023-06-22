@@ -102,10 +102,12 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # @example
   #     node = SyntaxTree::Parser.new('foo.bar(test)').parse.statements.body.first
   #     child_node_range(node, 'receiver') => { start: 0, end: 'foo'.length }
-  # node array
+  #
+  #     # node array
   #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
   #     child_node_range(node, 'arguments.arguments') => { start: 'foo.bar('.length, end: 'foo.bar(a, b'.length }
-  # index for node array
+  #
+  #     # index for node array
   #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
   #     child_node_range(node, 'arguments.arguments.parts.-1') => { start: 'foo.bar(a, '.length, end: 'foo.bar(a, b'.length }
   def child_node_range(node, child_name)
