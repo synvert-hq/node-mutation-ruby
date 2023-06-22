@@ -126,6 +126,18 @@
 </span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_new_source'>new_source</span>
 </code></pre>
 
+<h2 id="label-Evaluated+Value">Evaluated Value</h2>
+
+<p>NodeMutation supports to evaluate the value of the node, and use the evaluated value to rewrite the source code.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>after_commit :do_index, on: :create, if: :indexable?</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{{arguments.-1.on_value}}</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:update</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_source'>source</span> <span class='comment'># after_commit :do_index, on: :update, if: :indexable?
+</span></code></pre>
+
+<p>See more in <a href="https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html">ParserAdapter</a> and <a href="https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html">SyntaxTreeAdapter</a></p>
+
 <h2 id="label-Configuration">Configuration</h2>
 
 <h3 id="label-adapter">adapter</h3>
@@ -164,7 +176,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jun 22 02:33:50 2023 by
+  Generated on Thu Jun 22 02:38:39 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
