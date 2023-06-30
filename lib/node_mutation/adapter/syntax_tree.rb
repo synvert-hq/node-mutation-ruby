@@ -115,14 +115,28 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   #     node = SyntaxTree::Parser.new('foo | bar').parse.statements.body.first
   #     child_node_range(node, 'operator') => { start: 'foo '.length, end: 'foo |'.length }
   def child_node_range(node, child_name)
-    child_node = child_node_by_name(node, child_name)
-    return nil if child_node.nil?
+    direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
 
-    if child_node.is_a?(Array)
-      return NodeMutation::Struct::Range.new(child_node.first.location.start_char, child_node.last.location.end_char)
+    if node.is_a?(Array)
+      if direct_child_name =~ INDEX_REGEXP
+        child_node = node[direct_child_name.to_i]
+        raise NodeMutation::MethodNotSupported,
+              "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
+        return child_node_range(child_node, nested_child_name) if nested_child_name
+
+        return NodeMutation::Struct::Range.new(child_node.location.start_char, child_node.location.end_char)
+      end
+
+      raise NodeMutation::MethodNotSupported,
+            "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+
+      child_node = node.send(direct_child_name)
+      return child_node_range(child_node, nested_child_name) if nested_child_name
+
+      return NodeMutation::Struct::Range.new(child_node.location.start_char, child_node.location.end_char)
     end
 
-    if node.is_a?(SyntaxTree::Binary) && child_name == 'operator'
+    if node.is_a?(SyntaxTree::Binary) && child_name.to_sym == :operator
       start_char = node.left.location.end_char
       start_char += 1 while node.source[start_char] == ' '
       end_char = node.right.location.start_char
@@ -130,7 +144,27 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       return NodeMutation::Struct::Range.new(start_char, end_char)
     end
 
-    return NodeMutation::Struct::Range.new(child_node.location.start_char, child_node.location.end_char)
+    raise NodeMutation::MethodNotSupported,
+          "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
+
+    child_node = node.send(direct_child_name)
+
+    return child_node_range(child_node, nested_child_name) if nested_child_name
+
+    return nil if child_node.nil?
+
+    if child_node.is_a?(SyntaxTree::Node)
+      return(
+        NodeMutation::Struct::Range.new(child_node.location.start_char, child_node.location.end_char)
+      )
+    end
+
+    return(
+      NodeMutation::Struct::Range.new(
+        child_node.first.location.start_char,
+        child_node.last.location.end_char
+      )
+    )
   end
 
   def get_start(node, child_name = nil)

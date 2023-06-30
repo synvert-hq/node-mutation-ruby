@@ -202,7 +202,7 @@ RSpec.describe NodeMutation::SyntaxTreeAdapter do
     context 'Binary node' do
       it 'checks operator' do
         node = syntax_tree_parse("foo | bar")
-        range = adapter.child_node_range(node, 'operator')
+        range = adapter.child_node_range(node, :operator)
         expect(range.start).to eq 4
         expect(range.end).to eq 5
       end
