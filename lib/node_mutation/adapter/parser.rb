@@ -177,6 +177,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       end
     when %i[class name], %i[const name], %i[cvar name], %i[def name], %i[defs name],
          %i[gvar name], %i[ivar name], %i[lvar name]
+
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[const double_colon]
       NodeMutation::Struct::Range.new(node.loc.double_colon.begin_pos, node.loc.double_colon.end_pos)
@@ -281,7 +282,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     elsif direct_child_name == 'to_symbol' && node.type == :str
       child_node = ":#{node.to_value}"
     elsif direct_child_name == 'to_string' && node.type == :sym
-        child_node = node.to_value.to_s
+      child_node = node.to_value.to_s
     elsif direct_child_name == 'to_single_quote' && node.type == :str
       child_node = "'#{node.to_value}'"
     elsif direct_child_name == 'to_double_quote' && node.type == :str

@@ -195,7 +195,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
       if node.block.block_var
         child_node = "->(#{node.block.block_var.params.to_source}) {#{node.block.bodystmt.to_source}}"
       else
-        child_node = "-> {#{node.block.bodystmt.to_source }}"
+        child_node = "-> {#{node.block.bodystmt.to_source}}"
       end
     elsif direct_child_name == 'strip_curly_braces' && node.is_a?(SyntaxTree::HashLiteral)
       child_node = node.to_source.sub(/^{(.*)}$/) { Regexp.last_match(1).strip }
