@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.19.2 (2023-06-30)
+
+* Support `operator` of `Binary` node in `child_node_range`
+
 ## 1.19.1 (2023-06-22)
 
 * Add `to_string` function
