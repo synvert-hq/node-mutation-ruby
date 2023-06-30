@@ -160,10 +160,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
     end
 
     return(
-      NodeMutation::Struct::Range.new(
-        child_node.first.location.start_char,
-        child_node.last.location.end_char
-      )
+      NodeMutation::Struct::Range.new(child_node.first.location.start_char, child_node.last.location.end_char)
     )
   end
 
