@@ -501,10 +501,7 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
 162
 163
 164
-165
-166
-167
-168</pre>
+165</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 117</span>
@@ -555,10 +552,7 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
   <span class='kw'>end</span>
 
   <span class='kw'>return</span><span class='lparen'>(</span>
-    <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Range.html" title="NodeMutation::Struct::Range (class)">Range</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
-      <span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_start_char'>start_char</span><span class='comma'>,</span>
-      <span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_end_char'>end_char</span>
-    <span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Range.html" title="NodeMutation::Struct::Range (class)">Range</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_start_char'>start_char</span><span class='comma'>,</span> <span class='id identifier rubyid_child_node'>child_node</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_end_char'>end_char</span><span class='rparen'>)</span>
   <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -611,13 +605,13 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
       <pre class="lines">
 
 
-175
-176
-177
-178</pre>
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end'>get_end</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -643,13 +637,13 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
       <pre class="lines">
 
 
-185
-186
-187
-188</pre>
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_end_loc'>get_end_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -675,12 +669,12 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
       <pre class="lines">
 
 
-190
-191
-192</pre>
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_indent'>get_indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span><span class='period'>.</span><span class='id identifier rubyid_location'>location</span><span class='period'>.</span><span class='id identifier rubyid_start_column'>start_column</span>
@@ -743,13 +737,13 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
       <pre class="lines">
 
 
-170
-171
-172
-173</pre>
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start'>get_start</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -775,13 +769,13 @@ child_node_range(node, &#39;operator&#39;) =&gt; { start: &#39;foo &#39;.length,
       <pre class="lines">
 
 
-180
-181
-182
-183</pre>
+177
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/adapter/syntax_tree.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='id identifier rubyid_child_node_by_name'>child_node_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_child_name'>child_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_child_name'>child_name</span>
@@ -997,7 +991,7 @@ rewritten_source(node.arguments.arguments.parts.first, &#39;wrap_curly_braces&#3
 </div>
 
       <div id="footer">
-  Generated on Fri Jun 30 23:54:32 2023 by
+  Generated on Fri Jun 30 23:54:44 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
