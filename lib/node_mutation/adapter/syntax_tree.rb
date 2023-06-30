@@ -110,12 +110,24 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   #     # index for node array
   #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
   #     child_node_range(node, 'arguments.arguments.parts.-1') => { start: 'foo.bar(a, '.length, end: 'foo.bar(a, b'.length }
+  #
+  #     # operator of Binary node
+  #     node = SyntaxTree::Parser.new('foo | bar').parse.statements.body.first
+  #     child_node_range(node, 'operator') => { start: 'foo '.length, end: 'foo |'.length }
   def child_node_range(node, child_name)
     child_node = child_node_by_name(node, child_name)
     return nil if child_node.nil?
 
     if child_node.is_a?(Array)
       return NodeMutation::Struct::Range.new(child_node.first.location.start_char, child_node.last.location.end_char)
+    end
+
+    if node.is_a?(SyntaxTree::Binary) && child_name == 'operator'
+      start_char = node.left.location.end_char
+      start_char += 1 while node.source[start_char] == ' '
+      end_char = node.right.location.start_char
+      end_char -= 1 while node.source[end_char - 1] == ' '
+      return NodeMutation::Struct::Range.new(start_char, end_char)
     end
 
     return NodeMutation::Struct::Range.new(child_node.location.start_char, child_node.location.end_char)
