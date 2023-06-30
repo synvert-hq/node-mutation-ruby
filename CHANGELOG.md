@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.19.3 (2023-07-01)
+
+* Rewrite `SyntaxTreeAdapter#child_node_range` to support Binary operator
+
 ## 1.19.2 (2023-06-30)
 
 * Support `operator` of `Binary` node in `child_node_range`
