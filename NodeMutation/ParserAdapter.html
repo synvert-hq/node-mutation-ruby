@@ -318,7 +318,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>It gets the new source code after evaluating the node.</p>
+<p>Gets the new source code after evaluating the node.</p>
 </div></span>
   
 </li>
@@ -362,41 +362,41 @@
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>node = Parser::CurrentRuby.parse(&#39;Factory.define :user do; end&#39;)
-child_node_range(node, &#39;caller.receiver&#39;) =&gt; { start: 0, end: &#39;Factory&#39;.length }
-
-# node array
-node = Parser::CurrentRuby.parse(&#39;foobar arg1, arg2)&#39;)
-child_node_range(node, &#39;arguments&#39;) =&gt; { start: &#39;foobar &#39;.length, end: &#39;foobar arg1, arg2&#39;.length }
-
-# index for node array
-node = Parser::CurrentRuby.parse(&#39;foobar(arg1, arg2)&#39;)
-child_node_range(node, &#39;arguments.-1&#39;) =&gt; { start: &#39;foobar(arg1, &#39;.length, end: &#39;foobar(arg1, arg2&#39;.length }
-
-# pips for block node
-node = Parser::CurrentRuby.parse(&#39;Factory.define :user do |user|; end&#39;)
-child_node_range(node, &#39;pipes&#39;) =&gt; { start: &#39;Factory.deine :user do &#39;.length, end: &#39;Factory.define :user do |user|&#39;.length }
-
-# parentheses for def and defs node
-node = Parser::CurrentRuby.parse(&#39;def foo(bar); end&#39;)
-child_node_range(node, &#39;parentheses&#39;) =&gt; { start: &#39;def foo&#39;.length, end: &#39;def foo(bar)&#39;.length }
-
-# double_colon for const node
-node = Parser::CurrentRuby.parse(&#39;Foo::Bar&#39;)
-child_node_range(node, &#39;double_colon&#39;) =&gt; { start: &#39;Foo&#39;.length, end: &#39;Foo::&#39;.length }
-
-# self and dot for defs node
-node = Parser::CurrentRuby.parse(&#39;def self.foo(bar); end&#39;)
-child_node_range(node, &#39;self&#39;) =&gt; { start: &#39;def &#39;.length, end: &#39;def self&#39;.length }
-child_node_range(node, &#39;dot&#39;) =&gt; { start: &#39;def self&#39;.length, end: &#39;def self.&#39;.length }
-
-# dot for send and csend node
-node = Parser::CurrentRuby.parse(&#39;foo.bar(test)&#39;)
-child_node_range(node, &#39;self&#39;) =&gt; { start: &#39;foo&#39;.length, end: &#39;foo.&#39;.length }
-
-# parentheses for send and csend node
-node = Parser::CurrentRuby.parse(&#39;foo.bar(test)&#39;)
-child_node_range(node, &#39;parentheses&#39;) =&gt; { start: &#39;foo.bar&#39;.length, end: &#39;foo.bar(test)&#39;.length }</code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Factory.define :user do; end</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>caller.receiver</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: 0, end: &#39;Factory&#39;.length }
+</span>
+<span class='comment'># node array
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>foobar arg1, arg2)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>arguments</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;foobar &#39;.length, end: &#39;foobar arg1, arg2&#39;.length }
+</span>
+<span class='comment'># index for node array
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>foobar(arg1, arg2)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>arguments.-1</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;foobar(arg1, &#39;.length, end: &#39;foobar(arg1, arg2&#39;.length }
+</span>
+<span class='comment'># pips for block node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Factory.define :user do |user|; end</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pipes</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;Factory.deine :user do &#39;.length, end: &#39;Factory.define :user do |user|&#39;.length }
+</span>
+<span class='comment'># parentheses for def and defs node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>def foo(bar); end</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>parentheses</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;def foo&#39;.length, end: &#39;def foo(bar)&#39;.length }
+</span>
+<span class='comment'># double_colon for const node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Foo::Bar</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>double_colon</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;Foo&#39;.length, end: &#39;Foo::&#39;.length }
+</span>
+<span class='comment'># self and dot for defs node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>def self.foo(bar); end</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>self</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;def &#39;.length, end: &#39;def self&#39;.length }
+</span><span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dot</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;def self&#39;.length, end: &#39;def self.&#39;.length }
+</span>
+<span class='comment'># dot for send and csend node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>foo.bar(test)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>self</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;foo&#39;.length, end: &#39;foo.&#39;.length }
+</span>
+<span class='comment'># parentheses for send and csend node
+</span><span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Parser</span><span class='op'>::</span><span class='const'>CurrentRuby</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>foo.bar(test)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_child_node_range'>child_node_range</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>parentheses</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># { start: &#39;foo.bar&#39;.length, end: &#39;foo.bar(test)&#39;.length }</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -884,7 +884,7 @@ child_node_range(node, &#39;parentheses&#39;) =&gt; { start: &#39;foo.bar&#39;.l
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>It gets the new source code after evaluating the node.</p>
+<p>Gets the new source code after evaluating the node.</p>
 
 
   </div>
@@ -896,47 +896,47 @@ child_node_range(node, &#39;parentheses&#39;) =&gt; { start: &#39;foo.bar&#39;.l
     
       
       <pre class="example code"><code>node = Parser::CurrentRuby.parse(&#39;Factory.define :user do; end&#39;)
-rewritten_source(node, &#39;{{call.receiver}}&#39;).to eq &#39;Factory&#39;
+rewritten_source(node, &#39;{{call.receiver}}&#39;) # &#39;Factory&#39;
 
 # index for node array
 node = Parser::CurrentRuby.parse(&quot;test(foo, bar)&quot;)
-rewritten_source(node, &#39;{{arguments.0}}&#39;)).to eq &#39;foo&#39;
+rewritten_source(node, &#39;{{arguments.0}}&#39;)) # &#39;foo&#39;
 
 # {key}_pair for hash node
 node = Parser::CurrentRuby.parse(&quot;after_commit :do_index, on: :create, if: :indexable?&quot;)
-rewritten_source(node, &#39;{{arguments.-1.on_pair}}&#39;)).to eq &#39;on: :create&#39;
+rewritten_source(node, &#39;{{arguments.-1.on_pair}}&#39;)) # &#39;on: :create&#39;
 
 # {key}_value for hash node
 node = Parser::CurrentRuby.parse(&quot;after_commit :do_index, on: :create, if: :indexable?&quot;)
-rewritten_source(node, &#39;{{arguments.-1.on_value}}&#39;)).to eq &#39;:create&#39;
+rewritten_source(node, &#39;{{arguments.-1.on_value}}&#39;)) # &#39;:create&#39;
 
 # to_single_quote for str node
 node = Parser::CurrentRuby.parse(&#39;&quot;foo&quot;&#39;)
-rewritten_source(node, &#39;to_single_quote&#39;) =&gt; &quot;&#39;foo&#39;&quot;
+rewritten_source(node, &#39;to_single_quote&#39;) # &quot;&#39;foo&#39;&quot;
 
 # to_double_quote for str node
 node = Parser::CurrentRuby.parse(&quot;&#39;foo&#39;&quot;)
-rewritten_source(node, &#39;to_double_quote&#39;) =&gt; &#39;&quot;foo&quot;&#39;
+rewritten_source(node, &#39;to_double_quote&#39;) # &#39;&quot;foo&quot;&#39;
 
 # to_symbol for str node
 node = Parser::CurrentRuby.parse(&quot;&#39;foo&#39;&quot;)
-rewritten_source(node, &#39;to_symbol&#39;) =&gt; &#39;:foo&#39;
+rewritten_source(node, &#39;to_symbol&#39;) # &#39;:foo&#39;
 
 # to_string for sym node
 node = Parser::CurrentRuby.parse(&quot;:foo&quot;)
-rewritten_source(node, &#39;to_string&#39;) =&gt; &#39;foo&#39;
+rewritten_source(node, &#39;to_string&#39;) # &#39;foo&#39;
 
 # to_lambda_literal for block node
 node = Parser::CurrentRuby.parse(&#39;lambda { foobar }&#39;)
-rewritten_source(node, &#39;to_lambda_literal&#39;) =&gt; &#39;-&gt; { foobar }&#39;
+rewritten_source(node, &#39;to_lambda_literal&#39;) # &#39;-&gt; { foobar }&#39;
 
 # strip_curly_braces for hash node
 node = Parser::CurrentRuby.parse(&quot;{ foo: &#39;bar&#39; }&quot;)
-rewritten_source(node, &#39;strip_curly_braces&#39;) =&gt; &quot;foo: &#39;bar&#39;&quot;
+rewritten_source(node, &#39;strip_curly_braces&#39;) # &quot;foo: &#39;bar&#39;&quot;
 
 # wrap_curly_braces for hash node
 node = Parser::CurrentRuby.parse(&quot;test(foo: &#39;bar&#39;)&quot;)
-rewritten_source(node.arguments.first, &#39;wrap_curly_braces&#39;) =&gt; &quot;{ foo: &#39;bar&#39; }&quot;</code></pre>
+rewritten_source(node.arguments.first, &#39;wrap_curly_braces&#39;) # &quot;{ foo: &#39;bar&#39; }&quot;</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -1087,7 +1087,7 @@ rewritten_source(node.arguments.first, &#39;wrap_curly_braces&#39;) =&gt; &quot;
 </div>
 
       <div id="footer">
-  Generated on Fri Jun 30 23:55:58 2023 by
+  Generated on Mon Jul 10 20:49:56 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
