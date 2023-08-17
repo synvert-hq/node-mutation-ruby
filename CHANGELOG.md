@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.19.4 (2023-08-17)
+
+* Use `NodeMutation.adapter.get_indent`
+
 ## 1.19.3 (2023-07-01)
 
 * Rewrite `SyntaxTreeAdapter#child_node_range` to support Binary operator
