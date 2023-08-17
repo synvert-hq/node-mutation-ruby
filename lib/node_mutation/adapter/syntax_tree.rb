@@ -74,7 +74,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
           if lines_count > 1 && lines_count == evaluated.size
             new_code = []
             lines.each_with_index { |line, index|
-              new_code << (index == 0 ? line : line[evaluated.first.indent - 2..-1])
+              new_code << (index == 0 ? line : line[NodeMutation.adapter.get_indent(evaluated.first) - NodeMutation.tab_width..-1])
             }
             new_code.join("\n")
           else
