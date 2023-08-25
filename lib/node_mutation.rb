@@ -11,6 +11,7 @@ class NodeMutation
   autoload :SyntaxTreeAdapter, "node_mutation/adapter/syntax_tree"
   autoload :Action, 'node_mutation/action'
   autoload :AppendAction, 'node_mutation/action/append_action'
+  autoload :CombinedAction, 'node_mutation/action/combined_action'
   autoload :DeleteAction, 'node_mutation/action/delete_action'
   autoload :IndentAction, 'node_mutation/action/indent_action'
   autoload :InsertAction, 'node_mutation/action/insert_action'
