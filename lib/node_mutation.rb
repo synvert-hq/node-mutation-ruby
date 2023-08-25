@@ -209,15 +209,15 @@ class NodeMutation
   def wrap(node, prefix:, suffix:, newline: false)
     if newline
       indentation = NodeMutation.adapter.get_start_loc(node).column
-      combine do |actions|
-        actions << InsertAction.new(node, prefix + "\n" + (' ' * indentation), at: 'beginning').process
-        actions << InsertAction.new(node, "\n" + (' ' * indentation) + suffix, at: 'end').process
-        actions << IndentAction.new(node).process
+      combine do
+        insert node, prefix + "\n" + (' ' * indentation), at: 'beginning'
+        insert node, "\n" + (' ' * indentation) + suffix, at: 'end'
+        indent node
       end
     else
       combine do |actions|
-        actions << InsertAction.new(node, prefix, at: 'beginning').process
-        actions << InsertAction.new(node, suffix, at: 'end').process
+        insert node, prefix, at: 'beginning'
+        insert node, suffix, at: 'end'
       end
     end
   end
@@ -245,9 +245,12 @@ class NodeMutation
 
   # Combine multiple actions
   def combine
-    action = CombinedAction.new
-    yield action
-    @actions << action.process
+    current_actions = @actions
+    combined_action = CombinedAction.new
+    @actions = combined_action.actions
+    yield
+    @actions = current_actions
+    @actions << combined_action.process
   end
 
   # Process actions and return the new source.

@@ -123,13 +123,13 @@ RSpec.describe NodeMutation do
       source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
       node = parse(source)
       mutation = described_class.new(source)
-      mutation.combine do |actions|
-        actions << NodeMutation::ReplaceAction.new(node, :message, with: 'find_by').process
-        actions << NodeMutation::ReplaceAction.new(node, :arguments, with: 'account_id: {{arguments}}').process
+      mutation.combine do
+        mutation.replace node, :message, with: 'find_by'
+        mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
       end
-      mutation.combine do |actions|
-        actions << NodeMutation::ReplaceAction.new(node.arguments.first.receiver, :message, with: 'find_by').process
-        actions << NodeMutation::ReplaceAction.new(node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}').process
+      mutation.combine do
+        mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
+        mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
       end
       expect { mutation.process }.to raise_error NodeMutation::ConflictActionError
       expect(mutation.actions.size).to eq 1
@@ -458,8 +458,8 @@ RSpec.describe NodeMutation do
     it 'parses combine' do
       node = parse("class Bar\nend")
       mutation.combine do |actions|
-        actions << NodeMutation::InsertAction.new(node, "module Foo\n", at: 'beginning').process
-        actions << NodeMutation::InsertAction.new(node, "\nend", at: 'end').process
+        mutation.insert node, "module Foo\n", at: 'beginning'
+        mutation.insert node, "\nend", at: 'end'
       end
       combined_action = mutation.actions.first
       expect(combined_action.type).to eq :combined

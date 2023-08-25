@@ -8,10 +8,6 @@ class NodeMutation::CombinedAction < NodeMutation::Action
     @type = :combined
   end
 
-  def <<(action)
-    @actions << action
-  end
-
   private
 
   # Calculate the begin and end positions.
