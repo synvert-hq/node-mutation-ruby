@@ -249,7 +249,7 @@ class NodeMutation
 
     source = +@source
     @transform_proc.call(@actions) if @transform_proc
-    @actions.sort_by! { |action| [action.start, action.end] }
+    sort_actions!
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
@@ -276,7 +276,7 @@ class NodeMutation
     end
 
     @transform_proc.call(@actions) if @transform_proc
-    @actions.sort_by! { |action| [action.start, action.end] }
+    sort_actions!
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
@@ -288,6 +288,10 @@ class NodeMutation
   end
 
   private
+
+  def sort_actions!
+    @actions.sort_by! { |action| [action.start, action.end] }
+  end
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
   # So if there is an overlap between two actions, it removes the conflict actions and operate them in the next loop.
