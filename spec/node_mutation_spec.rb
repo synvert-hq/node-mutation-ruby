@@ -383,31 +383,54 @@ RSpec.describe NodeMutation do
       mutation.delete node, :dot, :message, and_comma: true
     end
 
-    it 'parses wrap' do
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, '3.times { ', at: 'beginning').and_return(action)
-      expect(action).to receive(:process)
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, ' }', at: 'end').and_return(action)
-      expect(action).to receive(:process)
-      mutation.wrap node, prefix: '3.times { ', suffix: ' }'
+    context '#wrap' do
+      it 'parses without newline' do
+        node = parse('robot.process')
+        mutation.wrap node, prefix: '3.times { ', suffix: ' }'
+        combined_action = mutation.actions.first
+        expect(combined_action.type).to eq :combined
+        expect(combined_action.actions.size).to eq 2
+        expect(combined_action.actions[0].start).to eq 0
+        expect(combined_action.actions[0].end).to eq 0
+        expect(combined_action.actions[0].new_code).to eq '3.times { '
+        expect(combined_action.actions[1].start).to eq 'robot.process'.length
+        expect(combined_action.actions[1].end).to eq 'robot.process'.length
+        expect(combined_action.actions[1].new_code).to eq ' }'
+      end
+
+      it 'parses with newline' do
+        node = parse("class Bar\nend")
+        mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
+        combined_action = mutation.actions.first
+        expect(combined_action.type).to eq :combined
+        expect(combined_action.actions.size).to eq 3
+        expect(combined_action.actions[0].start).to eq 0
+        expect(combined_action.actions[0].end).to eq 0
+        expect(combined_action.actions[0].new_code).to eq "module Foo\n"
+        expect(combined_action.actions[1].start).to eq "class Bar\nend".length
+        expect(combined_action.actions[1].end).to eq "class Bar\nend".length
+        expect(combined_action.actions[1].new_code).to eq "\nend"
+        expect(combined_action.actions[2].start).to eq 0
+        expect(combined_action.actions[2].end).to eq "class Bar\nend".length
+        expect(combined_action.actions[2].new_code).to eq "  class Bar\n  end"
+      end
     end
 
-    it 'parses wrap with newline' do
-      expect(NodeMutation.adapter).to receive(:get_start_loc).with(node).and_return(
-        NodeMutation::Struct::Location.new(
-          1, 2
-        )
-      )
-      expect(NodeMutation::InsertAction).to receive(:new).with(
-        node,
-        "module Foo\n  ",
-        at: 'beginning'
-      ).and_return(action)
-      expect(action).to receive(:process)
-      expect(NodeMutation::InsertAction).to receive(:new).with(node, "\n  end", at: 'end').and_return(action)
-      expect(action).to receive(:process)
-      expect(NodeMutation::IndentAction).to receive(:new).with(node).and_return(action)
-      expect(action).to receive(:process)
-      mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
+    it 'parses combine' do
+      node = parse("class Bar\nend")
+      mutation.combine do |actions|
+        actions << NodeMutation::InsertAction.new(node, "module Foo\n", at: 'beginning').process
+        actions << NodeMutation::InsertAction.new(node, "\nend", at: 'end').process
+      end
+      combined_action = mutation.actions.first
+      expect(combined_action.type).to eq :combined
+      expect(combined_action.actions.size).to eq 2
+      expect(combined_action.actions[0].start).to eq 0
+      expect(combined_action.actions[0].end).to eq 0
+      expect(combined_action.actions[0].new_code).to eq "module Foo\n"
+      expect(combined_action.actions[1].start).to eq "class Bar\nend".length
+      expect(combined_action.actions[1].end).to eq "class Bar\nend".length
+      expect(combined_action.actions[1].new_code).to eq "\nend"
     end
 
     it 'parses noop' do

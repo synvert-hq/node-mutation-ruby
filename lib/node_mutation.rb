@@ -209,12 +209,16 @@ class NodeMutation
   def wrap(node, prefix:, suffix:, newline: false)
     if newline
       indentation = NodeMutation.adapter.get_start_loc(node).column
-      @actions << InsertAction.new(node, prefix + "\n" + (' ' * indentation), at: 'beginning').process
-      @actions << InsertAction.new(node, "\n" + (' ' * indentation) + suffix, at: 'end').process
-      @actions << IndentAction.new(node).process
+      combine do |actions|
+        actions << InsertAction.new(node, prefix + "\n" + (' ' * indentation), at: 'beginning').process
+        actions << InsertAction.new(node, "\n" + (' ' * indentation) + suffix, at: 'end').process
+        actions << IndentAction.new(node).process
+      end
     else
-      @actions << InsertAction.new(node, prefix, at: 'beginning').process
-      @actions << InsertAction.new(node, suffix, at: 'end').process
+      combine do |actions|
+        actions << InsertAction.new(node, prefix, at: 'beginning').process
+        actions << InsertAction.new(node, suffix, at: 'end').process
+      end
     end
   end
 
@@ -222,6 +226,13 @@ class NodeMutation
   # @param node [Node] ast node
   def noop(node)
     @actions << NoopAction.new(node).process
+  end
+
+  # Combine multiple actions
+  def combine
+    action = CombinedAction.new
+    yield action
+    @actions << action.process
   end
 
   # Process actions and return the new source.
