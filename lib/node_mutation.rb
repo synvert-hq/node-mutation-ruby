@@ -222,6 +222,21 @@ class NodeMutation
     end
   end
 
+  # Indent source code of the ast node
+  # @param node [Node] ast node
+  # @example
+  # source code of ast node is
+  #     class Foobar
+  #     end
+  # then we call
+  #     indent(node)
+  # the source code will be rewritten to
+  #       class Foobar
+  #       end
+  def indent(node)
+    @actions << IndentAction.new(node).process
+  end
+
   # No operation.
   # @param node [Node] ast node
   def noop(node)

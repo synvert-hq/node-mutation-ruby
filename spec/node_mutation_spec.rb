@@ -472,6 +472,16 @@ RSpec.describe NodeMutation do
       expect(combined_action.actions[1].new_code).to eq "\nend"
     end
 
+    it 'parses indent' do
+      node = parse("class Foo\nend")
+      mutation.indent node
+      action = mutation.actions.first
+      expect(action.type).to eq :replace
+      expect(action.start).to eq 0
+      expect(action.end).to eq "class Foo\nend".length
+      expect(action.new_code).to eq "  class Foo\n  end"
+    end
+
     it 'parses noop' do
       expect(NodeMutation::NoopAction).to receive(:new).with(node).and_return(action)
       expect(action).to receive(:process)
