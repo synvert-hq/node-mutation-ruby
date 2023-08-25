@@ -267,17 +267,15 @@ class NodeMutation
 
     source = +@source
     @transform_proc.call(@actions) if @transform_proc
-    sort_actions!
+    @actions = sort_actions(@actions)
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
-    @actions.reverse_each do |action|
-      source[action.start...action.end] = action.new_code if action.new_code
-    end
+    new_source = rewrite_source(source, @actions)
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
-    result.new_source = source
+    result.new_source = new_source
     result
   end
 
@@ -294,7 +292,7 @@ class NodeMutation
     end
 
     @transform_proc.call(@actions) if @transform_proc
-    sort_actions!
+    @actions = sort_actions(@actions)
     conflict_actions = get_conflict_actions
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
@@ -307,8 +305,27 @@ class NodeMutation
 
   private
 
-  def sort_actions!
-    @actions.sort_by! { |action| [action.start, action.end] }
+  # Sort actions by start position and end position.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] sorted actions
+  def sort_actions(actions)
+    actions.sort_by { |action| [action.start, action.end] }
+  end
+
+  # Rewrite source code with actions.
+  # @param source [String] source code
+  # @param actions [Array<NodeMutation::Action>] actions
+  # @return [String] new source code
+  def rewrite_source(source, actions)
+    actions.reverse_each do |action|
+      if action.is_a?(CombinedAction)
+        actions = sort_actions(action.actions)
+        source = rewrite_source(source, actions)
+      else
+        source[action.start...action.end] = action.new_code if action.new_code
+      end
+    end
+    source
   end
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
