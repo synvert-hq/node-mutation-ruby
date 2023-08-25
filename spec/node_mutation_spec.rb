@@ -6,6 +6,8 @@ RSpec.describe NodeMutation do
       expect(described_class.tab_width).to eq 2
       described_class.configure(tab_width: 4)
       expect(described_class.tab_width).to eq 4
+      described_class.configure(tab_width: 2)
+      expect(described_class.tab_width).to eq 2
     end
   end
 
@@ -313,74 +315,83 @@ RSpec.describe NodeMutation do
     let(:action) { double }
 
     it 'parses append' do
-      expect(NodeMutation::AppendAction).to receive(:new).with(
-        node,
-        'include FactoryGirl::Syntax::Methods'
-      ).and_return(action)
-      expect(action).to receive(:process)
-      mutation.append node, 'include FactoryGirl::Syntax::Methods'
+      node = parse("def teardown\n  do_something\nend")
+      mutation.append node, 'super'
+      action = mutation.actions.first
+      expect(action.type).to eq :insert
+      expect(action.start).to eq "def teardown\n  do_something".length
+      expect(action.end).to eq "def teardown\n  do_something".length
+      expect(action.new_code).to eq "\n  super"
     end
 
     it 'parses prepend' do
-      expect(NodeMutation::PrependAction).to receive(:new).with(
-        node,
-        '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
-      ).and_return(action)
-      expect(action).to receive(:process)
-      mutation.prepend node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods'
+      node = parse("def setup\n  do_something\nend")
+      mutation.prepend node, 'super'
+      action = mutation.actions.first
+      expect(action.type).to eq :insert
+      expect(action.start).to eq "def setup".length
+      expect(action.end).to eq "def setup".length
+      expect(action.new_code).to eq "\n  super"
     end
 
     it 'parses insert at end' do
-      expect(NodeMutation::InsertAction).to receive(:new).with(
-        node,
-        '.first',
-        at: 'end',
-        to: 'receiver',
-        and_comma: false
-      ).and_return(action)
-      expect(action).to receive(:process)
-      mutation.insert node, '.first', to: 'receiver'
+      node = parse('foo.bar')
+      mutation.insert node, '&', to: 'receiver'
+      action = mutation.actions.first
+      expect(action.type).to eq :insert
+      expect(action.start).to eq 'foo'.length
+      expect(action.end).to eq 'foo'.length
+      expect(action.new_code).to eq '&'
     end
 
     it 'parses insert at beginning' do
-      expect(NodeMutation::InsertAction).to receive(:new).with(
-        node,
-        'URI.',
-        at: 'beginning',
-        to: nil,
-        and_comma: false
-      ).and_return(action)
-      expect(action).to receive(:process)
+      node = parse("open('https://google.com')")
       mutation.insert node, 'URI.', at: 'beginning'
+      action = mutation.actions.first
+      expect(action.type).to eq :insert
+      expect(action.start).to eq 0
+      expect(action.end).to eq 0
+      expect(action.new_code).to eq 'URI.'
     end
 
     it 'parses replace_with' do
-      expect(NodeMutation::ReplaceWithAction).to receive(:new).with(node, 'create {{arguments}}').and_return(action)
-      expect(action).to receive(:process)
-      mutation.replace_with node, 'create {{arguments}}'
+      node = parse('FactoryBot.create(:user)')
+      mutation.replace_with node, 'create({{arguments}})'
+      action = mutation.actions.first
+      expect(action.type).to eq :replace
+      expect(action.start).to eq 0
+      expect(action.end).to eq 'FactoryBot.create(:user)'.length
+      expect(action.new_code).to eq 'create(:user)'
     end
 
     it 'parses replace with' do
-      expect(NodeMutation::ReplaceAction).to receive(:new).with(node, :message, with: 'test').and_return(action)
-      expect(action).to receive(:process)
-      mutation.replace node, :message, with: 'test'
+      node = parse("class User < ActiveRecord::Base\nend")
+      mutation.replace node, :parent_class, with: 'ApplicationRecord'
+      action = mutation.actions.first
+      expect(action.type).to eq :replace
+      expect(action.start).to eq 'class User < '.length
+      expect(action.end).to eq 'class User < ActiveRecord::Base'.length
+      expect(action.new_code).to eq 'ApplicationRecord'
     end
 
     it 'parses remove' do
-      expect(NodeMutation::RemoveAction).to receive(:new).with(node, { and_comma: true }).and_return(action)
-      expect(action).to receive(:process)
-      mutation.remove node, and_comma: true
+      node = parse("puts 'hello world'")
+      mutation.remove node
+      action = mutation.actions.first
+      expect(action.type).to eq :delete
+      expect(action.start).to eq 0
+      expect(action.end).to eq "puts 'hello world'".length
+      expect(action.new_code).to eq ''
     end
 
     it 'parses delete' do
-      expect(NodeMutation::DeleteAction).to receive(:new).with(
-        node,
-        :dot,
-        :message,
-        { and_comma: true }
-      ).and_return(action)
-      expect(action).to receive(:process)
-      mutation.delete node, :dot, :message, and_comma: true
+      node = parse("BigDecimal.new('1.0')")
+      mutation.delete node, :dot, :message
+      action = mutation.actions.first
+      expect(action.type).to eq :delete
+      expect(action.start).to eq 'BigDecimal'.length
+      expect(action.end).to eq 'BigDecimal.new'.length
+      expect(action.new_code).to eq ''
     end
 
     context '#wrap' do
