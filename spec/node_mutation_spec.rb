@@ -274,34 +274,47 @@ RSpec.describe NodeMutation do
       }.to raise_error(NodeMutation::ConflictActionError)
     end
 
-    it 'tests with combined actions' do
-      described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
-      node = parse(source)
-      mutation = described_class.new(source)
-      mutation.combine do
-        mutation.replace node, :message, with: 'find_by'
-        mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
+    context 'combined action' do
+      it 'tests with combined actions' do
+        described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
+        source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
+        node = parse(source)
+        mutation = described_class.new(source)
+        mutation.combine do
+          mutation.replace node, :message, with: 'find_by'
+          mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
+        end
+        mutation.combine do
+          mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
+          mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+        end
+        result = mutation.test
+        expect(result).to be_affected
+        expect(result).to be_conflicted
+        expect(mutation.actions.size).to eq 1
+        combined_action = mutation.actions.first
+        expect(combined_action.type).to eq :combined
+        expect(combined_action.actions.size).to eq 2
+        expect(combined_action.actions[0].type).to eq :replace
+        expect(combined_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
+        expect(combined_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
+        expect(combined_action.actions[0].new_code).to eq 'find_by'
+        expect(combined_action.actions[1].type).to eq :replace
+        expect(combined_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
+        expect(combined_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
+        expect(combined_action.actions[1].new_code).to eq 'email: account_email'
       end
-      mutation.combine do
-        mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-        mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+
+      it 'tests with empty combined actions' do
+        source = 'test'
+        mutation = described_class.new(source)
+        mutation.combine do
+        end
+        result = mutation.test
+        expect(result).not_to be_affected
+        expect(result).not_to be_conflicted
+        expect(mutation.actions.size).to eq 0
       end
-      result = mutation.test
-      expect(result).to be_affected
-      expect(result).to be_conflicted
-      expect(mutation.actions.size).to eq 1
-      combined_action = mutation.actions.first
-      expect(combined_action.type).to eq :combined
-      expect(combined_action.actions.size).to eq 2
-      expect(combined_action.actions[0].type).to eq :replace
-      expect(combined_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
-      expect(combined_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
-      expect(combined_action.actions[0].new_code).to eq 'find_by'
-      expect(combined_action.actions[1].type).to eq :replace
-      expect(combined_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
-      expect(combined_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
-      expect(combined_action.actions[1].new_code).to eq 'email: account_email'
     end
 
     context '#transform_proc' do

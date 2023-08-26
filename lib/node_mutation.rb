@@ -261,6 +261,7 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def process
+    cleanup_actions!(@actions)
     if @actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
@@ -287,6 +288,7 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def test
+    cleanup_actions!(@actions)
     if @actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
@@ -304,6 +306,22 @@ class NodeMutation
   end
 
   private
+
+  # Clean up empty combined actions.
+  # @param actions [Array<NodeMutation::Action>]
+  def cleanup_actions!(actions)
+    index = actions.length - 1
+    while index > -1
+      if actions[index].is_a?(CombinedAction)
+        if actions[index].actions.empty?
+          actions.delete_at(index)
+        else
+          cleanup_actions!(actions[index].actions)
+        end
+      end
+      index -= 1
+    end
+  end
 
   # Sort actions by start position and end position.
   # @param actions [Array<NodeMutation::Action>]
