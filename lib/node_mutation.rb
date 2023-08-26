@@ -315,6 +315,8 @@ class NodeMutation
       if actions[index].is_a?(CombinedAction)
         if actions[index].actions.empty?
           actions.delete_at(index)
+        elsif actions[index].actions.size == 1
+          actions[index] = actions[index].actions.first
         else
           cleanup_actions!(actions[index].actions)
         end

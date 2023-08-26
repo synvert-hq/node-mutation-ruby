@@ -305,7 +305,7 @@ RSpec.describe NodeMutation do
         expect(combined_action.actions[1].new_code).to eq 'email: account_email'
       end
 
-      it 'tests with empty combined actions' do
+      it 'tests with empty combined action' do
         source = 'test'
         mutation = described_class.new(source)
         mutation.combine do
@@ -314,6 +314,20 @@ RSpec.describe NodeMutation do
         expect(result).not_to be_affected
         expect(result).not_to be_conflicted
         expect(mutation.actions.size).to eq 0
+      end
+
+      it 'tests with combined action with only one action' do
+        source = 'test'
+        node = parse(source)
+        mutation = described_class.new(source)
+        mutation.combine do
+          mutation.remove(node)
+        end
+        result = mutation.test
+        expect(result).to be_affected
+        expect(result).not_to be_conflicted
+        expect(mutation.actions.size).to eq 1
+        expect(mutation.actions.first.type).to eq :delete
       end
     end
 
