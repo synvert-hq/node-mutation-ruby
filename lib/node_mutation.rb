@@ -262,15 +262,15 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def process
-    cleanup_actions!(@actions)
+    @actions = flatten_actions(@actions)
     if @actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     source = +@source
     @transform_proc.call(@actions) if @transform_proc
-    @actions = sort_actions(@actions)
-    conflict_actions = get_conflict_actions
+    sort_actions!(@actions)
+    conflict_actions = get_conflict_actions(@actions)
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
@@ -289,14 +289,14 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def test
-    cleanup_actions!(@actions)
+    @actions = flatten_actions(@actions)
     if @actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     @transform_proc.call(@actions) if @transform_proc
-    @actions = sort_actions(@actions)
-    conflict_actions = get_conflict_actions
+    sort_actions!(@actions)
+    conflict_actions = get_conflict_actions(@actions)
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
@@ -307,6 +307,36 @@ class NodeMutation
   end
 
   private
+
+  # It flattens a series of actions by removing any CombinedAction
+  # objects that contain only a single action. This is done recursively.
+  def flatten_actions(actions)
+    new_actions = []
+    actions.each do |action|
+      if action.is_a?(CombinedAction)
+        new_actions << flatten_combined_action(action)
+      else
+        new_actions << action
+      end
+    end
+    new_actions.compact
+  end
+
+  # It flattens a combined action.
+  def flatten_combined_action(action)
+    if action.actions.empty?
+      nil
+    elsif action.actions.size == 1
+      if action.actions.first.is_a?(CombinedAction)
+        flatten_combined_action(action.actions.first)
+      else
+        action.actions.first
+      end
+    else
+      action.actions = flatten_actions(action.actions)
+      action
+    end
+  end
 
   # Clean up empty combined actions.
   # @param actions [Array<NodeMutation::Action>]
@@ -329,8 +359,11 @@ class NodeMutation
   # Sort actions by start position and end position.
   # @param actions [Array<NodeMutation::Action>]
   # @return [Array<NodeMutation::Action>] sorted actions
-  def sort_actions(actions)
-    actions.sort_by { |action| [action.start, action.end] }
+  def sort_actions!(actions)
+    actions.sort_by! { |action| [action.start, action.end] }
+    actions.each do |action|
+      sort_actions!(action.actions) if action.is_a?(CombinedAction)
+    end
   end
 
   # Rewrite source code with actions.
@@ -340,8 +373,7 @@ class NodeMutation
   def rewrite_source(source, actions)
     actions.reverse_each do |action|
       if action.is_a?(CombinedAction)
-        actions = sort_actions(action.actions)
-        source = rewrite_source(source, actions)
+        source = rewrite_source(source, action.actions)
       else
         source[action.start...action.end] = action.new_code if action.new_code
       end
@@ -351,24 +383,27 @@ class NodeMutation
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
   # So if there is an overlap between two actions, it removes the conflict actions and operate them in the next loop.
-  def get_conflict_actions
-    i = @actions.length - 1
+  def get_conflict_actions(actions)
+    i = actions.length - 1
     j = i - 1
     conflict_actions = []
     return [] if i < 0
 
-    begin_pos = @actions[i].start
-    end_pos = @actions[i].end
+    begin_pos = actions[i].start
+    end_pos = actions[i].end
     while j > -1
       # if we have two actions with overlapped range.
-      if begin_pos < @actions[j].end
-        conflict_actions << @actions.delete_at(j)
+      if begin_pos < actions[j].end
+        conflict_actions << actions.delete_at(j)
       else
         i = j
-        begin_pos = @actions[i].start
-        end_pos = @actions[i].end
+        begin_pos = actions[i].start
+        end_pos = actions[i].end
       end
       j -= 1
+    end
+    actions.each do |action|
+      conflict_actions.concat(get_conflict_actions(action.actions)) if action.is_a?(CombinedAction)
     end
     conflict_actions
   end

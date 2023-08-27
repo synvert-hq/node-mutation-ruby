@@ -286,7 +286,9 @@ RSpec.describe NodeMutation do
         end
         mutation.combine do
           mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-          mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+          mutation.combine do
+            mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+          end
         end
         result = mutation.test
         expect(result).to be_affected
@@ -321,7 +323,9 @@ RSpec.describe NodeMutation do
         node = parse(source)
         mutation = described_class.new(source)
         mutation.combine do
-          mutation.remove(node)
+          mutation.combine do
+            mutation.remove(node)
+          end
         end
         result = mutation.test
         expect(result).to be_affected

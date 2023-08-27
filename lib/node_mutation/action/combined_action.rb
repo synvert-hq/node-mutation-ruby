@@ -3,7 +3,7 @@
 class NodeMutation::CombinedAction < NodeMutation::Action
   DEFAULT_START = 2**30
 
-  attr_reader :actions
+  attr_accessor :actions
 
   def initialize
     @actions = []
@@ -11,7 +11,7 @@ class NodeMutation::CombinedAction < NodeMutation::Action
   end
 
   def new_code
-    ''
+    nil
   end
 
   private
