@@ -216,7 +216,7 @@ class NodeMutation
         indent node
       end
     else
-      combine do |actions|
+      combine do
         insert node, prefix, at: 'beginning'
         insert node, suffix, at: 'end'
       end

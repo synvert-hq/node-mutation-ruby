@@ -518,7 +518,7 @@ RSpec.describe NodeMutation do
 
     it 'parses combine' do
       node = parse("class Bar\nend")
-      mutation.combine do |actions|
+      mutation.combine do
         mutation.insert node, "module Foo\n", at: 'beginning'
         mutation.insert node, "\nend", at: 'end'
       end
