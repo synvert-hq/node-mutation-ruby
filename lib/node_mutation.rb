@@ -23,6 +23,7 @@ class NodeMutation
   autoload :Result, 'node_mutation/result'
   autoload :Strategy, 'node_mutation/strategy'
   autoload :Struct, 'node_mutation/struct'
+  autoload :Helper, 'node_mutation/helper'
 
   # @!attribute [r] actions
   #   @return [Array<NodeMutation::Struct::Action>]
