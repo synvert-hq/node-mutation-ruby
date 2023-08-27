@@ -1,4 +1,4 @@
-module NodeMutation[T]
+class NodeMutation[T]
   VERSION: String
 
   class MethodNotSupported < StandardError
@@ -38,6 +38,8 @@ module NodeMutation[T]
   def wrap: (node: T, prefix: String, suffix: String, ?newline: bool) -> void
 
   def noop: (node: T) -> void
+
+  def combine: () { () -> void } -> void
 
   def process: () -> NodeMutation::Result
 

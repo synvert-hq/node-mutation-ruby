@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# CombinedAction combines multiple actions.
 class NodeMutation::CombinedAction < NodeMutation::Action
   DEFAULT_START = 2**30
 

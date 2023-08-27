@@ -1,0 +1,3 @@
+class NodeMutation::Helper
+  def self.iterate_actions: (actions: Array[NodeMutation::Action]) { (action: NodeMutation::Action) -> void } -> void
+end
