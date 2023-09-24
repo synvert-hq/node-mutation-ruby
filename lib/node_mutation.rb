@@ -338,24 +338,6 @@ class NodeMutation
     end
   end
 
-  # Clean up empty combined actions.
-  # @param actions [Array<NodeMutation::Action>]
-  def cleanup_actions!(actions)
-    index = actions.length - 1
-    while index > -1
-      if actions[index].is_a?(CombinedAction)
-        if actions[index].actions.empty?
-          actions.delete_at(index)
-        elsif actions[index].actions.size == 1
-          actions[index] = actions[index].actions.first
-        else
-          cleanup_actions!(actions[index].actions)
-        end
-      end
-      index -= 1
-    end
-  end
-
   # Sort actions by start position and end position.
   # @param actions [Array<NodeMutation::Action>]
   # @return [Array<NodeMutation::Action>] sorted actions
