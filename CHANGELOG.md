@@ -1,5 +1,11 @@
 # NodeMutation
 
+## 1.20.0 (2023-09-24)
+
+* Add `CombinedAction` to combine multiple actions.
+* Add `combine` dsl to combine multiple actions.
+* Add `NodeMutation::Helper.iterate_actions`
+
 ## 1.19.4 (2023-08-17)
 
 * Use `NodeMutation.adapter.get_indent`
