@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.21.0 (2023-09-26)
+
+* Rename `combine` dsl to `group`
+
 ## 1.20.0 (2023-09-24)
 
 * Add `CombinedAction` to combine multiple actions.
