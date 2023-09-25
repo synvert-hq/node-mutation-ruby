@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-# CombinedAction combines multiple actions.
-class NodeMutation::CombinedAction < NodeMutation::Action
+# GroupAction is compose of multiple actions.
+class NodeMutation::GroupAction < NodeMutation::Action
   DEFAULT_START = 2**30
 
   attr_accessor :actions
 
   def initialize
     @actions = []
-    @type = :combined
+    @type = :group
   end
 
   def new_code

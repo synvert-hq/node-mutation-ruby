@@ -11,7 +11,7 @@ class NodeMutation
   autoload :SyntaxTreeAdapter, "node_mutation/adapter/syntax_tree"
   autoload :Action, 'node_mutation/action'
   autoload :AppendAction, 'node_mutation/action/append_action'
-  autoload :CombinedAction, 'node_mutation/action/combined_action'
+  autoload :GroupAction, 'node_mutation/action/group_action'
   autoload :DeleteAction, 'node_mutation/action/delete_action'
   autoload :IndentAction, 'node_mutation/action/indent_action'
   autoload :InsertAction, 'node_mutation/action/insert_action'
@@ -210,13 +210,13 @@ class NodeMutation
   def wrap(node, prefix:, suffix:, newline: false)
     if newline
       indentation = NodeMutation.adapter.get_start_loc(node).column
-      combine do
+      group do
         insert node, prefix + "\n" + (' ' * indentation), at: 'beginning'
         insert node, "\n" + (' ' * indentation) + suffix, at: 'end'
         indent node
       end
     else
-      combine do
+      group do
         insert node, prefix, at: 'beginning'
         insert node, suffix, at: 'end'
       end
@@ -244,14 +244,14 @@ class NodeMutation
     @actions << NoopAction.new(node).process
   end
 
-  # Combine multiple actions
-  def combine
+  # group multiple actions
+  def group
     current_actions = @actions
-    combined_action = CombinedAction.new
-    @actions = combined_action.actions
+    group_action = GroupAction.new
+    @actions = group_action.actions
     yield
     @actions = current_actions
-    @actions << combined_action.process
+    @actions << group_action.process
   end
 
   # Process actions and return the new source.
@@ -308,13 +308,13 @@ class NodeMutation
 
   private
 
-  # It flattens a series of actions by removing any CombinedAction
+  # It flattens a series of actions by removing any GroupAction
   # objects that contain only a single action. This is done recursively.
   def flatten_actions(actions)
     new_actions = []
     actions.each do |action|
-      if action.is_a?(CombinedAction)
-        new_actions << flatten_combined_action(action)
+      if action.is_a?(GroupAction)
+        new_actions << flatten_group_action(action)
       else
         new_actions << action
       end
@@ -322,13 +322,13 @@ class NodeMutation
     new_actions.compact
   end
 
-  # It flattens a combined action.
-  def flatten_combined_action(action)
+  # It flattens a group action.
+  def flatten_group_action(action)
     if action.actions.empty?
       nil
     elsif action.actions.size == 1
-      if action.actions.first.is_a?(CombinedAction)
-        flatten_combined_action(action.actions.first)
+      if action.actions.first.is_a?(GroupAction)
+        flatten_group_action(action.actions.first)
       else
         action.actions.first
       end
@@ -344,7 +344,7 @@ class NodeMutation
   def sort_actions!(actions)
     actions.sort_by! { |action| [action.start, action.end] }
     actions.each do |action|
-      sort_actions!(action.actions) if action.is_a?(CombinedAction)
+      sort_actions!(action.actions) if action.is_a?(GroupAction)
     end
   end
 
@@ -354,7 +354,7 @@ class NodeMutation
   # @return [String] new source code
   def rewrite_source(source, actions)
     actions.reverse_each do |action|
-      if action.is_a?(CombinedAction)
+      if action.is_a?(GroupAction)
         source = rewrite_source(source, action.actions)
       else
         source[action.start...action.end] = action.new_code if action.new_code
@@ -385,7 +385,7 @@ class NodeMutation
       j -= 1
     end
     actions.each do |action|
-      conflict_actions.concat(get_conflict_actions(action.actions)) if action.is_a?(CombinedAction)
+      conflict_actions.concat(get_conflict_actions(action.actions)) if action.is_a?(GroupAction)
     end
     conflict_actions
   end

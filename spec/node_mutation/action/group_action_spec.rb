@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe NodeMutation::CombinedAction do
-  it 'combines multiple actions' do
+RSpec.describe NodeMutation::GroupAction do
+  it 'composes of multiple actions' do
     action = described_class.new
     action.actions << double('action1', start: 1, end: 5)
     action.actions << double('action2', start: 3, end: 7)

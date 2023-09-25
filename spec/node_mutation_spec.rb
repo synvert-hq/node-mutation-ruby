@@ -118,32 +118,32 @@ RSpec.describe NodeMutation do
       EOS
     end
 
-    it 'processes with combined actions' do
+    it 'processes with group actions' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
       source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
       node = parse(source)
       mutation = described_class.new(source)
-      mutation.combine do
+      mutation.group do
         mutation.replace node, :message, with: 'find_by'
         mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
       end
-      mutation.combine do
+      mutation.group do
         mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
         mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
       end
       mutation.process
       expect(mutation.actions.size).to eq 1
-      combined_action = mutation.actions.first
-      expect(combined_action.type).to eq :combined
-      expect(combined_action.actions.size).to eq 2
-      expect(combined_action.actions[0].type).to eq :replace
-      expect(combined_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
-      expect(combined_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
-      expect(combined_action.actions[0].new_code).to eq 'find_by'
-      expect(combined_action.actions[1].type).to eq :replace
-      expect(combined_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
-      expect(combined_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
-      expect(combined_action.actions[1].new_code).to eq 'email: account_email'
+      group_action = mutation.actions.first
+      expect(group_action.type).to eq :group
+      expect(group_action.actions.size).to eq 2
+      expect(group_action.actions[0].type).to eq :replace
+      expect(group_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
+      expect(group_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
+      expect(group_action.actions[0].new_code).to eq 'find_by'
+      expect(group_action.actions[1].type).to eq :replace
+      expect(group_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
+      expect(group_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
+      expect(group_action.actions[1].new_code).to eq 'email: account_email'
     end
 
     context '#transform_proc' do
@@ -274,19 +274,19 @@ RSpec.describe NodeMutation do
       }.to raise_error(NodeMutation::ConflictActionError)
     end
 
-    context 'combined action' do
-      it 'tests with combined actions' do
+    context 'group action' do
+      it 'tests with group actions' do
         described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
         source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
         node = parse(source)
         mutation = described_class.new(source)
-        mutation.combine do
+        mutation.group do
           mutation.replace node, :message, with: 'find_by'
           mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
         end
-        mutation.combine do
+        mutation.group do
           mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-          mutation.combine do
+          mutation.group do
             mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
           end
         end
@@ -294,23 +294,23 @@ RSpec.describe NodeMutation do
         expect(result).to be_affected
         expect(result).to be_conflicted
         expect(mutation.actions.size).to eq 1
-        combined_action = mutation.actions.first
-        expect(combined_action.type).to eq :combined
-        expect(combined_action.actions.size).to eq 2
-        expect(combined_action.actions[0].type).to eq :replace
-        expect(combined_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
-        expect(combined_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
-        expect(combined_action.actions[0].new_code).to eq 'find_by'
-        expect(combined_action.actions[1].type).to eq :replace
-        expect(combined_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
-        expect(combined_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
-        expect(combined_action.actions[1].new_code).to eq 'email: account_email'
+        group_action = mutation.actions.first
+        expect(group_action.type).to eq :group
+        expect(group_action.actions.size).to eq 2
+        expect(group_action.actions[0].type).to eq :replace
+        expect(group_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
+        expect(group_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
+        expect(group_action.actions[0].new_code).to eq 'find_by'
+        expect(group_action.actions[1].type).to eq :replace
+        expect(group_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
+        expect(group_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
+        expect(group_action.actions[1].new_code).to eq 'email: account_email'
       end
 
-      it 'tests with empty combined action' do
+      it 'tests with empty group action' do
         source = 'test'
         mutation = described_class.new(source)
-        mutation.combine do
+        mutation.group do
         end
         result = mutation.test
         expect(result).not_to be_affected
@@ -318,12 +318,12 @@ RSpec.describe NodeMutation do
         expect(mutation.actions.size).to eq 0
       end
 
-      it 'tests with combined action with only one action' do
+      it 'tests with group action with only one action' do
         source = 'test'
         node = parse(source)
         mutation = described_class.new(source)
-        mutation.combine do
-          mutation.combine do
+        mutation.group do
+          mutation.group do
             mutation.remove(node)
           end
         end
@@ -487,50 +487,50 @@ RSpec.describe NodeMutation do
       it 'parses without newline' do
         node = parse('robot.process')
         mutation.wrap node, prefix: '3.times { ', suffix: ' }'
-        combined_action = mutation.actions.first
-        expect(combined_action.type).to eq :combined
-        expect(combined_action.actions.size).to eq 2
-        expect(combined_action.actions[0].start).to eq 0
-        expect(combined_action.actions[0].end).to eq 0
-        expect(combined_action.actions[0].new_code).to eq '3.times { '
-        expect(combined_action.actions[1].start).to eq 'robot.process'.length
-        expect(combined_action.actions[1].end).to eq 'robot.process'.length
-        expect(combined_action.actions[1].new_code).to eq ' }'
+        group_action = mutation.actions.first
+        expect(group_action.type).to eq :group
+        expect(group_action.actions.size).to eq 2
+        expect(group_action.actions[0].start).to eq 0
+        expect(group_action.actions[0].end).to eq 0
+        expect(group_action.actions[0].new_code).to eq '3.times { '
+        expect(group_action.actions[1].start).to eq 'robot.process'.length
+        expect(group_action.actions[1].end).to eq 'robot.process'.length
+        expect(group_action.actions[1].new_code).to eq ' }'
       end
 
       it 'parses with newline' do
         node = parse("class Bar\nend")
         mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
-        combined_action = mutation.actions.first
-        expect(combined_action.type).to eq :combined
-        expect(combined_action.actions.size).to eq 3
-        expect(combined_action.actions[0].start).to eq 0
-        expect(combined_action.actions[0].end).to eq 0
-        expect(combined_action.actions[0].new_code).to eq "module Foo\n"
-        expect(combined_action.actions[1].start).to eq "class Bar\nend".length
-        expect(combined_action.actions[1].end).to eq "class Bar\nend".length
-        expect(combined_action.actions[1].new_code).to eq "\nend"
-        expect(combined_action.actions[2].start).to eq 0
-        expect(combined_action.actions[2].end).to eq "class Bar\nend".length
-        expect(combined_action.actions[2].new_code).to eq "  class Bar\n  end"
+        group_action = mutation.actions.first
+        expect(group_action.type).to eq :group
+        expect(group_action.actions.size).to eq 3
+        expect(group_action.actions[0].start).to eq 0
+        expect(group_action.actions[0].end).to eq 0
+        expect(group_action.actions[0].new_code).to eq "module Foo\n"
+        expect(group_action.actions[1].start).to eq "class Bar\nend".length
+        expect(group_action.actions[1].end).to eq "class Bar\nend".length
+        expect(group_action.actions[1].new_code).to eq "\nend"
+        expect(group_action.actions[2].start).to eq 0
+        expect(group_action.actions[2].end).to eq "class Bar\nend".length
+        expect(group_action.actions[2].new_code).to eq "  class Bar\n  end"
       end
     end
 
-    it 'parses combine' do
+    it 'parses group' do
       node = parse("class Bar\nend")
-      mutation.combine do
+      mutation.group do
         mutation.insert node, "module Foo\n", at: 'beginning'
         mutation.insert node, "\nend", at: 'end'
       end
-      combined_action = mutation.actions.first
-      expect(combined_action.type).to eq :combined
-      expect(combined_action.actions.size).to eq 2
-      expect(combined_action.actions[0].start).to eq 0
-      expect(combined_action.actions[0].end).to eq 0
-      expect(combined_action.actions[0].new_code).to eq "module Foo\n"
-      expect(combined_action.actions[1].start).to eq "class Bar\nend".length
-      expect(combined_action.actions[1].end).to eq "class Bar\nend".length
-      expect(combined_action.actions[1].new_code).to eq "\nend"
+      group_action = mutation.actions.first
+      expect(group_action.type).to eq :group
+      expect(group_action.actions.size).to eq 2
+      expect(group_action.actions[0].start).to eq 0
+      expect(group_action.actions[0].end).to eq 0
+      expect(group_action.actions[0].new_code).to eq "module Foo\n"
+      expect(group_action.actions[1].start).to eq "class Bar\nend".length
+      expect(group_action.actions[1].end).to eq "class Bar\nend".length
+      expect(group_action.actions[1].new_code).to eq "\nend"
     end
 
     it 'parses indent' do
