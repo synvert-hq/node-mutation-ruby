@@ -188,7 +188,7 @@
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_iterate_actions'>iterate_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_actions'>actions</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_actions'>actions</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_action'>action</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CombinedAction.html" title="NodeMutation::CombinedAction (class)">CombinedAction</a></span></span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="GroupAction.html" title="NodeMutation::GroupAction (class)">GroupAction</a></span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_iterate_actions'>iterate_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_actions'>actions</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
@@ -205,7 +205,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Sep 24 08:58:15 2023 by
+  Generated on Mon Sep 25 23:06:02 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
