@@ -112,6 +112,11 @@
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_wrap'>wrap</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>module Foo</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>suffix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>newline:</span> <span class='kw'>true</span>
 <span class='comment'># no operation
 </span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_noop'>noop</span>
+<span class='comment'># group actions
+</span><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_group'>group</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='symbol'>:dot</span>
+  <span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>receiver.caller.message</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>flat_map</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
 </code></pre>
 <ol><li>
 <p>process actions and write the new source code to file:</p>
@@ -176,7 +181,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Mon Sep 25 23:06:02 2023 by
+  Generated on Tue Sep 26 00:38:16 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
