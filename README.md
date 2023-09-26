@@ -51,6 +51,11 @@ mutation.replace_with node, 'create {{arguments}}'
 mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
 # no operation
 mutation.noop
+# group actions
+mutation.group do
+  mutation.delete node, :message, :dot
+  mutation.replace node, 'receiver.caller.message', with: 'flat_map'
+end
 ```
 
 3. process actions and write the new source code to file:
