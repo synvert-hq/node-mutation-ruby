@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.21.1 (2023-10-01)
+
+* Update `parser_node_ext` to 1.2.1
+* Add `actions` to `NodeMutation::Struct::Action`
+
 ## 1.21.0 (2023-09-26)
 
 * Rename `combine` dsl to `group`
