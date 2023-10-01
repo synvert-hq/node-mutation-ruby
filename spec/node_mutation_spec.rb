@@ -19,6 +19,7 @@ RSpec.describe NodeMutation do
       end
     EOS
     let(:mutation) { described_class.new(source) }
+    let(:node) { parse(source) }
 
     it 'gets no action' do
       result = mutation.process
@@ -27,15 +28,8 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets no conflict' do
-      mutation.actions.push(NodeMutation::Struct::Action.new(:insert, 0, 0, "# frozen_string_literal: true\n"))
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :replace,
-          "class ".length,
-          "class Foobar".length,
-          "Synvert"
-        )
-      )
+      mutation.insert(node, "# frozen_string_literal: true\n", at: 'beginning')
+      mutation.replace(node, :name, with: 'Synvert')
       result = mutation.process
       expect(result).to be_affected
       expect(result).not_to be_conflicted
@@ -50,23 +44,9 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with KEEP_RUNNING strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :replace,
-          "class ".length,
-          "class Foobar".length,
-          "Synvert"
-        )
-      )
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :insert,
-          "class Foobar".length,
-          "class Foobar".length,
-          " < Base"
-        )
-      )
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
+      mutation.replace(node, :name, with: 'Synvert < Base')
+      mutation.replace(node, :name, with: 'Synvert')
+      mutation.insert(node, ' < Base', to: 'name')
       result = mutation.process
       expect(result).to be_affected
       expect(result).to be_conflicted
@@ -80,33 +60,17 @@ RSpec.describe NodeMutation do
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :replace,
-          "class ".length,
-          "class Foobar".length,
-          "Synvert"
-        )
-      )
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :insert,
-          "class Foobar".length,
-          "class Foobar".length,
-          " < Base"
-        )
-      )
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
+      mutation.replace(node, :name, with: 'Synvert < Base')
+      mutation.replace(node, :name, with: 'Synvert')
+      mutation.insert(node, ' < Base', to: 'name')
       expect { mutation.process }
         .to raise_error(NodeMutation::ConflictActionError)
     end
 
     it 'gets no conflict when insert at the same position' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      action1 = NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base")
-      action2 = NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base")
-      mutation.actions.push(action1)
-      mutation.actions.push(action2)
+      mutation.insert(node, ' < Base', to: 'name')
+      mutation.insert(node, ' < Base', to: 'name')
       result = mutation.process
       expect(result).to be_affected
       expect(result).not_to be_conflicted
@@ -131,19 +95,10 @@ RSpec.describe NodeMutation do
         mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
         mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
       end
-      mutation.process
-      expect(mutation.actions.size).to eq 1
-      group_action = mutation.actions.first
-      expect(group_action.type).to eq :group
-      expect(group_action.actions.size).to eq 2
-      expect(group_action.actions[0].type).to eq :replace
-      expect(group_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
-      expect(group_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
-      expect(group_action.actions[0].new_code).to eq 'find_by'
-      expect(group_action.actions[1].type).to eq :replace
-      expect(group_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
-      expect(group_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
-      expect(group_action.actions[1].new_code).to eq 'email: account_email'
+      result = mutation.process
+      expect(result).to be_affected
+      expect(result).to be_conflicted
+      expect(result.new_source).to eq 'User.find_by_account_id(Account.find_by(email: account_email).id)'
     end
 
     context '#transform_proc' do
@@ -218,6 +173,7 @@ RSpec.describe NodeMutation do
       end
     EOS
     let(:mutation) { described_class.new(source) }
+    let(:node) { parse(source) }
 
     it 'gets no action' do
       result = mutation.test
@@ -226,49 +182,54 @@ RSpec.describe NodeMutation do
     end
 
     it 'gets no conflict' do
-      action1 = NodeMutation::Struct::Action.new(:insert, 0, 0, "# frozen_string_literal: true\n")
-      action2 = NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert")
-      mutation.actions.push(action1)
-      mutation.actions.push(action2)
+      mutation.insert(node, "# frozen_string_literal: true\n", at: 'beginning')
+      mutation.replace(node, :name, with: 'Synvert')
       result = mutation.test
       expect(result).to be_affected
       expect(result).not_to be_conflicted
-      expect(result.actions).to eq [action1, action2]
+      expect(result.actions.size).to eq 2
+      action1 = result.actions.first
+      expect(action1.type).to eq :insert
+      expect(action1.start).to eq 0
+      expect(action1.end).to eq 0
+      expect(action1.new_code).to eq "# frozen_string_literal: true\n"
+      expect(action1.actions).to be_nil
+      action2 = result.actions.last
+      expect(action2.type).to eq :replace
+      expect(action2.start).to eq 'class '.length
+      expect(action2.end).to eq 'class Foobar'.length
+      expect(action2.new_code).to eq 'Synvert'
+      expect(action2.actions).to be_nil
     end
 
     it 'gets conflict with KEEP_RUNNING strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
-      action1 = NodeMutation::Struct::Action.new(:replace, "class ".length, "class Foobar".length, "Synvert")
-      action2 = NodeMutation::Struct::Action.new(:insert, "class Foobar".length, "class Foobar".length, " < Base")
-      action3 = NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base")
-      mutation.actions.push(action1)
-      mutation.actions.push(action2)
-      mutation.actions.push(action3)
+      mutation.replace(node, :name, with: 'Synvert < Base')
+      mutation.replace(node, :name, with: 'Synvert')
+      mutation.insert(node, ' < Base', to: 'name')
       result = mutation.test
       expect(result).to be_affected
       expect(result).to be_conflicted
-      expect(result.actions).to eq [action1, action2]
+      expect(result.actions.size).to eq 2
+      action1 = result.actions.first
+      expect(action1.type).to eq :replace
+      expect(action1.start).to eq 'class '.length
+      expect(action1.end).to eq 'class Foobar'.length
+      expect(action1.new_code).to eq 'Synvert'
+      expect(action1.actions).to be_nil
+      action2 = result.actions.last
+      expect(action2.type).to eq :insert
+      expect(action2.start).to eq 'class Foobar'.length
+      expect(action2.end).to eq 'class Foobar'.length
+      expect(action2.new_code).to eq ' < Base'
+      expect(action2.actions).to be_nil
     end
 
     it 'gets conflict with THROW_ERROR strategy' do
       described_class.configure(strategy: NodeMutation::Strategy::THROW_ERROR)
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :replace,
-          "class ".length,
-          "class Foobar".length,
-          "Synvert"
-        )
-      )
-      mutation.actions.push(
-        NodeMutation::Struct::Action.new(
-          :insert,
-          "class Foobar".length,
-          "class Foobar".length,
-          " < Base"
-        )
-      )
-      mutation.actions.push(NodeMutation::Struct::Action.new(:replace, 0, "class Foobar".length, "class Foobar < Base"))
+      mutation.replace(node, :name, with: 'Synvert < Base')
+      mutation.replace(node, :name, with: 'Synvert')
+      mutation.insert(node, ' < Base', to: 'name')
       expect {
         mutation.process
       }.to raise_error(NodeMutation::ConflictActionError)
@@ -293,8 +254,8 @@ RSpec.describe NodeMutation do
         result = mutation.test
         expect(result).to be_affected
         expect(result).to be_conflicted
-        expect(mutation.actions.size).to eq 1
-        group_action = mutation.actions.first
+        expect(result.actions.size).to eq 1
+        group_action = result.actions.first
         expect(group_action.type).to eq :group
         expect(group_action.actions.size).to eq 2
         expect(group_action.actions[0].type).to eq :replace
@@ -315,7 +276,7 @@ RSpec.describe NodeMutation do
         result = mutation.test
         expect(result).not_to be_affected
         expect(result).not_to be_conflicted
-        expect(mutation.actions.size).to eq 0
+        expect(result.actions.size).to eq 0
       end
 
       it 'tests with group action with only one action' do
@@ -330,8 +291,8 @@ RSpec.describe NodeMutation do
         result = mutation.test
         expect(result).to be_affected
         expect(result).not_to be_conflicted
-        expect(mutation.actions.size).to eq 1
-        expect(mutation.actions.first.type).to eq :delete
+        expect(result.actions.size).to eq 1
+        expect(result.actions.first.type).to eq :delete
       end
     end
 

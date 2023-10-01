@@ -21,7 +21,7 @@ class NodeMutation::Result
   def actions=(actions)
     @actions =
       actions.map { |action|
-        NodeMutation::Struct::Action.new(action.type, action.start, action.end, action.new_code)
+        NodeMutation::Struct::Action.new(action.type, action.start, action.end, action.new_code, action.actions)
       }
   end
 

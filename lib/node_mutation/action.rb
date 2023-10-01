@@ -8,7 +8,9 @@ class NodeMutation::Action
   #   @return [Integer] end position
   # @!attribute [rw] type
   #   @return [Symbol] action type, :insert, :replace or :delete
-  attr_accessor :start, :end, :type
+  # @!attribute [rw] actions
+  #   @return [Array<NodeMutation::Action>] child actions
+  attr_accessor :start, :end, :type, :actions
 
   # Initialize an action.
   #
