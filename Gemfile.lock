@@ -37,7 +37,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    parser_node_ext (1.2.0)
+    parser_node_ext (1.2.1)
       parser
     prettier_print (1.2.1)
     pry (0.14.1)
