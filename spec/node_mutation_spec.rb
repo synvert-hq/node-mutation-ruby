@@ -187,19 +187,10 @@ RSpec.describe NodeMutation do
       result = mutation.test
       expect(result).to be_affected
       expect(result).not_to be_conflicted
-      expect(result.actions.size).to eq 2
-      action1 = result.actions.first
-      expect(action1.type).to eq :insert
-      expect(action1.start).to eq 0
-      expect(action1.end).to eq 0
-      expect(action1.new_code).to eq "# frozen_string_literal: true\n"
-      expect(action1.actions).to be_nil
-      action2 = result.actions.last
-      expect(action2.type).to eq :replace
-      expect(action2.start).to eq 'class '.length
-      expect(action2.end).to eq 'class Foobar'.length
-      expect(action2.new_code).to eq 'Synvert'
-      expect(action2.actions).to be_nil
+      expect(result.actions).to eq [
+        NodeMutation::Struct::Action.new(:insert, 0, 0, "# frozen_string_literal: true\n"),
+        NodeMutation::Struct::Action.new(:replace, 'class '.length, 'class Foobar'.length, 'Synvert')
+      ]
     end
 
     it 'gets conflict with KEEP_RUNNING strategy' do
@@ -210,19 +201,10 @@ RSpec.describe NodeMutation do
       result = mutation.test
       expect(result).to be_affected
       expect(result).to be_conflicted
-      expect(result.actions.size).to eq 2
-      action1 = result.actions.first
-      expect(action1.type).to eq :replace
-      expect(action1.start).to eq 'class '.length
-      expect(action1.end).to eq 'class Foobar'.length
-      expect(action1.new_code).to eq 'Synvert'
-      expect(action1.actions).to be_nil
-      action2 = result.actions.last
-      expect(action2.type).to eq :insert
-      expect(action2.start).to eq 'class Foobar'.length
-      expect(action2.end).to eq 'class Foobar'.length
-      expect(action2.new_code).to eq ' < Base'
-      expect(action2.actions).to be_nil
+      expect(result.actions).to eq [
+        NodeMutation::Struct::Action.new(:replace, 'class '.length, 'class Foobar'.length, 'Synvert'),
+        NodeMutation::Struct::Action.new(:insert, 'class Foobar'.length, 'class Foobar'.length, ' < Base')
+      ]
     end
 
     it 'gets conflict with THROW_ERROR strategy' do
@@ -254,18 +236,12 @@ RSpec.describe NodeMutation do
         result = mutation.test
         expect(result).to be_affected
         expect(result).to be_conflicted
-        expect(result.actions.size).to eq 1
-        group_action = result.actions.first
-        expect(group_action.type).to eq :group
-        expect(group_action.actions.size).to eq 2
-        expect(group_action.actions[0].type).to eq :replace
-        expect(group_action.actions[0].start).to eq 'User.find_by_account_id(Account.'.length
-        expect(group_action.actions[0].end).to eq 'User.find_by_account_id(Account.find_by_email'.length
-        expect(group_action.actions[0].new_code).to eq 'find_by'
-        expect(group_action.actions[1].type).to eq :replace
-        expect(group_action.actions[1].start).to eq 'User.find_by_account_id(Account.find_by_email('.length
-        expect(group_action.actions[1].end).to eq 'User.find_by_account_id(Account.find_by_email(account_email'.length
-        expect(group_action.actions[1].new_code).to eq 'email: account_email'
+        expect(result.actions).to eq [
+          NodeMutation::Struct::Action.new(:group, 'User.find_by_account_id(Account.'.length, 'User.find_by_account_id(Account.find_by_email(account_email'.length, nil, [
+            NodeMutation::Struct::Action.new(:replace, 'User.find_by_account_id(Account.'.length, 'User.find_by_account_id(Account.find_by_email'.length, 'find_by'),
+            NodeMutation::Struct::Action.new(:replace, 'User.find_by_account_id(Account.find_by_email('.length, 'User.find_by_account_id(Account.find_by_email(account_email'.length, 'email: account_email')
+          ])
+        ]
       end
 
       it 'tests with empty group action' do
@@ -311,6 +287,7 @@ RSpec.describe NodeMutation do
           current_user.name
         end
       EOS
+      let(:node) { parse(encoded_source) }
 
       it 'transforms the actions' do
         mutation.transform_proc =
@@ -331,30 +308,15 @@ RSpec.describe NodeMutation do
               end
             end
           end
-        action1 = NodeMutation::Struct::Action.new(
-          :replace,
-          "if current_user\n  ".length,
-          "if current_user\n  current_user.login".length,
-          "current_user.username"
-        )
-        action2 = NodeMutation::Struct::Action.new(
-          :replace,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nend\nif_current_user\n  current_user.name".length,
-          "current_user.username"
-        )
-        new_action2 = NodeMutation::Struct::Action.new(
-          :replace,
-          "if current_user\n  current_user.login\nif_current_user\n  ".length,
-          "if current_user\n  current_user.login\nif_current_user\n  current_user.name".length,
-          "current_user.username"
-        )
-        mutation.actions.push(action1)
-        mutation.actions.push(action2)
+        mutation.replace(node, 'body.0.if_statement', with: 'current_user.username')
+        mutation.replace(node, 'body.1.if_statement', with: 'current_user.username')
         result = mutation.test
         expect(result).to be_affected
         expect(result).not_to be_conflicted
-        expect(result.actions).to eq [action1, new_action2]
+        expect(result.actions).to eq [
+          NodeMutation::Struct::Action.new(:replace, "if current_user\n  ".length, "if current_user\n  current_user.login".length, 'current_user.username'),
+          NodeMutation::Struct::Action.new(:replace, "if current_user\n  current_user.login\nif current_user\n  ".length, "if current_user\n  current_user.login\nif current_user\n  current_user.name".length, 'current_user.username')
+        ]
       end
     end
   end

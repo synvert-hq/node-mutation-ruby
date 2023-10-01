@@ -41,6 +41,11 @@ class NodeMutation::Action
     end
   end
 
+  def to_struct
+    to_struct_actions = @actions ? @actions.map(&:to_struct) : nil
+    NodeMutation::Struct::Action.new(@type, @start, @end, new_code, to_struct_actions)
+  end
+
   protected
 
   # Calculate the begin the end positions.
