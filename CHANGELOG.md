@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.12.2 (2023-10-02)
+
+* Result saves group actions properly
+
 ## 1.21.1 (2023-10-01)
 
 * Update `parser_node_ext` to 1.2.1
