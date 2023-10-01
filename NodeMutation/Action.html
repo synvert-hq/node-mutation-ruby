@@ -316,6 +316,28 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_struct-instance_method" title="#to_struct (instance method)">#<strong>to_struct</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -770,12 +792,44 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="to_struct-instance_method">
+  
+    #<strong>to_struct</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_struct'>to_struct</span>
+  <span class='id identifier rubyid_to_struct_actions'>to_struct_actions</span> <span class='op'>=</span> <span class='ivar'>@actions</span> <span class='op'>?</span> <span class='ivar'>@actions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_struct</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct.html" title="NodeMutation::Struct (class)">Struct</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Struct/Action.html" title="NodeMutation::Struct::Action (class)">Action</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@type</span><span class='comma'>,</span> <span class='ivar'>@start</span><span class='comma'>,</span> <span class='ivar'>@end</span><span class='comma'>,</span> <span class='id identifier rubyid_new_code'>new_code</span><span class='comma'>,</span> <span class='id identifier rubyid_to_struct_actions'>to_struct_actions</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Sun Oct  1 13:01:05 2023 by
+  Generated on Sun Oct  1 23:14:03 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
