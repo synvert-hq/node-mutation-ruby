@@ -1,6 +1,10 @@
 # NodeMutation
 
-## 1.12.2 (2023-10-02)
+## 1.21.3 (2023-10-03)
+
+* Call `Action#to_struct` explicitly
+
+## 1.21.2 (2023-10-02)
 
 * Result saves group actions properly
 
