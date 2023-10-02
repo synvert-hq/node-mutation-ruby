@@ -302,7 +302,7 @@ class NodeMutation
     end
 
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
-    result.actions = @actions
+    result.actions = @actions.map(&:to_struct)
     result
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NodeMutation::Result
-  attr_accessor :file_path, :new_source
+  attr_accessor :file_path, :new_source, :actions
   attr_reader :actions
 
   def initialize(affected:, conflicted:)
@@ -16,10 +16,6 @@ class NodeMutation::Result
 
   def conflicted?
     @conflicted
-  end
-
-  def actions=(actions)
-    @actions = actions.map(&:to_struct)
   end
 
   def to_json(*args)
