@@ -237,10 +237,26 @@ RSpec.describe NodeMutation do
         expect(result).to be_affected
         expect(result).to be_conflicted
         expect(result.actions).to eq [
-          NodeMutation::Struct::Action.new(:group, 'User.find_by_account_id(Account.'.length, 'User.find_by_account_id(Account.find_by_email(account_email'.length, nil, [
-            NodeMutation::Struct::Action.new(:replace, 'User.find_by_account_id(Account.'.length, 'User.find_by_account_id(Account.find_by_email'.length, 'find_by'),
-            NodeMutation::Struct::Action.new(:replace, 'User.find_by_account_id(Account.find_by_email('.length, 'User.find_by_account_id(Account.find_by_email(account_email'.length, 'email: account_email')
-          ])
+          NodeMutation::Struct::Action.new(
+            :group,
+            'User.find_by_account_id(Account.'.length,
+            'User.find_by_account_id(Account.find_by_email(account_email'.length,
+            nil,
+            [
+              NodeMutation::Struct::Action.new(
+                :replace,
+                'User.find_by_account_id(Account.'.length,
+                'User.find_by_account_id(Account.find_by_email'.length,
+                'find_by'
+              ),
+              NodeMutation::Struct::Action.new(
+                :replace,
+                'User.find_by_account_id(Account.find_by_email('.length,
+                'User.find_by_account_id(Account.find_by_email(account_email'.length,
+                'email: account_email'
+              )
+            ]
+          )
         ]
       end
 
@@ -314,8 +330,18 @@ RSpec.describe NodeMutation do
         expect(result).to be_affected
         expect(result).not_to be_conflicted
         expect(result.actions).to eq [
-          NodeMutation::Struct::Action.new(:replace, "if current_user\n  ".length, "if current_user\n  current_user.login".length, 'current_user.username'),
-          NodeMutation::Struct::Action.new(:replace, "if current_user\n  current_user.login\nif current_user\n  ".length, "if current_user\n  current_user.login\nif current_user\n  current_user.name".length, 'current_user.username')
+          NodeMutation::Struct::Action.new(
+            :replace,
+            "if current_user\n  ".length,
+            "if current_user\n  current_user.login".length,
+            'current_user.username'
+          ),
+          NodeMutation::Struct::Action.new(
+            :replace,
+            "if current_user\n  current_user.login\nif current_user\n  ".length,
+            "if current_user\n  current_user.login\nif current_user\n  current_user.name".length,
+            'current_user.username'
+          )
         ]
       end
     end
