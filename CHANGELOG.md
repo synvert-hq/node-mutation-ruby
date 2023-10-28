@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.21.4 (2023-10-28)
+
+* Update `Adapter` rbs
+
 ## 1.21.3 (2023-10-03)
 
 * Call `Action#to_struct` explicitly
