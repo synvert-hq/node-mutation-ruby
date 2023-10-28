@@ -7,13 +7,13 @@ class NodeMutation::Adapter[T]
 
   def child_node_range: (node: T, child_name: String) -> NodeMutation::Struct::Range
 
-  def get_start: (node: T) -> Integer
+  def get_start: (node: T, ?child_name: String) -> Integer
 
-  def get_end: (node: T) -> Integer
+  def get_end: (node: T, ?child_name: String) -> Integer
 
-  def get_start_loc: (node: T) -> NodeMutation::Struct::Location
+  def get_start_loc: (node: T, ?child_name: String) -> NodeMutation::Struct::Location
 
-  def get_end_loc: (node: T) -> NodeMutation::Struct::Location
+  def get_end_loc: (node: T, ?child_name: String) -> NodeMutation::Struct::Location
 
   def get_indent: (node: T) -> Integer
 end
