@@ -229,9 +229,7 @@ RSpec.describe NodeMutation do
         end
         mutation.group do
           mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-          mutation.group do
-            mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
-          end
+          mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
         end
         result = mutation.test
         expect(result).to be_affected

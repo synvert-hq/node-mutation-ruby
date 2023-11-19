@@ -262,20 +262,22 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def process
-    @actions = flatten_actions(@actions)
-    if @actions.length == 0
+    @actions = optimize_group_actions(@actions)
+
+    flatten_actions = flat_actions(@actions)
+    if flatten_actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     source = +@source
     @transform_proc.call(@actions) if @transform_proc
-    sort_actions!(@actions)
-    conflict_actions = get_conflict_actions(@actions)
+    sorted_actions = sort_flatten_actions(flatten_actions)
+    conflict_actions = get_conflict_actions(sorted_actions)
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
-    new_source = rewrite_source(source, @actions)
+    new_source = rewrite_source(source, sort_actions(get_filter_actions(conflict_actions)))
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
     result.new_source = new_source
     result
@@ -289,63 +291,78 @@ class NodeMutation
   # if strategy is set to KEEP_RUNNING.
   # @return {NodeMutation::Result}
   def test
-    @actions = flatten_actions(@actions)
-    if @actions.length == 0
+    @actions = optimize_group_actions(@actions)
+
+    flatten_actions = flat_actions(@actions)
+    if flatten_actions.length == 0
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
     @transform_proc.call(@actions) if @transform_proc
-    sort_actions!(@actions)
-    conflict_actions = get_conflict_actions(@actions)
+    sorted_actions = sort_flatten_actions(flatten_actions)
+    conflict_actions = get_conflict_actions(sorted_actions)
     if conflict_actions.size > 0 && strategy?(Strategy::THROW_ERROR)
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
-    result.actions = @actions.map(&:to_struct)
+    actions = sort_actions(get_filter_actions(conflict_actions))
+    result.actions = actions.map(&:to_struct)
     result
   end
 
   private
 
-  # It flattens a series of actions by removing any GroupAction
-  # objects that contain only a single action. This is done recursively.
-  def flatten_actions(actions)
-    new_actions = []
-    actions.each do |action|
+  # Optimizes a list of actions, recursively optimizing any nested group actions.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] optimized actions
+  def optimize_group_actions(actions)
+    actions.map do |action|
       if action.is_a?(GroupAction)
-        new_actions << flatten_group_action(action)
-      else
-        new_actions << action
+        # If the group action contains only one action, replace the group action with that action
+        if action.actions.length === 1
+          return optimize_group_actions(action.actions)
+        end
+        # If the group action contains more than one action, optimize its sub-actions
+        action.actions = optimize_group_actions(action.actions)
       end
-    end
-    new_actions.compact
-  end
-
-  # It flattens a group action.
-  def flatten_group_action(action)
-    if action.actions.empty?
-      nil
-    elsif action.actions.size == 1
-      if action.actions.first.is_a?(GroupAction)
-        flatten_group_action(action.actions.first)
-      else
-        action.actions.first
-      end
-    else
-      action.actions = flatten_actions(action.actions)
       action
     end
+  end
+
+  # It flats a series of actions by removing any GroupAction
+  # objects that contain only a single action. This is done recursively.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] flatten actions
+  def flat_actions(actions)
+    flatten_actions = []
+    actions.each do |action|
+      if action.is_a?(GroupAction)
+        flatten_actions += flat_actions(action.actions)
+      else
+        flatten_actions << action
+      end
+    end
+    flatten_actions
+  end
+
+  # Recusively sort actions by start position and end position.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] sorted actions
+  def sort_actions(actions)
+    actions.each do |action|
+      if action.is_a?(GroupAction)
+        action.actions = sort_actions(action.actions)
+      end
+    end
+    actions.sort_by { |action| [action.start, action.end] }
   end
 
   # Sort actions by start position and end position.
   # @param actions [Array<NodeMutation::Action>]
   # @return [Array<NodeMutation::Action>] sorted actions
-  def sort_actions!(actions)
-    actions.sort_by! { |action| [action.start, action.end] }
-    actions.each do |action|
-      sort_actions!(action.actions) if action.is_a?(GroupAction)
-    end
+  def sort_flatten_actions(flatten_actions)
+    flatten_actions.sort_by { |action| [action.start, action.end] }
   end
 
   # Rewrite source code with actions.
@@ -365,6 +382,8 @@ class NodeMutation
 
   # It changes source code from bottom to top, and it can change source code twice at the same time,
   # So if there is an overlap between two actions, it removes the conflict actions and operate them in the next loop.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] conflict actions
   def get_conflict_actions(actions)
     i = actions.length - 1
     j = i - 1
@@ -376,7 +395,7 @@ class NodeMutation
     while j > -1
       # if we have two actions with overlapped range.
       if begin_pos < actions[j].end
-        conflict_actions << actions.delete_at(j)
+        conflict_actions << actions[j]
       else
         i = j
         begin_pos = actions[i].start
@@ -384,10 +403,20 @@ class NodeMutation
       end
       j -= 1
     end
-    actions.each do |action|
-      conflict_actions.concat(get_conflict_actions(action.actions)) if action.is_a?(GroupAction)
-    end
     conflict_actions
+  end
+
+  # It filters conflict actions from actions.
+  # @param actions [Array<NodeMutation::Action>]
+  # @return [Array<NodeMutation::Action>] filtered actions
+  def get_filter_actions(conflict_actions)
+    @actions.select do |action|
+      if action.is_a?(GroupAction)
+        action.actions.all? { |child_action| !conflict_actions.include?(child_action) }
+      else
+        !conflict_actions.include?(action)
+      end
+    end
   end
 
   def strategy?(strategy)
