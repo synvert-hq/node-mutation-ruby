@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    node_mutation (1.21.4)
+    node_mutation (1.21.5)
 
 GEM
   remote: https://rubygems.org/
