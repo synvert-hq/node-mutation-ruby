@@ -323,6 +323,7 @@ class NodeMutation
         if action.actions.length === 1
           return optimize_group_actions(action.actions)
         end
+
         # If the group action contains more than one action, optimize its sub-actions
         action.actions = optimize_group_actions(action.actions)
       end
