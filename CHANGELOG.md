@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.21.6 (2023-11-20)
+
+* Flat and sort actions after filtering actions when processing
+
 ## 1.21.5 (2023-11-20)
 
 * Rewrite the process and test methods
