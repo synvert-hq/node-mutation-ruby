@@ -277,7 +277,8 @@ class NodeMutation
       raise ConflictActionError, "mutation actions are conflicted"
     end
 
-    new_source = rewrite_source(source, sort_actions(get_filter_actions(conflict_actions)))
+    actions = sort_flatten_actions(flat_actions(get_filter_actions(conflict_actions)))
+    new_source = rewrite_source(source, actions)
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
     result.new_source = new_source
     result
