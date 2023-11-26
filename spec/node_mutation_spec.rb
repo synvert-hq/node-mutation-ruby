@@ -18,7 +18,8 @@ RSpec.describe NodeMutation do
         def bar; end
       end
     EOS
-    let(:mutation) { described_class.new(source) }
+    let(:adapter) { NodeMutation::ParserAdapter.new }
+    let(:mutation) { described_class.new(source, adapter: adapter) }
     let(:node) { parse(source) }
 
     it 'gets no action' do
@@ -86,7 +87,7 @@ RSpec.describe NodeMutation do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
       source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
       node = parse(source)
-      mutation = described_class.new(source)
+      mutation = described_class.new(source, adapter: adapter)
       mutation.group do
         mutation.replace node, :message, with: 'find_by'
         mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
@@ -172,7 +173,8 @@ RSpec.describe NodeMutation do
         def bar; end
       end
     EOS
-    let(:mutation) { described_class.new(source) }
+    let(:adapter) { NodeMutation::ParserAdapter.new }
+    let(:mutation) { described_class.new(source, adapter: adapter) }
     let(:node) { parse(source) }
 
     it 'gets no action' do
@@ -222,7 +224,7 @@ RSpec.describe NodeMutation do
         described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
         source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
         node = parse(source)
-        mutation = described_class.new(source)
+        mutation = described_class.new(source, adapter: adapter)
         mutation.group do
           mutation.replace node, :message, with: 'find_by'
           mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
@@ -260,7 +262,7 @@ RSpec.describe NodeMutation do
 
       it 'tests with empty group action' do
         source = 'test'
-        mutation = described_class.new(source)
+        mutation = described_class.new(source, adapter: adapter)
         mutation.group do
         end
         result = mutation.test
@@ -272,7 +274,7 @@ RSpec.describe NodeMutation do
       it 'tests with group action with only one action' do
         source = 'test'
         node = parse(source)
-        mutation = described_class.new(source)
+        mutation = described_class.new(source, adapter: adapter)
         mutation.group do
           mutation.group do
             mutation.remove(node)
@@ -346,7 +348,8 @@ RSpec.describe NodeMutation do
   end
 
   describe 'apis' do
-    let(:mutation) { described_class.new('code.rb') }
+    let(:adapter) { NodeMutation::ParserAdapter.new }
+    let(:mutation) { described_class.new('code.rb', adapter: adapter) }
     let(:node) { '' }
     let(:action) { double }
 
@@ -491,7 +494,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses noop' do
-      expect(NodeMutation::NoopAction).to receive(:new).with(node).and_return(action)
+      expect(NodeMutation::NoopAction).to receive(:new).with(node, adapter: adapter).and_return(action)
       expect(action).to receive(:process)
       mutation.noop node
     end

@@ -36,7 +36,7 @@ class NodeMutation
   class << self
     # Configure NodeMutation
     # @param [Hash] options options to configure
-    # @option options [NodeMutation::Adapter] :adapter the adpater
+    # @option options [NodeMutation::Adapter] :adapter the adapter
     # @option options [NodeMutation::Strategy] :strategy the strategy
     # @option options [Integer] :tab_width the tab width
     def configure(options)
@@ -73,9 +73,11 @@ class NodeMutation
 
   # Initialize a NodeMutation.
   # @param source [String] file source
-  def initialize(source)
+  # @param adapter [NodeMutation::Adapter]
+  def initialize(source, adapter:)
     @source = source
     @actions = []
+    @adapter = adapter
   end
 
   # Append code to the ast node.
@@ -94,7 +96,7 @@ class NodeMutation
   #       super
   #     end
   def append(node, code)
-    @actions << AppendAction.new(node, code).process
+    @actions << AppendAction.new(node, code, adapter: @adapter).process
   end
 
   # Delete source code of the child ast node.
@@ -109,7 +111,7 @@ class NodeMutation
   # the source code will be rewritten to
   #     create(...)
   def delete(node, *selectors, and_comma: false)
-    @actions << DeleteAction.new(node, *selectors, and_comma: and_comma).process
+    @actions << DeleteAction.new(node, *selectors, and_comma: and_comma, adapter: @adapter).process
   end
 
   # Insert code to the ast node.
@@ -126,7 +128,7 @@ class NodeMutation
   # the source code will be rewritten to
   #     URI.open('http://test.com')
   def insert(node, code, at: 'end', to: nil, and_comma: false)
-    @actions << InsertAction.new(node, code, at: at, to: to, and_comma: and_comma).process
+    @actions << InsertAction.new(node, code, at: at, to: to, and_comma: and_comma, adapter: @adapter).process
   end
 
   # Prepend code to the ast node.
@@ -145,7 +147,7 @@ class NodeMutation
   #       do_something
   #     end
   def prepend(node, code)
-    @actions << PrependAction.new(node, code).process
+    @actions << PrependAction.new(node, code, adapter: @adapter).process
   end
 
   # Remove source code of the ast node.
@@ -158,7 +160,7 @@ class NodeMutation
   #     mutation.remove(node)
   # the source code will be removed
   def remove(node, and_comma: false)
-    @actions << RemoveAction.new(node, and_comma: and_comma).process
+    @actions << RemoveAction.new(node, and_comma: and_comma, adapter: @adapter).process
   end
 
   # Replace child node of the ast node with new code.
@@ -174,7 +176,7 @@ class NodeMutation
   # the source code will be rewritten to
   #     assert_empty(object)
   def replace(node, *selectors, with:)
-    @actions << ReplaceAction.new(node, *selectors, with: with).process
+    @actions << ReplaceAction.new(node, *selectors, with: with, adapter: @adapter).process
   end
 
   # Replace source code of the ast node with new code.
@@ -188,7 +190,7 @@ class NodeMutation
   # the source code will be rewritten to
   #     allow(obj).to receive_messages(:foo => 1, :bar => 2)
   def replace_with(node, code)
-    @actions << ReplaceWithAction.new(node, code).process
+    @actions << ReplaceWithAction.new(node, code, adapter: @adapter).process
   end
 
   # Wrap source code of the ast node with prefix and suffix code.
@@ -209,7 +211,7 @@ class NodeMutation
   #     end
   def wrap(node, prefix:, suffix:, newline: false)
     if newline
-      indentation = NodeMutation.adapter.get_start_loc(node).column
+      indentation = @adapter.get_start_loc(node).column
       group do
         insert node, prefix + "\n" + (' ' * indentation), at: 'beginning'
         insert node, "\n" + (' ' * indentation) + suffix, at: 'end'
@@ -235,13 +237,13 @@ class NodeMutation
   #       class Foobar
   #       end
   def indent(node)
-    @actions << IndentAction.new(node).process
+    @actions << IndentAction.new(node, adapter: @adapter).process
   end
 
   # No operation.
   # @param node [Node] ast node
   def noop(node)
-    @actions << NoopAction.new(node).process
+    @actions << NoopAction.new(node, adapter: @adapter).process
   end
 
   # group multiple actions
