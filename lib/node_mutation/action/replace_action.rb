@@ -7,6 +7,7 @@ class NodeMutation::ReplaceAction < NodeMutation::Action
   # @param node [Node]
   # @param selectors [Array<Symbol|String>] used to select child nodes
   # @param with [String] the new code
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, *selectors, adapter:, with:)
     super(node, with, adapter: adapter)
     @selectors = selectors

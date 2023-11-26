@@ -4,6 +4,7 @@
 class NodeMutation::GroupAction < NodeMutation::Action
   DEFAULT_START = 2**30
 
+  # Initialize a GroupAction.
   def initialize
     @actions = []
     @type = :group

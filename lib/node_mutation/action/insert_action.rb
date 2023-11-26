@@ -9,6 +9,7 @@ class NodeMutation::InsertAction < NodeMutation::Action
   # @param at [String] position to insert, beginning or end
   # @param to [<nil|String>] name of child node
   # @param and_comma [Boolean] insert extra comma.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, code, adapter:, at: 'end', to: nil, and_comma: false)
     super(node, code, adapter: adapter)
     @at = at

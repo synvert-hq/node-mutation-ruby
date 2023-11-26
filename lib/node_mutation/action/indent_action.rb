@@ -6,6 +6,7 @@ class NodeMutation::IndentAction < NodeMutation::Action
   #
   # @param node [Node]
   # @param tab_size [Integer] tab size
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, tab_size = 1, adapter:)
     super(node, nil, adapter: adapter)
     @tab_size = tab_size

@@ -5,8 +5,8 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   # Initialize a RemoveAction.
   #
   # @param node [Node]
-  # @param options [Hash] options.
-  # @option and_comma [Boolean] delete extra comma.
+  # @param and_comma [Boolean] delete extra comma.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, adapter:, and_comma: false)
     super(node, nil, adapter: adapter)
     @and_comma = and_comma

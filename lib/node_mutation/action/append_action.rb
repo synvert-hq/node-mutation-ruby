@@ -2,6 +2,11 @@
 
 # AppendAction appends code to the bottom of node body.
 class NodeMutation::AppendAction < NodeMutation::Action
+  # Initialize an AppendAction.
+  #
+  # @param node [Node]
+  # @param code [String] new code to append.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, code, adapter:)
     super(node, code, adapter: adapter)
     @type = :insert

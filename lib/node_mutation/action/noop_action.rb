@@ -2,7 +2,10 @@
 
 # NoopAction to do no operation.
 class NodeMutation::NoopAction < NodeMutation::Action
-  # Create a NoopAction
+  # Initialize a NoopAction.
+  #
+  # @param node [Node]
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, adapter:)
     super(node, nil, adapter: adapter)
   end

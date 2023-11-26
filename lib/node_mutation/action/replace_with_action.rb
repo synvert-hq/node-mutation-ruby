@@ -2,6 +2,11 @@
 
 # ReplaceWithAction to replace code.
 class NodeMutation::ReplaceWithAction < NodeMutation::Action
+  # Initailize a ReplaceWithAction.
+  #
+  # @param node [Node]
+  # @param code [String] the new code.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, code, adapter:)
     super(node, code, adapter: adapter)
     @type = :replace

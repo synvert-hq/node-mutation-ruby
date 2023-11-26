@@ -6,7 +6,8 @@ class NodeMutation::DeleteAction < NodeMutation::Action
   #
   # @param node [Node]
   # @param selectors [Array<Symbol, String>] used to select child nodes
-  # @option and_comma [Boolean] delete extra comma.
+  # @param and_comma [Boolean] delete extra comma.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, *selectors, adapter:, and_comma: false)
     super(node, nil, adapter: adapter)
     @selectors = selectors

@@ -2,6 +2,11 @@
 
 # PrependAction to prepend code to the top of node body.
 class NodeMutation::PrependAction < NodeMutation::Action
+  # Initialize an PrependAction.
+  #
+  # @param node [Node]
+  # @param code [String] new code to prepend.
+  # @param adapter [NodeMutation::Adapter]
   def initialize(node, code, adapter:)
     super(node, code, adapter: adapter)
     @type = :insert
