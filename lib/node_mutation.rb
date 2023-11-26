@@ -36,25 +36,15 @@ class NodeMutation
   class << self
     # Configure NodeMutation
     # @param [Hash] options options to configure
-    # @option options [NodeMutation::Adapter] :adapter the adapter
     # @option options [NodeMutation::Strategy] :strategy the strategy
     # @option options [Integer] :tab_width the tab width
     def configure(options)
-      if options[:adapter]
-        @adapter = options[:adapter]
-      end
       if options[:strategy]
         @strategy = options[:strategy]
       end
       if options[:tab_width]
         @tab_width = options[:tab_width].to_i
       end
-    end
-
-    # Get the adapter
-    # @return [NodeMutation::Adapter] current adapter, by default is {NodeMutation::ParserAdapter}
-    def adapter
-      @adapter ||= ParserAdapter.new
     end
 
     # Get the strategy
