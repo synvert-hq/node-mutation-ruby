@@ -3,10 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::NoopAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   subject {
     source = 'post = FactoryGirl.create_list :post, 2'
     node = Parser::CurrentRuby.parse(source).children[1]
-    NodeMutation::NoopAction.new(node).process
+    NodeMutation::NoopAction.new(node, adapter: adapter).process
   }
 
   it 'gets start' do

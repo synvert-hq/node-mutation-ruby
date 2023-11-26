@@ -7,8 +7,8 @@ class NodeMutation::ReplaceAction < NodeMutation::Action
   # @param node [Node]
   # @param selectors [Array<Symbol|String>] used to select child nodes
   # @param with [String] the new code
-  def initialize(node, *selectors, with:)
-    super(node, with)
+  def initialize(node, *selectors, adapter:, with:)
+    super(node, with, adapter: adapter)
     @selectors = selectors
     @type = :replace
   end
@@ -24,9 +24,7 @@ class NodeMutation::ReplaceAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector).start }
-                       .min
-    @end = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector).end }
-                     .max
+    @start = @selectors.map { |selector| @adapter.child_node_range(@node, selector).start }.min
+    @end = @selectors.map { |selector| @adapter.child_node_range(@node, selector).end }.max
   end
 end

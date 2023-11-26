@@ -3,10 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::DeleteAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   subject {
     source = 'arr.map {}.flatten'
     node = Parser::CurrentRuby.parse(source)
-    NodeMutation::DeleteAction.new(node, :dot, :message).process
+    NodeMutation::DeleteAction.new(node, :dot, :message, adapter: adapter).process
   }
 
   it 'gets start' do
@@ -25,7 +27,7 @@ RSpec.describe NodeMutation::DeleteAction do
     subject {
       source = 'foobar(foo, bar)'
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::DeleteAction.new(node, 'arguments.-1', and_comma: true).process
+      NodeMutation::DeleteAction.new(node, 'arguments.-1', and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do
@@ -45,7 +47,7 @@ RSpec.describe NodeMutation::DeleteAction do
     subject {
       source = 'foobar(foo, bar)'
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::DeleteAction.new(node, 'arguments.0', and_comma: true).process
+      NodeMutation::DeleteAction.new(node, 'arguments.0', and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do

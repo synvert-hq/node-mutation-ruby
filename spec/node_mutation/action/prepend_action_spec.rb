@@ -3,11 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::PrependAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   describe 'block node without args' do
     subject {
       source = "Synvert::Application.configure do\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'config.eager_load = true').process
+      NodeMutation::PrependAction.new(node, 'config.eager_load = true', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -27,7 +29,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject {
       source = "RSpec.configure do |config|\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods').process
+      NodeMutation::PrependAction.new(node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -47,7 +49,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject {
       source = "class User\n  has_many :posts\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'include Deletable').process
+      NodeMutation::PrependAction.new(node, 'include Deletable', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -67,7 +69,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject {
       source = "class User < ActiveRecord::Base\n  has_many :posts\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'include Deletable').process
+      NodeMutation::PrependAction.new(node, 'include Deletable', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -87,7 +89,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject do
       source = "def setup\n  do_something\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'super').process
+      NodeMutation::PrependAction.new(node, 'super', adapter: adapter).process
     end
 
     it 'gets start' do
@@ -107,7 +109,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject do
       source = "def setup(foobar)\n  do_something\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'super').process
+      NodeMutation::PrependAction.new(node, 'super', adapter: adapter).process
     end
 
     it 'gets start' do
@@ -127,7 +129,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject do
       source = "def self.foo\n  do_something\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'do_something_first').process
+      NodeMutation::PrependAction.new(node, 'do_something_first', adapter: adapter).process
     end
 
     it 'gets start' do
@@ -147,7 +149,7 @@ RSpec.describe NodeMutation::PrependAction do
     subject do
       source = "def self.foo(bar)\n  do_something\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, 'do_something_first').process
+      NodeMutation::PrependAction.new(node, 'do_something_first', adapter: adapter).process
     end
 
     it 'gets start' do

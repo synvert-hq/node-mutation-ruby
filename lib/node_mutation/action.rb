@@ -16,9 +16,11 @@ class NodeMutation::Action
   #
   # @param node [Node]
   # @param code [String] new code to insert, replace or delete.
-  def initialize(node, code)
+  # @param adapter [NodeMutation::Adapter]
+  def initialize(node, code, adapter:)
     @node = node
     @code = code
+    @adapter = adapter
   end
 
   # Calculate begin and end positions, and return self.
@@ -59,7 +61,7 @@ class NodeMutation::Action
   #
   # @return [String] rewritten source code.
   def rewritten_source
-    @rewritten_source ||= NodeMutation.adapter.rewritten_source(@node, @code)
+    @rewritten_source ||= @adapter.rewritten_source(@node, @code)
   end
 
   # remove unused whitespace.
@@ -115,6 +117,6 @@ class NodeMutation::Action
   #
   # @return [String]
   def file_source
-    @file_source ||= NodeMutation.adapter.file_source(@node)
+    @file_source ||= @adapter.file_source(@node)
   end
 end

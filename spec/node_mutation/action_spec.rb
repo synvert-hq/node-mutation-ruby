@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe NodeMutation::Action do
-  let(:action) { NodeMutation::Action.new(nil, nil) }
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+  let(:action) { NodeMutation::Action.new(nil, nil, adapter: adapter) }
 
   describe '#remove_whitespace' do
     it 'removes whitespace after comma' do

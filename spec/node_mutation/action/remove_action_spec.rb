@@ -3,11 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::RemoveAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   context 'leading and_comma' do
     subject {
       source = 'foobar(foo, bar)'
       node = Parser::CurrentRuby.parse(source).arguments[1]
-      NodeMutation::RemoveAction.new(node, and_comma: true).process
+      NodeMutation::RemoveAction.new(node, and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do
@@ -27,7 +29,7 @@ RSpec.describe NodeMutation::RemoveAction do
     subject {
       source = 'foobar(foo, bar)'
       node = Parser::CurrentRuby.parse(source).arguments[0]
-      NodeMutation::RemoveAction.new(node, and_comma: true).process
+      NodeMutation::RemoveAction.new(node, and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do
@@ -51,7 +53,7 @@ RSpec.describe NodeMutation::RemoveAction do
         render
       EOS
       node = Parser::CurrentRuby.parse(source).children[1]
-      NodeMutation::RemoveAction.new(node).process
+      NodeMutation::RemoveAction.new(node, adapter: adapter).process
     }
 
     it 'gets start' do
@@ -75,7 +77,7 @@ RSpec.describe NodeMutation::RemoveAction do
           }
         EOS
         node = Parser::CurrentRuby.parse(source).children[1].children[1]
-        NodeMutation::RemoveAction.new(node, and_comma: true).process
+        NodeMutation::RemoveAction.new(node, and_comma: true, adapter: adapter).process
       }
 
       it 'gets start' do
@@ -100,7 +102,7 @@ RSpec.describe NodeMutation::RemoveAction do
           }
         EOS
         node = Parser::CurrentRuby.parse(source).children[1].children[0]
-        NodeMutation::RemoveAction.new(node, and_comma: true).process
+        NodeMutation::RemoveAction.new(node, and_comma: true, adapter: adapter).process
       }
 
       it 'gets start' do

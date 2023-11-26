@@ -3,11 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::ReplaceAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   context 'replace with single line' do
     subject {
       source = 'FactoryBot.create(:user)'
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::ReplaceAction.new(node, :receiver, :dot, :message, with: 'create').process
+      NodeMutation::ReplaceAction.new(node, :receiver, :dot, :message, with: 'create', adapter: adapter).process
     }
 
     it 'gets start' do

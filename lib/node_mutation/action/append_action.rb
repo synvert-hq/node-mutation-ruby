@@ -2,8 +2,8 @@
 
 # AppendAction appends code to the bottom of node body.
 class NodeMutation::AppendAction < NodeMutation::Action
-  def initialize(node, code)
-    super(node, code)
+  def initialize(node, code, adapter:)
+    super(node, code, adapter: adapter)
     @type = :insert
   end
 
@@ -13,7 +13,7 @@ class NodeMutation::AppendAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = NodeMutation.adapter.get_end(@node) - NodeMutation.adapter.get_start_loc(@node).column - END_LENGTH
+    @start = @adapter.get_end(@node) - @adapter.get_start_loc(@node).column - END_LENGTH
     @end = @start
   end
 
@@ -22,6 +22,6 @@ class NodeMutation::AppendAction < NodeMutation::Action
   # @param node [Parser::AST::Node]
   # @return [String] n times whitesphace
   def indent(node)
-    ' ' *  (NodeMutation.adapter.get_start_loc(node).column + NodeMutation.tab_width)
+    ' ' *  (@adapter.get_start_loc(node).column + NodeMutation.tab_width)
   end
 end

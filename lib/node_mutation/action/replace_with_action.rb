@@ -2,8 +2,8 @@
 
 # ReplaceWithAction to replace code.
 class NodeMutation::ReplaceWithAction < NodeMutation::Action
-  def initialize(node, code)
-    super(node, code)
+  def initialize(node, code, adapter:)
+    super(node, code, adapter: adapter)
     @type = :replace
   end
 
@@ -26,14 +26,14 @@ class NodeMutation::ReplaceWithAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = NodeMutation.adapter.get_start(@node)
-    @end = NodeMutation.adapter.get_end(@node)
+    @start = @adapter.get_start(@node)
+    @end = @adapter.get_end(@node)
   end
 
   # Indent of the node
   #
   # @return [String] n times whitesphace
   def indent
-    ' ' * NodeMutation.adapter.get_start_loc(@node).column
+    ' ' * @adapter.get_start_loc(@node).column
   end
 end

@@ -7,8 +7,8 @@ class NodeMutation::DeleteAction < NodeMutation::Action
   # @param node [Node]
   # @param selectors [Array<Symbol, String>] used to select child nodes
   # @option and_comma [Boolean] delete extra comma.
-  def initialize(node, *selectors, and_comma: false)
-    super(node, nil)
+  def initialize(node, *selectors, adapter:, and_comma: false)
+    super(node, nil, adapter: adapter)
     @selectors = selectors
     @and_comma = and_comma
     @type = :delete
@@ -23,9 +23,9 @@ class NodeMutation::DeleteAction < NodeMutation::Action
 
   # Calculate the begin and end positions.
   def calculate_position
-    @start = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector) }
+    @start = @selectors.map { |selector| @adapter.child_node_range(@node, selector) }
                        .compact.map(&:start).min
-    @end = @selectors.map { |selector| NodeMutation.adapter.child_node_range(@node, selector) }
+    @end = @selectors.map { |selector| @adapter.child_node_range(@node, selector) }
                      .compact.map(&:end).max
     remove_comma if @and_comma
     remove_whitespace

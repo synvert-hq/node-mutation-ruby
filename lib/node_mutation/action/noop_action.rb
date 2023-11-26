@@ -3,8 +3,8 @@
 # NoopAction to do no operation.
 class NodeMutation::NoopAction < NodeMutation::Action
   # Create a NoopAction
-  def initialize(node)
-    super(node, nil)
+  def initialize(node, adapter:)
+    super(node, nil, adapter: adapter)
   end
 
   # The rewritten source code with proper indent.
@@ -18,7 +18,7 @@ class NodeMutation::NoopAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = NodeMutation.adapter.get_start(@node)
-    @end = NodeMutation.adapter.get_end(@node)
+    @start = @adapter.get_start(@node)
+    @end = @adapter.get_end(@node)
   end
 end

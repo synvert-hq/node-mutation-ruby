@@ -6,8 +6,8 @@ class NodeMutation::IndentAction < NodeMutation::Action
   #
   # @param node [Node]
   # @param tab_size [Integer] tab size
-  def initialize(node, tab_size = 1)
-    super(node, nil)
+  def initialize(node, tab_size = 1, adapter:)
+    super(node, nil, adapter: adapter)
     @tab_size = tab_size
     @type = :replace
   end
@@ -16,7 +16,7 @@ class NodeMutation::IndentAction < NodeMutation::Action
   #
   # @return [String] rewritten code.
   def new_code
-    source = NodeMutation.adapter.get_source(@node)
+    source = @adapter.get_source(@node)
     source.each_line.map { |line| (' ' * NodeMutation.tab_width * @tab_size) + line }
           .join
   end
@@ -25,7 +25,7 @@ class NodeMutation::IndentAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = NodeMutation.adapter.get_start(@node)
-    @end = NodeMutation.adapter.get_end(@node)
+    @start = @adapter.get_start(@node)
+    @end = @adapter.get_end(@node)
   end
 end

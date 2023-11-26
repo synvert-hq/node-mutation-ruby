@@ -3,11 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::ReplaceWithAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   context 'replace with single line' do
     subject {
       source = 'post = FactoryGirl.create_list :post, 2'
       node = Parser::CurrentRuby.parse(source).children[1]
-      NodeMutation::ReplaceWithAction.new(node, 'create_list {{arguments}}').process
+      NodeMutation::ReplaceWithAction.new(node, 'create_list {{arguments}}', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -27,7 +29,7 @@ RSpec.describe NodeMutation::ReplaceWithAction do
     subject {
       source = '  its(:size) { should == 1 }'
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::ReplaceWithAction.new(node, <<~EOS).process
+      NodeMutation::ReplaceWithAction.new(node, <<~EOS, adapter: adapter).process
         describe '#size' do
           subject { super().size }
           it { {{body}} }

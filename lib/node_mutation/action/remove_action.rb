@@ -7,8 +7,8 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   # @param node [Node]
   # @param options [Hash] options.
   # @option and_comma [Boolean] delete extra comma.
-  def initialize(node, and_comma: false)
-    super(node, nil)
+  def initialize(node, adapter:, and_comma: false)
+    super(node, nil, adapter: adapter)
     @and_comma = and_comma
     @type = :delete
   end
@@ -22,8 +22,8 @@ class NodeMutation::RemoveAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = NodeMutation.adapter.get_start(@node)
-    @end = NodeMutation.adapter.get_end(@node)
+    @start = @adapter.get_start(@node)
+    @end = @adapter.get_end(@node)
     remove_comma if @and_comma
     remove_whitespace
     if take_whole_line?
@@ -36,7 +36,7 @@ class NodeMutation::RemoveAction < NodeMutation::Action
   #
   # @return [Boolean]
   def take_whole_line?
-    NodeMutation.adapter.get_source(@node) == file_source[@start...@end].strip.chomp(',')
+    @adapter.get_source(@node) == file_source[@start...@end].strip.chomp(',')
   end
 
   def remove_newline
@@ -73,8 +73,8 @@ class NodeMutation::RemoveAction < NodeMutation::Action
 
   def squeeze_lines
     lines = file_source.split("\n")
-    begin_line = NodeMutation.adapter.get_start_loc(@node).line
-    end_line = NodeMutation.adapter.get_end_loc(@node).line
+    begin_line = @adapter.get_start_loc(@node).line
+    end_line = @adapter.get_end_loc(@node).line
     before_line_is_blank = begin_line == 1 || lines[begin_line - 2] == ''
     after_line_is_blank = lines[end_line] == ''
 

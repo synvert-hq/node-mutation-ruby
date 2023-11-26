@@ -3,10 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::IndentAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
   let(:source) { "  foo\n  bar\n  foobar" }
+
   subject {
     node = Parser::CurrentRuby.parse(source)
-    NodeMutation::IndentAction.new(node).process
+    NodeMutation::IndentAction.new(node, adapter: adapter).process
   }
 
   it 'gets start' do

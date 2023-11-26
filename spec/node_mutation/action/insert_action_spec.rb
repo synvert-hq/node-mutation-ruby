@@ -3,11 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe NodeMutation::InsertAction do
+  let(:adapter) { NodeMutation::ParserAdapter.new }
+
   context 'at end' do
     subject {
       source = "  User.where(username: 'Richard')"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, '.first', at: 'end').process
+      NodeMutation::InsertAction.new(node, '.first', at: 'end', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -27,7 +29,7 @@ RSpec.describe NodeMutation::InsertAction do
     subject {
       source = "  open('http://test.com')"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, 'URI.', at: 'beginning').process
+      NodeMutation::InsertAction.new(node, 'URI.', at: 'beginning', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -47,7 +49,7 @@ RSpec.describe NodeMutation::InsertAction do
     subject {
       source = "User.where(username: 'Richard')"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, '.active', to: 'receiver', at: 'end').process
+      NodeMutation::InsertAction.new(node, '.active', to: 'receiver', at: 'end', adapter: adapter).process
     }
 
     it 'gets start' do
@@ -69,7 +71,7 @@ RSpec.describe NodeMutation::InsertAction do
         obj = { foo: 1 }
       EOS
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, 'bar: 2', to: 'value.pairs.0', at: 'end', and_comma: true).process
+      NodeMutation::InsertAction.new(node, 'bar: 2', to: 'value.pairs.0', at: 'end', and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do
@@ -91,7 +93,7 @@ RSpec.describe NodeMutation::InsertAction do
         obj = { bar: 2 }
       EOS
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, 'foo: 1', to: 'value.pairs.0', at: 'beginning', and_comma: true).process
+      NodeMutation::InsertAction.new(node, 'foo: 1', to: 'value.pairs.0', at: 'beginning', and_comma: true, adapter: adapter).process
     }
 
     it 'gets start' do

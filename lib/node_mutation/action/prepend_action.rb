@@ -2,8 +2,8 @@
 
 # PrependAction to prepend code to the top of node body.
 class NodeMutation::PrependAction < NodeMutation::Action
-  def initialize(node, code)
-    super(node, code)
+  def initialize(node, code, adapter:)
+    super(node, code, adapter: adapter)
     @type = :insert
   end
 
@@ -11,8 +11,8 @@ class NodeMutation::PrependAction < NodeMutation::Action
 
   # Calculate the begin and end positions.
   def calculate_position
-    node_start = NodeMutation.adapter.get_start(@node)
-    node_source = NodeMutation.adapter.get_source(@node)
+    node_start = @adapter.get_start(@node)
+    node_source = @adapter.get_source(@node)
     first_line = node_source.split("\n").first
     @start = first_line.end_with?("do") ? node_start + first_line.rindex("do") + "do".length : node_start + first_line.length
     @end = @start
@@ -23,6 +23,6 @@ class NodeMutation::PrependAction < NodeMutation::Action
   # @param node [Parser::AST::Node]
   # @return [String] n times whitesphace
   def indent(node)
-    ' ' * (NodeMutation.adapter.get_start_loc(node).column + NodeMutation.tab_width)
+    ' ' * (@adapter.get_start_loc(node).column + NodeMutation.tab_width)
   end
 end
