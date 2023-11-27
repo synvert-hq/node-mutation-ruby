@@ -25,7 +25,7 @@ Or install it yourself as:
 ```ruby
 require 'node_mutation'
 
-mutation = NodeMutation.new(source)
+mutation = NodeMutation.new(source, adapter: :parser)
 ```
 
 2. call the rewrite apis:
@@ -90,10 +90,6 @@ See more in [ParserAdapter](https://xinminlabs.github.io/node-mutation-ruby/Node
 Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all,
 we define an [Adapter](https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
 if you implement the Adapter interface, you can set it as NodeMutation's adapter.
-
-```ruby
-NodeMutation.configure(adapter: SyntaxTreeAdapter.new) // default is ParserAdapter
-```
 
 ### strategy
 
