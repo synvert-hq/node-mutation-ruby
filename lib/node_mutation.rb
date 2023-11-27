@@ -5,6 +5,7 @@ require_relative "node_mutation/version"
 class NodeMutation
   class MethodNotSupported < StandardError; end
   class ConflictActionError < StandardError; end
+  class InvalidAdapterError < StandardError; end
 
   autoload :Adapter, "node_mutation/adapter"
   autoload :ParserAdapter, "node_mutation/adapter/parser"
@@ -63,11 +64,11 @@ class NodeMutation
 
   # Initialize a NodeMutation.
   # @param source [String] file source
-  # @param adapter [NodeMutation::Adapter]
+  # @param adapter [Symbol] :parser or :syntax_tree
   def initialize(source, adapter:)
     @source = source
     @actions = []
-    @adapter = adapter
+    @adapter = get_adapter_instance(adapter)
   end
 
   # Append code to the ast node.
@@ -415,5 +416,16 @@ class NodeMutation
 
   def strategy?(strategy)
     NodeMutation.strategy & strategy == strategy
+  end
+
+  def get_adapter_instance(adapter)
+    case adapter.to_sym
+    when :parser
+      ParserAdapter.new
+    when :syntax_tree
+      SyntaxTreeAdapter.new
+    else
+      raise InvalidAdapterError, "adapter #{adapter} is not supported"
+    end
   end
 end
