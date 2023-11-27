@@ -9,15 +9,13 @@ class NodeMutation[T]
 
   attr_reader actions: Array[NodeMutation::Action]
 
-  def self.configure: (options: { adapter: NodeMutation::Adapter, strategy: Integer, tab_width: Integer }) -> void
-
-  def self.adapter: () -> NodeMutation::Adapter
+  def self.configure: (options: { strategy: Integer, tab_width: Integer }) -> void
 
   def self.strategy: () -> Integer
 
   def self.tab_width: () -> Integer
 
-  def initialize: (source: String) -> NodeMutation
+  def initialize: (source: String, adapter: Symbol) -> NodeMutation
 
   def append: (node: T, code: String) -> void
 
