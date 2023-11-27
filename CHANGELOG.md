@@ -1,5 +1,11 @@
 # NodeMutation
 
+## 1.22.0 (2023-11-27)
+
+* Add `adapter` parameter to `NodeMutation`
+* Add `adapter` parameter to `NodeMutation::Action`
+* Do not allow to configure an `adapter` globally
+
 ## 1.21.6 (2023-11-20)
 
 * Flat and sort actions after filtering actions when processing
