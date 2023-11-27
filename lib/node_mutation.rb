@@ -28,7 +28,7 @@ class NodeMutation
 
   # @!attribute [r] actions
   #   @return [Array<NodeMutation::Struct::Action>]
-  attr_reader :actions
+  attr_reader :actions, :adapter
 
   # @!attribute [rw] transform_proc
   #  @return [Proc] proc to transfor the actions
