@@ -135,7 +135,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(node, and_comma: false)  &#x21d2; RemoveAction </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(node, adapter:, and_comma: false)  &#x21d2; RemoveAction </a>
     
 
     
@@ -202,7 +202,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(node, and_comma: false)  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span></tt> 
+    #<strong>initialize</strong>(node, adapter:, and_comma: false)  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span></tt> 
   
 
   
@@ -233,26 +233,10 @@
   
     <li>
       
-        <span class='name'>options</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>options.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>and_comma</span>
       
       
-        <span class='type'>(<tt>Hash</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -260,36 +244,23 @@
       
         &mdash;
         <div class='inline'>
-<p>a customizable set of options</p>
+<p>delete extra comma.</p>
 </div>
       
     </li>
   
+    <li>
+      
+        <span class='name'>adapter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Adapter.html" title="NodeMutation::Adapter (class)">NodeMutation::Adapter</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
 </ul>
-
-  
-    
-    
-    
-    
-    <p class="tag_title">Options Hash (<tt>and_comma:</tt>):</p>
-    <ul class="option">
-      
-        <li>
-          <span class="name">delete</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>extra comma.</p>
-</div>
-          
-        </li>
-      
-    </ul>
-  
 
 
 </div><table class="source_code">
@@ -307,8 +278,8 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation/action/remove_action.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>false</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>adapter:</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='id identifier rubyid_adapter'>adapter</span><span class='rparen'>)</span>
   <span class='ivar'>@and_comma</span> <span class='op'>=</span> <span class='id identifier rubyid_and_comma'>and_comma</span>
   <span class='ivar'>@type</span> <span class='op'>=</span> <span class='symbol'>:delete</span>
 <span class='kw'>end</span></pre>
@@ -370,7 +341,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov 20 12:11:19 2023 by
+  Generated on Mon Nov 27 00:19:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

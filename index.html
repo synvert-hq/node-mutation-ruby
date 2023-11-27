@@ -86,7 +86,7 @@
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>node_mutation</span><span class='tstring_end'>&#39;</span></span>
 
-<span class='id identifier rubyid_mutation'>mutation</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation.html#initialize-instance_method" title="NodeMutation#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_mutation'>mutation</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation.html#initialize-instance_method" title="NodeMutation#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='symbol'>:parser</span><span class='rparen'>)</span>
 </code></pre>
 <ol><li>
 <p>call the rewrite apis:</p>
@@ -149,9 +149,6 @@
 
 <p>Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all, we define an <a href="https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb">Adapter</a> interface, if you implement the Adapter interface, you can set it as NodeMutation’s adapter.</p>
 
-<pre class="code ruby"><code class="ruby">NodeMutation.configure(adapter: SyntaxTreeAdapter.new) // default is ParserAdapter
-</code></pre>
-
 <h3 id="label-strategy">strategy</h3>
 
 <p>It provides 3 strategies to handle conflicts when processing actions:</p>
@@ -181,7 +178,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Mon Nov 20 12:11:18 2023 by
+  Generated on Mon Nov 27 00:19:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

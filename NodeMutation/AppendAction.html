@@ -135,7 +135,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(node, code)  &#x21d2; AppendAction </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(node, code, adapter:)  &#x21d2; AppendAction </a>
     
 
     
@@ -152,7 +152,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of AppendAction.</p>
+<p>Initialize an AppendAction.</p>
 </div></span>
   
 </li>
@@ -178,7 +178,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(node, code)  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::AppendAction (class)">AppendAction</a></span></tt> 
+    #<strong>initialize</strong>(node, code, adapter:)  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::AppendAction (class)">AppendAction</a></span></tt> 
   
 
   
@@ -187,13 +187,55 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of AppendAction.</p>
+<p>Initialize an AppendAction.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>new code to append.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>adapter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Adapter.html" title="NodeMutation::Adapter (class)">NodeMutation::Adapter</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -201,16 +243,16 @@
       <pre class="lines">
 
 
-5
-6
-7
-8</pre>
+10
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/append_action.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/append_action.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>adapter:</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='id identifier rubyid_adapter'>adapter</span><span class='rparen'>)</span>
   <span class='ivar'>@type</span> <span class='op'>=</span> <span class='symbol'>:insert</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -224,7 +266,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Nov 20 12:11:19 2023 by
+  Generated on Mon Nov 27 00:19:40 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>
