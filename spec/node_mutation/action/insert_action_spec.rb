@@ -71,7 +71,14 @@ RSpec.describe NodeMutation::InsertAction do
         obj = { foo: 1 }
       EOS
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, 'bar: 2', to: 'value.pairs.0', at: 'end', and_comma: true, adapter: adapter).process
+      NodeMutation::InsertAction.new(
+        node,
+        'bar: 2',
+        to: 'value.pairs.0',
+        at: 'end',
+        and_comma: true,
+        adapter: adapter
+      ).process
     }
 
     it 'gets start' do
@@ -93,7 +100,14 @@ RSpec.describe NodeMutation::InsertAction do
         obj = { bar: 2 }
       EOS
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::InsertAction.new(node, 'foo: 1', to: 'value.pairs.0', at: 'beginning', and_comma: true, adapter: adapter).process
+      NodeMutation::InsertAction.new(
+        node,
+        'foo: 1',
+        to: 'value.pairs.0',
+        at: 'beginning',
+        and_comma: true,
+        adapter: adapter
+      ).process
     }
 
     it 'gets start' do

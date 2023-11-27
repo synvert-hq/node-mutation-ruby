@@ -25,7 +25,9 @@ class NodeMutation::ReplaceAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = @selectors.map { |selector| @adapter.child_node_range(@node, selector).start }.min
-    @end = @selectors.map { |selector| @adapter.child_node_range(@node, selector).end }.max
+    @start = @selectors.map { |selector| @adapter.child_node_range(@node, selector).start }
+                       .min
+    @end = @selectors.map { |selector| @adapter.child_node_range(@node, selector).end }
+                     .max
   end
 end

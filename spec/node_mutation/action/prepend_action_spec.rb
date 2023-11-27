@@ -29,7 +29,11 @@ RSpec.describe NodeMutation::PrependAction do
     subject {
       source = "RSpec.configure do |config|\nend"
       node = Parser::CurrentRuby.parse(source)
-      NodeMutation::PrependAction.new(node, '{{arguments.first}}.include FactoryGirl::Syntax::Methods', adapter: adapter).process
+      NodeMutation::PrependAction.new(
+        node,
+        '{{arguments.first}}.include FactoryGirl::Syntax::Methods',
+        adapter: adapter
+      ).process
     }
 
     it 'gets start' do
