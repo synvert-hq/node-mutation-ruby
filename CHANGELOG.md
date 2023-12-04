@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.22.1 (2023-12-04)
+
+* `child_node_range` supports int/float/str/sym `value`
+
 ## 1.22.0 (2023-11-27)
 
 * Add `adapter` parameter to `NodeMutation`
