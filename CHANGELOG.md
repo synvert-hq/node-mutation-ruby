@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.22.2 (2023-12-04)
+
+* `str` child node range does not include quotes
+
 ## 1.22.1 (2023-12-04)
 
 * `child_node_range` supports int/float/str/sym `value`
@@ -131,7 +135,7 @@
 
 ## 1.13.1 (2023-03-31)
 
-* Remove both whitespaces only when next char is nil
+* Remove both whitespace only when next char is nil
 
 ## 1.13.0 (2023-03-31)
 
