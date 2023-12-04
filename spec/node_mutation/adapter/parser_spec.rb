@@ -462,6 +462,16 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
     end
 
+    context 'float' do
+      it 'checks value' do
+        code = '1.1'
+        node = parse(code)
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 0
+        expect(range.end).to eq code.length
+      end
+    end
+
     context 'gvasgn node' do
       it 'checks variable' do
         node = parse('$foo = bar')
@@ -491,6 +501,16 @@ RSpec.describe NodeMutation::ParserAdapter do
         range = adapter.child_node_range(node, :foo_value)
         expect(range.start).to eq 7
         expect(range.end).to eq 12
+      end
+    end
+
+    context 'int' do
+      it 'checks value' do
+        code = '1'
+        node = parse(code)
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 0
+        expect(range.end).to eq code.length
       end
     end
 
@@ -650,6 +670,26 @@ RSpec.describe NodeMutation::ParserAdapter do
         expect {
           adapter.child_node_range(node, "arguments.unknown")
         }.to raise_error(NodeMutation::MethodNotSupported, "unknown is not supported for foo, bar")
+      end
+    end
+
+    context 'str' do
+      it 'checks value' do
+        code = "'foobar'"
+        node = parse(code)
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 0
+        expect(range.end).to eq code.length
+      end
+    end
+
+    context 'sym' do
+      it 'checks value' do
+        code = ':foobar'
+        node = parse(code)
+        range = adapter.child_node_range(node, :value)
+        expect(range.start).to eq 0
+        expect(range.end).to eq code.length
       end
     end
   end

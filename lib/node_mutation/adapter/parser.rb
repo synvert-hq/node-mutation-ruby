@@ -185,6 +185,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       NodeMutation::Struct::Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
     when %i[defs self]
       NodeMutation::Struct::Range.new(node.loc.operator.begin_pos - 'self'.length, node.loc.operator.begin_pos)
+    when %i[float value], %i[int value], %i[rational value], %i[str value], %i[sym value]
+      NodeMutation::Struct::Range.new(node.loc.expression.begin_pos, node.loc.expression.end_pos)
     when %i[lvasgn variable], %i[ivasgn variable], %i[cvasgn variable], %i[gvasgn variable]
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
     when %i[send dot], %i[csend dot]
