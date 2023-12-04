@@ -185,7 +185,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       NodeMutation::Struct::Range.new(node.loc.operator.begin_pos, node.loc.operator.end_pos) if node.loc.operator
     when %i[defs self]
       NodeMutation::Struct::Range.new(node.loc.operator.begin_pos - 'self'.length, node.loc.operator.begin_pos)
-    when %i[float value], %i[int value], %i[rational value], %i[str value], %i[sym value]
+    when %i[float value], %i[int value], %i[sym value]
       NodeMutation::Struct::Range.new(node.loc.expression.begin_pos, node.loc.expression.end_pos)
     when %i[lvasgn variable], %i[ivasgn variable], %i[cvasgn variable], %i[gvasgn variable]
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
@@ -201,6 +201,8 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
       if node.loc.begin && node.loc.end
         NodeMutation::Struct::Range.new(node.loc.begin.begin_pos, node.loc.end.end_pos)
       end
+    when %i[str value]
+      NodeMutation::Struct::Range.new(node.loc.expression.begin_pos + 1, node.loc.expression.end_pos - 1)
     else
       raise NodeMutation::MethodNotSupported,
             "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)

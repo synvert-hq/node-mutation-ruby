@@ -678,8 +678,8 @@ RSpec.describe NodeMutation::ParserAdapter do
         code = "'foobar'"
         node = parse(code)
         range = adapter.child_node_range(node, :value)
-        expect(range.start).to eq 0
-        expect(range.end).to eq code.length
+        expect(range.start).to eq 1
+        expect(range.end).to eq code.length - 1
       end
     end
 
