@@ -94,12 +94,12 @@ RSpec.describe NodeMutation do
       node = parse(source)
       mutation = described_class.new(source, adapter: :parser)
       mutation.group do
-        mutation.replace node, :message, with: 'find_by'
-        mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
+        replace node, :message, with: 'find_by'
+        replace node, :arguments, with: 'account_id: {{arguments}}'
       end
       mutation.group do
-        mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-        mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+        replace node.arguments.first.receiver, :message, with: 'find_by'
+        replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
       end
       result = mutation.process
       expect(result).to be_affected
@@ -231,12 +231,12 @@ RSpec.describe NodeMutation do
         node = parse(source)
         mutation = described_class.new(source, adapter: :parser)
         mutation.group do
-          mutation.replace node, :message, with: 'find_by'
-          mutation.replace node, :arguments, with: 'account_id: {{arguments}}'
+          replace node, :message, with: 'find_by'
+          replace node, :arguments, with: 'account_id: {{arguments}}'
         end
         mutation.group do
-          mutation.replace node.arguments.first.receiver, :message, with: 'find_by'
-          mutation.replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
+          replace node.arguments.first.receiver, :message, with: 'find_by'
+          replace node.arguments.first.receiver, :arguments, with: 'email: {{arguments}}'
         end
         result = mutation.test
         expect(result).to be_affected
@@ -281,8 +281,8 @@ RSpec.describe NodeMutation do
         node = parse(source)
         mutation = described_class.new(source, adapter: :parser)
         mutation.group do
-          mutation.group do
-            mutation.remove(node)
+          group do
+            remove(node)
           end
         end
         result = mutation.test
@@ -474,8 +474,8 @@ RSpec.describe NodeMutation do
     it 'parses group' do
       node = parse("class Bar\nend")
       mutation.group do
-        mutation.insert node, "module Foo\n", at: 'beginning'
-        mutation.insert node, "\nend", at: 'end'
+        insert node, "module Foo\n", at: 'beginning'
+        insert node, "\nend", at: 'end'
       end
       group_action = mutation.actions.first
       expect(group_action.type).to eq :group
