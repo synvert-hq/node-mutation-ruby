@@ -89,6 +89,11 @@
   
   
   
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="Actionable.html" title="NodeMutation::Actionable (module)">Actionable</a></span></dd>
+  </dl>
+  
   
 
   
@@ -151,7 +156,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; GroupAction </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(adapter:, &amp;block)  &#x21d2; GroupAction </a>
     
 
     
@@ -196,6 +201,28 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process-instance_method" title="#process (instance method)">#<strong>process</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -208,15 +235,26 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Actionable.html" title="NodeMutation::Actionable (module)">Actionable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Actionable.html#append-instance_method" title="NodeMutation::Actionable#append (method)">#append</a></span>, <span class='object_link'><a href="Actionable.html#delete-instance_method" title="NodeMutation::Actionable#delete (method)">#delete</a></span>, <span class='object_link'><a href="Actionable.html#group-instance_method" title="NodeMutation::Actionable#group (method)">#group</a></span>, <span class='object_link'><a href="Actionable.html#indent-instance_method" title="NodeMutation::Actionable#indent (method)">#indent</a></span>, <span class='object_link'><a href="Actionable.html#insert-instance_method" title="NodeMutation::Actionable#insert (method)">#insert</a></span>, <span class='object_link'><a href="Actionable.html#noop-instance_method" title="NodeMutation::Actionable#noop (method)">#noop</a></span>, <span class='object_link'><a href="Actionable.html#prepend-instance_method" title="NodeMutation::Actionable#prepend (method)">#prepend</a></span>, <span class='object_link'><a href="Actionable.html#remove-instance_method" title="NodeMutation::Actionable#remove (method)">#remove</a></span>, <span class='object_link'><a href="Actionable.html#replace-instance_method" title="NodeMutation::Actionable#replace (method)">#replace</a></span>, <span class='object_link'><a href="Actionable.html#replace_with-instance_method" title="NodeMutation::Actionable#replace_with (method)">#replace_with</a></span>, <span class='object_link'><a href="Actionable.html#wrap-instance_method" title="NodeMutation::Actionable#wrap (method)">#wrap</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Action.html" title="NodeMutation::Action (class)">Action</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">#process</a></span>, <span class='object_link'><a href="Action.html#to_struct-instance_method" title="NodeMutation::Action#to_struct (method)">#to_struct</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Action.html#to_struct-instance_method" title="NodeMutation::Action#to_struct (method)">#to_struct</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::GroupAction (class)">GroupAction</a></span></tt> 
+    #<strong>initialize</strong>(adapter:, &amp;block)  &#x21d2; <tt><span class='object_link'><a href="" title="NodeMutation::GroupAction (class)">GroupAction</a></span></tt> 
   
 
   
@@ -239,17 +277,21 @@
       <pre class="lines">
 
 
-8
-9
 10
-11</pre>
+11
+12
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/group_action.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/group_action.rb', line 10</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>adapter:</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@actions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@type</span> <span class='op'>=</span> <span class='symbol'>:group</span>
+  <span class='ivar'>@adapter</span> <span class='op'>=</span> <span class='id identifier rubyid_adapter'>adapter</span>
+  <span class='ivar'>@block</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -278,15 +320,47 @@
       <pre class="lines">
 
 
-13
-14
-15</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/group_action.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/group_action.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new_code'>new_code</span>
   <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process-instance_method">
+  
+    #<strong>process</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/action/group_action.rb', line 21</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process'>process</span>
+  <span class='id identifier rubyid_instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='ivar'>@block</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -298,7 +372,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Dec  4 11:15:28 2023 by
+  Generated on Mon Jan  1 23:17:31 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.2.2).
 </div>

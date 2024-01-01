@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: NodeMutation::Actionable
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "NodeMutation::Actionable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span>
+     &raquo; 
+    <span class="title">Actionable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: NodeMutation::Actionable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span>, <span class='object_link'><a href="GroupAction.html" title="NodeMutation::GroupAction (class)">GroupAction</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/node_mutation/actionable.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#append-instance_method" title="#append (instance method)">#<strong>append</strong>(node, code)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Append code to the ast node.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>(node, *selectors, and_comma: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete source code of the child ast node.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#group-instance_method" title="#group (instance method)">#<strong>group</strong>(&amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>group multiple actions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#indent-instance_method" title="#indent (instance method)">#<strong>indent</strong>(node)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Indent source code of the ast node source code of ast node is     class Foobar     end then we call     indent(node) the source code will be rewritten to       class Foobar       end.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert-instance_method" title="#insert (instance method)">#<strong>insert</strong>(node, code, at: &#39;end&#39;, to: nil, and_comma: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Insert code to the ast node.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#noop-instance_method" title="#noop (instance method)">#<strong>noop</strong>(node)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>No operation.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prepend-instance_method" title="#prepend (instance method)">#<strong>prepend</strong>(node, code)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Prepend code to the ast node.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove-instance_method" title="#remove (instance method)">#<strong>remove</strong>(node, and_comma: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove source code of the ast node.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replace-instance_method" title="#replace (instance method)">#<strong>replace</strong>(node, *selectors, with:)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace child node of the ast node with new code.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replace_with-instance_method" title="#replace_with (instance method)">#<strong>replace_with</strong>(node, code)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace source code of the ast node with new code.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#wrap-instance_method" title="#wrap (instance method)">#<strong>wrap</strong>(node, prefix:, suffix:, newline: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Wrap source code of the ast node with prefix and suffix code.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="append-instance_method">
+  
+    #<strong>append</strong>(node, code)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Append code to the ast node. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_teardown'>teardown</span>
+  <span class='id identifier rubyid_clean_something'>clean_something</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>super</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_teardown'>teardown</span>
+  <span class='id identifier rubyid_clean_something'>clean_something</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>new code to append</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 19</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_append'>append</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AppendAction.html" title="NodeMutation::AppendAction (class)">AppendAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="AppendAction.html#initialize-instance_method" title="NodeMutation::AppendAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete-instance_method">
+  
+    #<strong>delete</strong>(node, *selectors, and_comma: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete source code of the child ast node. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby">FactoryBot.create(...)
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:receiver</span><span class='comma'>,</span> <span class='symbol'>:dot</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby">create(...)
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>selectors</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>selector names of child node.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>and_comma</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>delete extra comma.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DeleteAction.html" title="NodeMutation::DeleteAction (class)">DeleteAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="DeleteAction.html#initialize-instance_method" title="NodeMutation::DeleteAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='id identifier rubyid_and_comma'>and_comma</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="group-instance_method">
+  
+    #<strong>group</strong>(&amp;block)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>group multiple actions</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 171</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_group'>group</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="GroupAction.html" title="NodeMutation::GroupAction (class)">GroupAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="GroupAction.html#initialize-instance_method" title="NodeMutation::GroupAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="GroupAction.html#process-instance_method" title="NodeMutation::GroupAction#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="indent-instance_method">
+  
+    #<strong>indent</strong>(node)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Indent source code of the ast node source code of ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foobar</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foobar</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_indent'>indent</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IndentAction.html" title="NodeMutation::IndentAction (class)">IndentAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="IndentAction.html#initialize-instance_method" title="NodeMutation::IndentAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="insert-instance_method">
+  
+    #<strong>insert</strong>(node, code, at: &#39;end&#39;, to: nil, and_comma: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Insert code to the ast node. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://test.com</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>URI.</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginning</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://test.com</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>code need to be inserted.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>at</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;end&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>insert position, beginning or end</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>to</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>where to insert, if it is nil, will insert to current node.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>and_comma</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>insert extra comma.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_insert'>insert</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InsertAction.html" title="NodeMutation::InsertAction (class)">InsertAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="InsertAction.html#initialize-instance_method" title="NodeMutation::InsertAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='id identifier rubyid_at'>at</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='id identifier rubyid_to'>to</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='id identifier rubyid_and_comma'>and_comma</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="noop-instance_method">
+  
+    #<strong>noop</strong>(node)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>No operation.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_noop'>noop</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoopAction.html" title="NodeMutation::NoopAction (class)">NoopAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NoopAction.html#initialize-instance_method" title="NodeMutation::NoopAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prepend-instance_method">
+  
+    #<strong>prepend</strong>(node, code)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Prepend code to the ast node. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
+  <span class='id identifier rubyid_do_something'>do_something</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_prepend'>prepend</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>super</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_setup'>setup</span>
+  <span class='kw'>super</span>
+  <span class='id identifier rubyid_do_something'>do_something</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>new code to prepend.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prepend'>prepend</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrependAction.html" title="NodeMutation::PrependAction (class)">PrependAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="PrependAction.html#initialize-instance_method" title="NodeMutation::PrependAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove-instance_method">
+  
+    #<strong>remove</strong>(node, and_comma: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Remove source code of the ast node. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>test</span><span class='tstring_end'>&quot;</span></span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be removed</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>and_comma</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>delete extra comma.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_remove'>remove</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="RemoveAction.html" title="NodeMutation::RemoveAction (class)">RemoveAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="RemoveAction.html#initialize-instance_method" title="NodeMutation::RemoveAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>and_comma:</span> <span class='id identifier rubyid_and_comma'>and_comma</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="replace-instance_method">
+  
+    #<strong>replace</strong>(node, *selectors, with:)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Replace child node of the ast node with new code. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_assert'>assert</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>assert_empty</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_mutation'>mutation</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='symbol'>:arguments</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{{arguments.first.receiver}}</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_assert_empty'>assert_empty</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>selectors</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>selector names of child node.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>with</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>code need to be replaced with.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>with:</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ReplaceAction.html" title="NodeMutation::ReplaceAction (class)">ReplaceAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ReplaceAction.html#initialize-instance_method" title="NodeMutation::ReplaceAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_selectors'>selectors</span><span class='comma'>,</span> <span class='label'>with:</span> <span class='id identifier rubyid_with'>with</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="replace_with-instance_method">
+  
+    #<strong>replace_with</strong>(node, code)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Replace source code of the ast node with new code. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_stub'>stub</span><span class='lparen'>(</span><span class='symbol'>:foo</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:bar</span> <span class='op'>=&gt;</span> <span class='int'>2</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_replace_with'>replace_with</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>allow({{receiver}}).to receive_messages({{arguments}})</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_allow'>allow</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_receive_messages'>receive_messages</span><span class='lparen'>(</span><span class='symbol'>:foo</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:bar</span> <span class='op'>=&gt;</span> <span class='int'>2</span><span class='rparen'>)</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>code need to be replaced with.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_replace_with'>replace_with</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
+  <span class='ivar'>@actions</span> <span class='op'>&lt;&lt;</span> <span class='const'><span class='object_link'><a href="../NodeMutation.html" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ReplaceWithAction.html" title="NodeMutation::ReplaceWithAction (class)">ReplaceWithAction</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="ReplaceWithAction.html#initialize-instance_method" title="NodeMutation::ReplaceWithAction#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='label'>adapter:</span> <span class='ivar'>@adapter</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_process'><span class='object_link'><a href="Action.html#process-instance_method" title="NodeMutation::Action#process (method)">process</a></span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="wrap-instance_method">
+  
+    #<strong>wrap</strong>(node, prefix:, suffix:, newline: false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Wrap source code of the ast node with prefix and suffix code. source code of the ast node is</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Foobar</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>then we call</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>module Synvert</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>suffix:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>newline:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>the source code will be rewritten to</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>module</span> <span class='const'>Synvert</span>
+  <span class='kw'>class</span> <span class='const'>Foobar</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>node</span>
+      
+      
+        <span class='type'>(<tt>Node</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ast node</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>prefix code need to be wrapped with.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>suffix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>suffix code need to be wrapped with.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>newline</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>add newline after prefix and before suffix.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation/actionable.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_wrap'>wrap</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='label'>prefix:</span><span class='comma'>,</span> <span class='label'>suffix:</span><span class='comma'>,</span> <span class='label'>newline:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_newline'>newline</span>
+    <span class='id identifier rubyid_indentation'>indentation</span> <span class='op'>=</span> <span class='ivar'>@adapter</span><span class='period'>.</span><span class='id identifier rubyid_get_start_loc'>get_start_loc</span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_column'>column</span>
+    <span class='id identifier rubyid_group'>group</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span> <span class='op'>*</span> <span class='id identifier rubyid_indentation'>indentation</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginning</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span> <span class='op'>*</span> <span class='id identifier rubyid_indentation'>indentation</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id identifier rubyid_suffix'>suffix</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_indent'>indent</span> <span class='id identifier rubyid_node'>node</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_group'>group</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginning</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_insert'>insert</span> <span class='id identifier rubyid_node'>node</span><span class='comma'>,</span> <span class='id identifier rubyid_suffix'>suffix</span><span class='comma'>,</span> <span class='label'>at:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>end</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Mon Jan  1 23:17:31 2024 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-3.2.2).
+</div>
+
+    </div>
+  </body>
+</html>
