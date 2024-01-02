@@ -49,7 +49,14 @@ module NodeMutation::Actionable
   # the source code will be rewritten to
   #     URI.open('http://test.com')
   def insert(node, code, at: 'end', to: nil, and_comma: false)
-    @actions << NodeMutation::InsertAction.new(node, code, at: at, to: to, and_comma: and_comma, adapter: @adapter).process
+    @actions << NodeMutation::InsertAction.new(
+      node,
+      code,
+      at: at,
+      to: to,
+      and_comma: and_comma,
+      adapter: @adapter
+    ).process
   end
 
   # Prepend code to the ast node.
