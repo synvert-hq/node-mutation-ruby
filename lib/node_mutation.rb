@@ -89,7 +89,6 @@ class NodeMutation
       return NodeMutation::Result.new(affected: false, conflicted: false)
     end
 
-    source = +@source
     @transform_proc.call(@actions) if @transform_proc
     sorted_actions = sort_flatten_actions(flatten_actions)
     conflict_actions = get_conflict_actions(sorted_actions)
@@ -98,7 +97,7 @@ class NodeMutation
     end
 
     actions = sort_flatten_actions(flat_actions(get_filter_actions(conflict_actions)))
-    new_source = rewrite_source(source, actions)
+    new_source = rewrite_source(+@source, actions)
     result = NodeMutation::Result.new(affected: true, conflicted: !conflict_actions.empty?)
     result.new_source = new_source
     result
