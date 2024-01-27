@@ -951,8 +951,7 @@
 101
 102
 103
-104
-105</pre>
+104</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 84</span>
@@ -965,7 +964,6 @@
     <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Result.html#initialize-instance_method" title="NodeMutation::Result#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>affected:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>conflicted:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='op'>+</span><span class='ivar'>@source</span>
   <span class='ivar'>@transform_proc</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='ivar'>@actions</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@transform_proc</span>
   <span class='id identifier rubyid_sorted_actions'>sorted_actions</span> <span class='op'>=</span> <span class='id identifier rubyid_sort_flatten_actions'>sort_flatten_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_flatten_actions'>flatten_actions</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_conflict_actions'>conflict_actions</span> <span class='op'>=</span> <span class='id identifier rubyid_get_conflict_actions'>get_conflict_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_sorted_actions'>sorted_actions</span><span class='rparen'>)</span>
@@ -974,7 +972,7 @@
   <span class='kw'>end</span>
 
   <span class='id identifier rubyid_actions'>actions</span> <span class='op'>=</span> <span class='id identifier rubyid_sort_flatten_actions'>sort_flatten_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_flat_actions'>flat_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_get_filter_actions'>get_filter_actions</span><span class='lparen'>(</span><span class='id identifier rubyid_conflict_actions'>conflict_actions</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_new_source'>new_source</span> <span class='op'>=</span> <span class='id identifier rubyid_rewrite_source'>rewrite_source</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='comma'>,</span> <span class='id identifier rubyid_actions'>actions</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_source'>new_source</span> <span class='op'>=</span> <span class='id identifier rubyid_rewrite_source'>rewrite_source</span><span class='lparen'>(</span><span class='op'>+</span><span class='ivar'>@source</span><span class='comma'>,</span> <span class='id identifier rubyid_actions'>actions</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="NodeMutation (class)">NodeMutation</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NodeMutation/Result.html" title="NodeMutation::Result (class)">Result</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="NodeMutation/Result.html#initialize-instance_method" title="NodeMutation::Result#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>affected:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>conflicted:</span> <span class='op'>!</span><span class='id identifier rubyid_conflict_actions'>conflict_actions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_new_source'>new_source</span> <span class='op'>=</span> <span class='id identifier rubyid_new_source'>new_source</span>
   <span class='id identifier rubyid_result'>result</span>
@@ -1025,6 +1023,7 @@
       <pre class="lines">
 
 
+113
 114
 115
 116
@@ -1043,11 +1042,10 @@
 129
 130
 131
-132
-133</pre>
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/node_mutation.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_test'>test</span>
   <span class='ivar'>@actions</span> <span class='op'>=</span> <span class='id identifier rubyid_optimize_group_actions'>optimize_group_actions</span><span class='lparen'>(</span><span class='ivar'>@actions</span><span class='rparen'>)</span>
@@ -1079,9 +1077,9 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jan  2 02:01:01 2024 by
+  Generated on Sat Jan 27 09:12:43 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.2.2).
+  0.9.34 (ruby-3.2.3).
 </div>
 
     </div>
