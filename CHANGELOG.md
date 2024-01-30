@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.22.3 (2024-01-30)
+
+* `child_node_range` supports `arg` `name`
+* Add `action` methods to `GroupAction`
+
 ## 1.22.2 (2023-12-04)
 
 * `str` child node range does not include quotes
