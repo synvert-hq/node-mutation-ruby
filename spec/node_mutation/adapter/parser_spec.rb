@@ -180,7 +180,16 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
     end
 
-    context 'array' do
+    context 'arg node' do
+      it 'checks name' do
+        node = parse('def foobar(foo, bar); end')
+        range = adapter.child_node_range(node, 'arguments.0')
+        expect(range.start).to eq 11
+        expect(range.end).to eq 14
+      end
+    end
+
+    context 'array node' do
       it 'checks array by index' do
         node = parse('factory :admin, class: User do; end')
         range = adapter.child_node_range(node, 'caller.arguments.1')
