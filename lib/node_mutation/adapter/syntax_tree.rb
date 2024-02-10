@@ -17,47 +17,47 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # @param code [String] The code to evaluate.
   # @return [String] The new source code.
   # @example
-  #     node = SyntaxTree::Parser.new('class Synvert; end').parse.statements.body.first
+  #     node = SyntaxTree.parse('class Synvert; end').statements.body.first
   #     rewritten_source(node, '{{constant}}') # 'Synvert'
   #
   #     # index for node array
-  #     node = SyntaxTree::Parser.new("foo.bar(a, b)").parse.statements.body.first
+  #     node = SyntaxTree.parse("foo.bar(a, b)").statements.body.first
   #     rewritten_source(node, '{{arguments.arguments.parts.-1}}')) # 'b'
   #
   #     # {key}_assoc for HashLiteral node
-  #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
+  #     node = SyntaxTree.parse("after_commit :do_index, on: :create, if: :indexable?").statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_assoc}}')) # 'on: :create'
   #
   #     # {key}_value for hash node
-  #     node = SyntaxTree::Parser.new("after_commit :do_index, on: :create, if: :indexable?").parse.statements.body.first
+  #     node = SyntaxTree.parse("after_commit :do_index, on: :create, if: :indexable?").statements.body.first
   #     rewritten_source(node, '{{arguments.parts.-1.on_value}}')) # ':create'
   #
   #     # to_single_quote for StringLiteral node
-  #     node = SyntaxTree::Parser.new('"foo"').parse.statements.body.first
+  #     node = SyntaxTree.parse('"foo"').statements.body.first
   #     rewritten_source(node, 'to_single_quote') # "'foo'"
   #
   #     # to_double_quote for StringLiteral node
-  #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
+  #     node = SyntaxTree.parse("'foo'").statements.body.first
   #     rewritten_source(node, 'to_double_quote') # '"foo"'
   #
   #     # to_symbol for StringLiteral node
-  #     node = SyntaxTree::Parser.new("'foo'").parse.statements.body.first
+  #     node = SyntaxTree.parse("'foo'").statements.body.first
   #     rewritten_source(node, 'to_symbol') # ':foo'
   #
   #     # to_string for SymbolLiteral node
-  #     node = SyntaxTree::Parser.new(":foo").parse.statements.body.first
+  #     node = SyntaxTree.parse(":foo").statements.body.first
   #     rewritten_source(node, 'to_string') # 'foo'
   #
   #     # to_lambda_literal for MethodAddBlock node
-  #     node = SyntaxTree::Parser.new('lambda { foobar }').parse.statements.body.first
+  #     node = SyntaxTree.parse('lambda { foobar }').statements.body.first
   #     rewritten_source(node, 'to_lambda_literal') # '-> { foobar }'
   #
   #     # strip_curly_braces for HashLiteral node
-  #     node = SyntaxTree::Parser.new("{ foo: 'bar' }").parse.statements.body.first
+  #     node = SyntaxTree.parse("{ foo: 'bar' }").statements.body.first
   #     rewritten_source(node, 'strip_curly_braces') # "foo: 'bar'"
   #
   #     # wrap_curly_braces for BareAssocHash node
-  #     node = SyntaxTree::Parser.new("test(foo: 'bar')").parse.statements.body.first
+  #     node = SyntaxTree.parse("test(foo: 'bar')").statements.body.first
   #     rewritten_source(node.arguments.arguments.parts.first, 'wrap_curly_braces') # "{ foo: 'bar' }"
   def rewritten_source(node, code)
     code.gsub(/{{(.+?)}}/m) do
@@ -100,19 +100,19 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   # @param child_name [String] THe name to find child node.
   # @return {NodeMutation::Struct::Range} The range of the child node.
   # @example
-  #     node = SyntaxTree::Parser.new('foo.bar(test)').parse.statements.body.first
+  #     node = SyntaxTree.parse('foo.bar(test)').statements.body.first
   #     child_node_range(node, 'receiver') # { start: 0, end: 'foo'.length }
   #
   #     # node array
-  #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
+  #     node = SyntaxTree.parse('foo.bar(a, b)').statements.body.first
   #     child_node_range(node, 'arguments.arguments') # { start: 'foo.bar('.length, end: 'foo.bar(a, b'.length }
   #
   #     # index for node array
-  #     node = SyntaxTree::Parser.new('foo.bar(a, b)').parse.statements.body.first
+  #     node = SyntaxTree.parse('foo.bar(a, b)').statements.body.first
   #     child_node_range(node, 'arguments.arguments.parts.-1') # { start: 'foo.bar(a, '.length, end: 'foo.bar(a, b'.length }
   #
   #     # operator of Binary node
-  #     node = SyntaxTree::Parser.new('foo | bar').parse.statements.body.first
+  #     node = SyntaxTree.parse('foo | bar').statements.body.first
   #     child_node_range(node, 'operator') # { start: 'foo '.length, end: 'foo |'.length }
   def child_node_range(node, child_name)
     direct_child_name, nested_child_name = child_name.to_s.split('.', 2)
