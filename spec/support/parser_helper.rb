@@ -4,7 +4,7 @@ require 'parser/current'
 require 'syntax_tree'
 
 module ParserHelper
-  def parse(code)
+  def parser_parse(code)
     Parser::CurrentRuby.parse(code)
   end
 

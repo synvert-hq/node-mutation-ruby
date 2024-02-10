@@ -25,7 +25,7 @@ RSpec.describe NodeMutation do
       end
     EOS
     let(:mutation) { described_class.new(source, adapter: :parser) }
-    let(:node) { parse(source) }
+    let(:node) { parser_parse(source) }
 
     it 'gets no action' do
       result = mutation.process
@@ -91,7 +91,7 @@ RSpec.describe NodeMutation do
     it 'processes with group actions' do
       described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
       source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
-      node = parse(source)
+      node = parser_parse(source)
       mutation = described_class.new(source, adapter: :parser)
       mutation.group do
         mutation.replace node, :message, with: 'find_by'
@@ -180,7 +180,7 @@ RSpec.describe NodeMutation do
     EOS
     let(:adapter) { NodeMutation::ParserAdapter.new }
     let(:mutation) { described_class.new(source, adapter: :parser) }
-    let(:node) { parse(source) }
+    let(:node) { parser_parse(source) }
 
     it 'gets no action' do
       result = mutation.test
@@ -228,7 +228,7 @@ RSpec.describe NodeMutation do
       it 'tests with group actions' do
         described_class.configure(strategy: NodeMutation::Strategy::KEEP_RUNNING)
         source = "User.find_by_account_id(Account.find_by_email(account_email).id)"
-        node = parse(source)
+        node = parser_parse(source)
         mutation = described_class.new(source, adapter: :parser)
         mutation.group do
           mutation.replace node, :message, with: 'find_by'
@@ -278,7 +278,7 @@ RSpec.describe NodeMutation do
 
       it 'tests with group action with only one action' do
         source = 'test'
-        node = parse(source)
+        node = parser_parse(source)
         mutation = described_class.new(source, adapter: :parser)
         mutation.group do
           mutation.group do
@@ -308,7 +308,7 @@ RSpec.describe NodeMutation do
           current_user.name
         end
       EOS
-      let(:node) { parse(encoded_source) }
+      let(:node) { parser_parse(encoded_source) }
 
       it 'transforms the actions' do
         mutation.transform_proc =
@@ -359,7 +359,7 @@ RSpec.describe NodeMutation do
     let(:action) { double }
 
     it 'parses append' do
-      node = parse("def teardown\n  do_something\nend")
+      node = parser_parse("def teardown\n  do_something\nend")
       mutation.append node, 'super'
       action = mutation.actions.first
       expect(action.type).to eq :insert
@@ -369,7 +369,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses prepend' do
-      node = parse("def setup\n  do_something\nend")
+      node = parser_parse("def setup\n  do_something\nend")
       mutation.prepend node, 'super'
       action = mutation.actions.first
       expect(action.type).to eq :insert
@@ -379,7 +379,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses insert at end' do
-      node = parse('foo.bar')
+      node = parser_parse('foo.bar')
       mutation.insert node, '&', to: 'receiver'
       action = mutation.actions.first
       expect(action.type).to eq :insert
@@ -389,7 +389,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses insert at beginning' do
-      node = parse("open('https://google.com')")
+      node = parser_parse("open('https://google.com')")
       mutation.insert node, 'URI.', at: 'beginning'
       action = mutation.actions.first
       expect(action.type).to eq :insert
@@ -399,7 +399,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses replace_with' do
-      node = parse('FactoryBot.create(:user)')
+      node = parser_parse('FactoryBot.create(:user)')
       mutation.replace_with node, 'create({{arguments}})'
       action = mutation.actions.first
       expect(action.type).to eq :replace
@@ -409,7 +409,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses replace with' do
-      node = parse("class User < ActiveRecord::Base\nend")
+      node = parser_parse("class User < ActiveRecord::Base\nend")
       mutation.replace node, :parent_class, with: 'ApplicationRecord'
       action = mutation.actions.first
       expect(action.type).to eq :replace
@@ -419,7 +419,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses remove' do
-      node = parse("puts 'hello world'")
+      node = parser_parse("puts 'hello world'")
       mutation.remove node
       action = mutation.actions.first
       expect(action.type).to eq :delete
@@ -429,7 +429,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses delete' do
-      node = parse("BigDecimal.new('1.0')")
+      node = parser_parse("BigDecimal.new('1.0')")
       mutation.delete node, :dot, :message
       action = mutation.actions.first
       expect(action.type).to eq :delete
@@ -440,7 +440,7 @@ RSpec.describe NodeMutation do
 
     context '#wrap' do
       it 'parses without newline' do
-        node = parse('robot.process')
+        node = parser_parse('robot.process')
         mutation.wrap node, prefix: '3.times { ', suffix: ' }'
         group_action = mutation.actions.first
         expect(group_action.type).to eq :group
@@ -454,7 +454,7 @@ RSpec.describe NodeMutation do
       end
 
       it 'parses with newline' do
-        node = parse("class Bar\nend")
+        node = parser_parse("class Bar\nend")
         mutation.wrap node, prefix: 'module Foo', suffix: 'end', newline: true
         group_action = mutation.actions.first
         expect(group_action.type).to eq :group
@@ -472,7 +472,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses group' do
-      node = parse("class Bar\nend")
+      node = parser_parse("class Bar\nend")
       mutation.group do
         mutation.insert node, "module Foo\n", at: 'beginning'
         mutation.insert node, "\nend", at: 'end'
@@ -489,7 +489,7 @@ RSpec.describe NodeMutation do
     end
 
     it 'parses indent' do
-      node = parse("class Foo\nend")
+      node = parser_parse("class Foo\nend")
       mutation.indent node
       action = mutation.actions.first
       expect(action.type).to eq :replace
