@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.23.0 (2024-02-11)
+
+* Support `prism`
+
 ## 1.22.4 (2024-01-30)
 
 * Revert "add action methods to GroupAction"
