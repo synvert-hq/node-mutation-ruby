@@ -424,6 +424,8 @@ class NodeMutation
       ParserAdapter.new
     when :syntax_tree
       SyntaxTreeAdapter.new
+    when :prism
+      PrismAdapter.new
     else
       raise InvalidAdapterError, "adapter #{adapter} is not supported"
     end
