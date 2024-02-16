@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.23.1 (2024-02-16)
+
+* Get `PrismAdapter`
+* Get `CallNode#name` range
+
 ## 1.23.0 (2024-02-11)
 
 * Support `prism`
