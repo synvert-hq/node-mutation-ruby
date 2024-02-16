@@ -152,6 +152,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
     return child_node_range(child_node, nested_child_name) if nested_child_name
 
     return nil if child_node.nil?
+    return nil if child_node == []
 
     if child_node.is_a?(SyntaxTree::Node)
       return(
