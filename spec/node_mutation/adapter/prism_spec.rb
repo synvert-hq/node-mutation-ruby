@@ -203,6 +203,20 @@ RSpec.describe NodeMutation::PrismAdapter do
         expect(range.end).to eq 5
       end
 
+      it 'checks name' do
+        node = prism_parse('foo&.bar = test')
+        range = adapter.child_node_range(node, 'name')
+        expect(range.start).to eq 5
+        expect(range.end).to eq 8
+      end
+
+      it 'checks name' do
+        node = prism_parse("foo | bar")
+        range = adapter.child_node_range(node, :name)
+        expect(range.start).to eq 4
+        expect(range.end).to eq 5
+      end
+
       it 'checks block.opening' do
         node = prism_parse('Factory.define :user do |user|; end')
         range = adapter.child_node_range(node, 'block.opening')

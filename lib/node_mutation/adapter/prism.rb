@@ -138,9 +138,9 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
 
     if node.respond_to?("#{child_name}_loc")
       node_loc = node.send("#{child_name}_loc")
-      if node_loc
-        NodeMutation::Struct::Range.new(node_loc.start_offset, node_loc.end_offset)
-      end
+      NodeMutation::Struct::Range.new(node_loc.start_offset, node_loc.end_offset) if node_loc
+    elsif node.is_a?(Prism::CallNode) && child_name.to_sym == :name
+      NodeMutation::Struct::Range.new(node.message_loc.start_offset, node.message_loc.end_offset)
     else
       raise NodeMutation::MethodNotSupported,
             "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
