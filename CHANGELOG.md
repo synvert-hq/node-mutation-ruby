@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.23.2 (2024-02-17)
+
+* Get prism node `source` without prism_ext
+
 ## 1.23.1 (2024-02-16)
 
 * Get `PrismAdapter`
