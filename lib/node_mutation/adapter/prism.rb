@@ -6,10 +6,10 @@ require 'prism_ext'
 class NodeMutation::PrismAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
-      return node.first.source[node.first.location.start_offset...node.last.location.end_offset]
+      return node.first.instance_variable_get(:@source).source[node.first.location.start_offset...node.last.location.end_offset]
     end
 
-    node.source[node.location.start_offset...node.location.end_offset]
+    node.to_source
   end
 
   # It gets the new source code after evaluating the node.
@@ -92,7 +92,7 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
   end
 
   def file_source(node)
-    node.source
+    node.instance_variable_get(:@source).source
   end
 
   # Get the range of the child node.
