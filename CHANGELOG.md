@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.23.3 (2024-02-20)
+
+* `child_node_range` supports `LocalVariableReadNode#name`
+
 ## 1.23.2 (2024-02-17)
 
 * Get prism node `source` without prism_ext
