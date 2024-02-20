@@ -406,6 +406,15 @@ RSpec.describe NodeMutation::PrismAdapter do
       end
     end
 
+    context 'LocalVariableReadNode' do
+      it 'checks name' do
+        node = prism_parse('def test(foo); foo; end').body.body.first
+        range = adapter.child_node_range(node, :name)
+        expect(range.start).to eq 15
+        expect(range.end).to eq 18
+      end
+    end
+
     context 'LocalVariableWriteNode' do
       it 'checks name' do
         node = prism_parse('foo = bar')
