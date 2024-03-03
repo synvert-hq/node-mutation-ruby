@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.24.0 (2024-03-03)
+
+* Remove `Adapter#get_indent`
+
 ## 1.23.3 (2024-02-20)
 
 * `child_node_range` supports `LocalVariableReadNode#name`
