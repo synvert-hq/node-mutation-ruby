@@ -82,7 +82,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
           if lines_count > 1 && lines_count == evaluated.size
             new_code = []
             lines.each_with_index { |line, index|
-              new_code << (index == 0 ? line : line[get_indent(evaluated.first) - NodeMutation.tab_width..-1])
+              new_code << (index == 0 ? line : line[get_start_loc(evaluated.first).column - NodeMutation.tab_width..-1])
             }
             new_code.join("\n")
           else
@@ -251,10 +251,6 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
     node = child_node_by_name(node, child_name) if child_name
     end_loc = node.loc.expression.end
     NodeMutation::Struct::Location.new(end_loc.line, end_loc.column)
-  end
-
-  def get_indent(node)
-    file_source(node).split("\n")[get_start_loc(node).line - 1][/\A */].size
   end
 
   private

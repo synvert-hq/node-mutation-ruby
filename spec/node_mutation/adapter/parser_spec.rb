@@ -758,11 +758,4 @@ RSpec.describe NodeMutation::ParserAdapter do
       expect(end_loc.column).to eq 'class Synvert'.length
     end
   end
-
-  describe '#get_indent' do
-    it 'get indent count' do
-      node = parser_parse("  class Synvert\n  end")
-      expect(adapter.get_indent(node)).to eq 2
-    end
-  end
 end

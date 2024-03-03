@@ -66,11 +66,4 @@ class NodeMutation::Adapter
   def get_end_loc(node, child_name = nil)
     raise NotImplementedError, "get_end_loc is not implemented"
   end
-
-  # Get indent of ast node
-  # @param node [Node] ast node
-  # @return [Number] indent
-  def get_indent(node)
-    raise NotImplementedError, "get_indent is not implemented"
-  end
 end

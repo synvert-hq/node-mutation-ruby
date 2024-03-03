@@ -74,7 +74,7 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
           if lines_count > 1 && lines_count == evaluated.size
             new_code = []
             lines.each_with_index { |line, index|
-              new_code << (index == 0 ? line : line[get_indent(evaluated.first) - NodeMutation.tab_width..-1])
+              new_code << (index == 0 ? line : line[get_start_loc(evaluated.first).column - NodeMutation.tab_width..-1])
             }
             new_code.join("\n")
           else
@@ -183,10 +183,6 @@ class NodeMutation::SyntaxTreeAdapter < NodeMutation::Adapter
   def get_end_loc(node, child_name = nil)
     node = child_node_by_name(node, child_name) if child_name
     NodeMutation::Struct::Location.new(node.location.end_line, node.location.end_column)
-  end
-
-  def get_indent(node)
-    node.location.start_column
   end
 
   private
