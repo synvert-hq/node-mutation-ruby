@@ -18,7 +18,10 @@ class NodeMutation::AppendAction < NodeMutation::Action
 
   # Calculate the begin the end positions.
   def calculate_position
-    @start = @adapter.get_end(@node) - @adapter.get_start_loc(@node).column - END_LENGTH
+    node_end = @adapter.get_end(@node)
+    node_source = @adapter.get_source(@node)
+    last_line = node_source.split("\n").last
+    @start = node_end - last_line.length - 1
     @end = @start
   end
 

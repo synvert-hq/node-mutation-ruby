@@ -19,7 +19,7 @@ class NodeMutation::PrependAction < NodeMutation::Action
     node_start = @adapter.get_start(@node)
     node_source = @adapter.get_source(@node)
     first_line = node_source.split("\n").first
-    @start = first_line.end_with?("do") ? node_start + first_line.rindex("do") + "do".length : node_start + first_line.length
+    @start = node_start + first_line.length
     @end = @start
   end
 
