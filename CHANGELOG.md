@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.24.1 (2024-03-05)
+
+* Adjust `start` and `end` position of `AppendAction` and `PrependAction`
+
 ## 1.24.0 (2024-03-03)
 
 * Remove `Adapter#get_indent`
