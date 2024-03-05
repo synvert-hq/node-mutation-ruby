@@ -13,15 +13,15 @@ RSpec.describe NodeMutation::AppendAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq "class User\n  has_many :posts".length
+      expect(subject.start).to eq "class User\n  has_many :posts\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq "class User\n  has_many :posts".length
+      expect(subject.end).to eq "class User\n  has_many :posts\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n\n  def as_json\n    super\n  end"
+      expect(subject.new_code).to eq "\n  def as_json\n    super\n  end\n"
     end
   end
 
@@ -33,15 +33,15 @@ RSpec.describe NodeMutation::AppendAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq "def teardown\n  do_something".length
+      expect(subject.start).to eq "def teardown\n  do_something\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq "def teardown\n  do_something".length
+      expect(subject.end).to eq "def teardown\n  do_something\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  super"
+      expect(subject.new_code).to eq "  super\n"
     end
   end
 end

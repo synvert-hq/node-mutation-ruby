@@ -31,18 +31,6 @@ class NodeMutation::Action
     self
   end
 
-  # The rewritten source code with proper indent.
-  #
-  # @return [String] rewritten code.
-  def new_code
-    if rewritten_source.split("\n").length > 1
-      "\n\n" + rewritten_source.split("\n").map { |line| indent(@node) + line }
-                               .join("\n")
-    else
-      "\n" + indent(@node) + rewritten_source
-    end
-  end
-
   def to_struct
     to_struct_actions = @actions ? @actions.map(&:to_struct) : nil
     NodeMutation::Struct::Action.new(@type, @start, @end, new_code, to_struct_actions)

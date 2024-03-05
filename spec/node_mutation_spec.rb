@@ -363,9 +363,9 @@ RSpec.describe NodeMutation do
       mutation.append node, 'super'
       action = mutation.actions.first
       expect(action.type).to eq :insert
-      expect(action.start).to eq "def teardown\n  do_something".length
-      expect(action.end).to eq "def teardown\n  do_something".length
-      expect(action.new_code).to eq "\n  super"
+      expect(action.start).to eq "def teardown\n  do_something\n".length
+      expect(action.end).to eq "def teardown\n  do_something\n".length
+      expect(action.new_code).to eq "  super\n"
     end
 
     it 'parses prepend' do
@@ -373,9 +373,9 @@ RSpec.describe NodeMutation do
       mutation.prepend node, 'super'
       action = mutation.actions.first
       expect(action.type).to eq :insert
-      expect(action.start).to eq "def setup".length
-      expect(action.end).to eq "def setup".length
-      expect(action.new_code).to eq "\n  super"
+      expect(action.start).to eq "def setup\n".length
+      expect(action.end).to eq "def setup\n".length
+      expect(action.new_code).to eq "  super\n"
     end
 
     it 'parses insert at end' do

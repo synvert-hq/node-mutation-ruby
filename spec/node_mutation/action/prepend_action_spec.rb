@@ -13,15 +13,15 @@ RSpec.describe NodeMutation::PrependAction do
     }
 
     it 'gets start' do
-      expect(subject.start).to eq 'Synvert::Application.configure do'.length
+      expect(subject.start).to eq "Synvert::Application.configure do\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'Synvert::Application.configure do'.length
+      expect(subject.end).to eq "Synvert::Application.configure do\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  config.eager_load = true"
+      expect(subject.new_code).to eq "  config.eager_load = true\n"
     end
   end
 
@@ -37,15 +37,15 @@ RSpec.describe NodeMutation::PrependAction do
     }
 
     it 'gets start' do
-      expect(subject.start).to eq 'RSpec.configure do |config|'.length
+      expect(subject.start).to eq "RSpec.configure do |config|\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'RSpec.configure do |config|'.length
+      expect(subject.end).to eq "RSpec.configure do |config|\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  config.include FactoryGirl::Syntax::Methods"
+      expect(subject.new_code).to eq "  config.include FactoryGirl::Syntax::Methods\n"
     end
   end
 
@@ -57,15 +57,15 @@ RSpec.describe NodeMutation::PrependAction do
     }
 
     it 'gets start' do
-      expect(subject.start).to eq 'class User'.length
+      expect(subject.start).to eq "class User\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'class User'.length
+      expect(subject.end).to eq "class User\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  include Deletable"
+      expect(subject.new_code).to eq "  include Deletable\n"
     end
   end
 
@@ -77,15 +77,15 @@ RSpec.describe NodeMutation::PrependAction do
     }
 
     it 'gets start' do
-      expect(subject.start).to eq 'class User < ActionRecord::Base'.length
+      expect(subject.start).to eq "class User < ActionRecord::Base\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'class User < ActionRecord::Base'.length
+      expect(subject.end).to eq "class User < ActionRecord::Base\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  include Deletable"
+      expect(subject.new_code).to eq "  include Deletable\n"
     end
   end
 
@@ -97,15 +97,15 @@ RSpec.describe NodeMutation::PrependAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq 'def setup'.length
+      expect(subject.start).to eq "def setup\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'def setup'.length
+      expect(subject.end).to eq "def setup\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  super"
+      expect(subject.new_code).to eq "  super\n"
     end
   end
 
@@ -117,15 +117,15 @@ RSpec.describe NodeMutation::PrependAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq 'def setup(foobar)'.length
+      expect(subject.start).to eq "def setup(foobar)\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'def setup(foobar)'.length
+      expect(subject.end).to eq "def setup(foobar)\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  super"
+      expect(subject.new_code).to eq "  super\n"
     end
   end
 
@@ -137,15 +137,15 @@ RSpec.describe NodeMutation::PrependAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq 'def self.foo'.length
+      expect(subject.start).to eq "def self.foo\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'def self.foo'.length
+      expect(subject.end).to eq "def self.foo\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  do_something_first"
+      expect(subject.new_code).to eq "  do_something_first\n"
     end
   end
 
@@ -157,15 +157,15 @@ RSpec.describe NodeMutation::PrependAction do
     end
 
     it 'gets start' do
-      expect(subject.start).to eq 'def self.foo(bar)'.length
+      expect(subject.start).to eq "def self.foo(bar)\n".length
     end
 
     it 'gets end' do
-      expect(subject.end).to eq 'def self.foo(bar)'.length
+      expect(subject.end).to eq "def self.foo(bar)\n".length
     end
 
     it 'gets new_code' do
-      expect(subject.new_code).to eq "\n  do_something_first"
+      expect(subject.new_code).to eq "  do_something_first\n"
     end
   end
 end

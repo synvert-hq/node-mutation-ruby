@@ -12,6 +12,17 @@ class NodeMutation::AppendAction < NodeMutation::Action
     @type = :insert
   end
 
+  # The rewritten source code with proper indent.
+  #
+  # @return [String] rewritten code.
+  def new_code
+    if rewritten_source.split("\n").length > 1
+      "\n" + rewritten_source.split("\n").map { |line| indent(@node) + line }.join("\n") + "\n"
+    else
+      indent(@node) + rewritten_source + "\n"
+    end
+  end
+
   private
 
   END_LENGTH = "\nend".length
@@ -21,7 +32,7 @@ class NodeMutation::AppendAction < NodeMutation::Action
     node_end = @adapter.get_end(@node)
     node_source = @adapter.get_source(@node)
     last_line = node_source.split("\n").last
-    @start = node_end - last_line.length - 1
+    @start = node_end - last_line.length
     @end = @start
   end
 

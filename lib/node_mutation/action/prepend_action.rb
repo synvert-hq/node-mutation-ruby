@@ -12,6 +12,17 @@ class NodeMutation::PrependAction < NodeMutation::Action
     @type = :insert
   end
 
+  # The rewritten source code with proper indent.
+  #
+  # @return [String] rewritten code.
+  def new_code
+    if rewritten_source.split("\n").length > 1
+      "\n" + rewritten_source.split("\n").map { |line| indent(@node) + line }.join("\n") + "\n"
+    else
+      indent(@node) + rewritten_source + "\n"
+    end
+  end
+
   private
 
   # Calculate the begin and end positions.
@@ -19,7 +30,7 @@ class NodeMutation::PrependAction < NodeMutation::Action
     node_start = @adapter.get_start(@node)
     node_source = @adapter.get_source(@node)
     first_line = node_source.split("\n").first
-    @start = node_start + first_line.length
+    @start = node_start + first_line.length + "\n".length
     @end = @start
   end
 
