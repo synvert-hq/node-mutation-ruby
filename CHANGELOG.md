@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.24.2 (2024-03-26)
+
+* `child_node_range` supports `casgn` `name`
+
 ## 1.24.1 (2024-03-05)
 
 * Adjust `start` and `end` position of `AppendAction` and `PrependAction`
