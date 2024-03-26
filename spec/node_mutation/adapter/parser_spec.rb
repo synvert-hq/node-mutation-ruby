@@ -268,6 +268,15 @@ RSpec.describe NodeMutation::ParserAdapter do
       end
     end
 
+    context 'casgn node' do
+      it 'checks name' do
+        node = parser_parse("FOOBAR = 'test'")
+        range = adapter.child_node_range(node, :name)
+        expect(range.start).to eq 0
+        expect(range.end).to eq 6
+      end
+    end
+
     context 'class node' do
       it 'checks name' do
         node = parser_parse('class Post < ActiveRecord::Base; end')

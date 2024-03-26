@@ -175,7 +175,7 @@ class NodeMutation::ParserAdapter < NodeMutation::Adapter
           node.arguments.last.loc.expression.end_pos + 1
         )
       end
-    when %i[arg name], %i[class name], %i[const name], %i[cvar name], %i[def name], %i[defs name],
+    when %i[arg name], %i[class name], %i[const name], %i[cvar name], %i[casgn name], %i[def name], %i[defs name],
          %i[gvar name], %i[ivar name], %i[lvar name]
 
       NodeMutation::Struct::Range.new(node.loc.name.begin_pos, node.loc.name.end_pos)
