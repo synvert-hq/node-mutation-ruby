@@ -143,13 +143,22 @@
 <span class='id identifier rubyid_source'>source</span> <span class='comment'># after_commit :do_index, on: :update, if: :indexable?
 </span></code></pre>
 
-<p>See more in <a href="https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html">ParserAdapter</a> and <a href="https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html">SyntaxTreeAdapter</a></p>
+<p>See more in <a href="https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/PrismAdapter.html">PrismAdapter</a> and <a href="https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html">ParserAdapter</a> and <a href="https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html">SyntaxTreeAdapter</a></p>
 
 <h2 id="label-Configuration">Configuration</h2>
 
 <h3 id="label-adapter">adapter</h3>
 
-<p>Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all, we define an <a href="https://github.com/synvert-hq/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb">Adapter</a> interface, if you implement the Adapter interface, you can set it as NodeMutation’s adapter.</p>
+<p>Different parsers, like prism, parse and syntax_tree, will generate different AST nodes, to make NodeMutation work for them all, we define an <a href="https://github.com/synvert-hq/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb">Adapter</a> interface, if you implement the Adapter interface, you can set it as NodeMutation’s adapter.</p>
+
+<p>It provides 3 adapters</p>
+<ol><li>
+<p><code>PrismAdapter</code></p>
+</li><li>
+<p><code>ParserAdapter</code></p>
+</li><li>
+<p><code>SyntaxTreeAdapter</code></p>
+</li></ol>
 
 <h3 id="label-strategy">strategy</h3>
 
@@ -180,7 +189,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Sun Apr  7 07:35:43 2024 by
+  Generated on Sun Apr  7 07:40:54 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.2.3).
 </div>
