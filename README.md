@@ -1,5 +1,8 @@
 # NodeMutation
 
+[![Build Status](https://github.com/synvert-hq/node-mutation-ruby/actions/workflows/main.yml/badge.svg)](https://github.com/synvert-hq/node-mutation-ruby/actions/workflows/main.yml)
+[![Gem Version](https://img.shields.io/gem/v/node_mutation.svg)](https://rubygems.org/gems/node_mutation)
+
 NodeMutation provides a set of APIs to rewrite node source code.
 
 ## Installation
