@@ -81,14 +81,14 @@ mutation.replace node, '{{arguments.-1.on_value}}', with: ':update'
 source # after_commit :do_index, on: :update, if: :indexable?
 ```
 
-See more in [ParserAdapter](https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html) and [SyntaxTreeAdapter](https://xinminlabs.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html)
+See more in [ParserAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html) and [SyntaxTreeAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html)
 
 ## Configuration
 
 ### adapter
 
 Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all,
-we define an [Adapter](https://github.com/xinminlabs/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
+we define an [Adapter](https://github.com/synvert-hq/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
 if you implement the Adapter interface, you can set it as NodeMutation's adapter.
 
 ### strategy
@@ -116,4 +116,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/xinminlabs/node_mutation.
+Bug reports and pull requests are welcome on GitHub at https://github.com/synvert-hq/node_mutation.
