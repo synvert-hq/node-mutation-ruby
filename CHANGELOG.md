@@ -1,5 +1,11 @@
 # NodeMutation
 
+## 1.24.3 (2024-04-07)
+
+* Update `prism_ext` to 0.3.0
+* Update `syntax_tree_ext` to 0.8.1
+* Update `parser_node_ext` to 1.3.0
+
 ## 1.24.2 (2024-03-26)
 
 * `child_node_range` supports `casgn` `name`
