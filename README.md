@@ -84,15 +84,23 @@ mutation.replace node, '{{arguments.-1.on_value}}', with: ':update'
 source # after_commit :do_index, on: :update, if: :indexable?
 ```
 
-See more in [ParserAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html) and [SyntaxTreeAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html)
+See more in [PrismAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/PrismAdapter.html)
+and [ParserAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/ParserAdapter.html)
+and [SyntaxTreeAdapter](https://synvert-hq.github.io/node-mutation-ruby/NodeMutation/SyntaxTreeAdapter.html)
 
 ## Configuration
 
 ### adapter
 
-Different parsers, like parse and ripper, will generate different AST nodes, to make NodeMutation work for them all,
+Different parsers, like prism, parse and syntax_tree, will generate different AST nodes, to make NodeMutation work for them all,
 we define an [Adapter](https://github.com/synvert-hq/node-mutation-ruby/blob/main/lib/node_mutation/adapter.rb) interface,
 if you implement the Adapter interface, you can set it as NodeMutation's adapter.
+
+It provides 3 adapters
+
+1. `PrismAdapter`
+2. `ParserAdapter`
+3. `SyntaxTreeAdapter`
 
 ### strategy
 
