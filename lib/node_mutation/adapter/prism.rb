@@ -6,7 +6,7 @@ require 'prism_ext'
 class NodeMutation::PrismAdapter < NodeMutation::Adapter
   def get_source(node)
     if node.is_a?(Array)
-      return node.first.instance_variable_get(:@source).source[node.first.location.start_offset...node.last.location.end_offset]
+      return node.first.instance_variable_get(:@source).source[node.first.location.start_character_offset...node.last.location.end_character_offset]
     end
 
     node.to_source
@@ -124,7 +124,7 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
               "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
 
-        return NodeMutation::Struct::Range.new(child_node.location.start_offset, child_node.location.end_offset)
+        return NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
       end
 
       raise NodeMutation::MethodNotSupported,
@@ -133,16 +133,16 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
       return child_node_range(child_node, nested_child_name) if nested_child_name
 
-      return NodeMutation::Struct::Range.new(child_node.location.start_offset, child_node.location.end_offset)
+      return NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
     end
 
     if node.respond_to?("#{child_name}_loc")
       node_loc = node.send("#{child_name}_loc")
-      NodeMutation::Struct::Range.new(node_loc.start_offset, node_loc.end_offset) if node_loc
+      NodeMutation::Struct::Range.new(node_loc.start_character_offset, node_loc.end_character_offset) if node_loc
     elsif node.is_a?(Prism::CallNode) && child_name.to_sym == :name
-      NodeMutation::Struct::Range.new(node.message_loc.start_offset, node.message_loc.end_offset)
+      NodeMutation::Struct::Range.new(node.message_loc.start_character_offset, node.message_loc.end_character_offset)
     elsif node.is_a?(Prism::LocalVariableReadNode) && child_name.to_sym == :name
-      NodeMutation::Struct::Range.new(node.location.start_offset, node.location.end_offset)
+      NodeMutation::Struct::Range.new(node.location.start_character_offset, node.location.end_character_offset)
     else
       raise NodeMutation::MethodNotSupported,
             "#{direct_child_name} is not supported for #{get_source(node)}" unless node.respond_to?(direct_child_name)
@@ -156,34 +156,34 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
 
       if child_node.is_a?(Prism::Node)
         return(
-          NodeMutation::Struct::Range.new(child_node.location.start_offset, child_node.location.end_offset)
+          NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
         )
       end
 
       return(
-        NodeMutation::Struct::Range.new(child_node.first.location.start_offset, child_node.last.location.end_offset)
+        NodeMutation::Struct::Range.new(child_node.first.location.start_character_offset, child_node.last.location.end_character_offset)
       )
     end
   end
 
   def get_start(node, child_name = nil)
     node = child_node_by_name(node, child_name) if child_name
-    node.location.start_offset
+    node.location.start_character_offset
   end
 
   def get_end(node, child_name = nil)
     node = child_node_by_name(node, child_name) if child_name
-    node.location.end_offset
+    node.location.end_character_offset
   end
 
   def get_start_loc(node, child_name = nil)
     node = child_node_by_name(node, child_name) if child_name
-    NodeMutation::Struct::Location.new(node.location.start_line, node.location.start_column)
+    NodeMutation::Struct::Location.new(node.location.start_line, node.location.start_character_column)
   end
 
   def get_end_loc(node, child_name = nil)
     node = child_node_by_name(node, child_name) if child_name
-    NodeMutation::Struct::Location.new(node.location.end_line, node.location.end_column)
+    NodeMutation::Struct::Location.new(node.location.end_line, node.location.end_character_column)
   end
 
   private

@@ -509,6 +509,11 @@ RSpec.describe NodeMutation::PrismAdapter do
       node = prism_parse("class Synvert\nend")
       expect(adapter.get_end(node, :constant_path)).to eq 'class Synvert'.length
     end
+
+    it 'gets end position with Chinese' do
+      node = prism_parse("class 中国\nend")
+      expect(adapter.get_end(node, :constant_path)).to eq 'class 中国'.length
+    end
   end
 
   describe '#get_start_loc' do
