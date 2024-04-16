@@ -1,5 +1,9 @@
 # NodeMutation
 
+## 1.24.4 (2024-04-16)
+
+* Use Prism `character_offset` instead byte `offset`
+
 ## 1.24.3 (2024-04-07)
 
 * Update `prism_ext` to 0.3.0
