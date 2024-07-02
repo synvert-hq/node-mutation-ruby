@@ -124,7 +124,10 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
               "#{direct_child_name} is not supported for #{get_source(node)}" unless child_node
         return child_node_range(child_node, nested_child_name) if nested_child_name
 
-        return NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
+        return NodeMutation::Struct::Range.new(
+          child_node.location.start_character_offset,
+          child_node.location.end_character_offset
+        )
       end
 
       raise NodeMutation::MethodNotSupported,
@@ -133,7 +136,10 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
       child_node = node.send(direct_child_name)
       return child_node_range(child_node, nested_child_name) if nested_child_name
 
-      return NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
+      return NodeMutation::Struct::Range.new(
+        child_node.location.start_character_offset,
+        child_node.location.end_character_offset
+      )
     end
 
     if node.respond_to?("#{child_name}_loc")
@@ -156,12 +162,18 @@ class NodeMutation::PrismAdapter < NodeMutation::Adapter
 
       if child_node.is_a?(Prism::Node)
         return(
-          NodeMutation::Struct::Range.new(child_node.location.start_character_offset, child_node.location.end_character_offset)
+          NodeMutation::Struct::Range.new(
+            child_node.location.start_character_offset,
+            child_node.location.end_character_offset
+          )
         )
       end
 
       return(
-        NodeMutation::Struct::Range.new(child_node.first.location.start_character_offset, child_node.last.location.end_character_offset)
+        NodeMutation::Struct::Range.new(
+          child_node.first.location.start_character_offset,
+          child_node.last.location.end_character_offset
+        )
       )
     end
   end
