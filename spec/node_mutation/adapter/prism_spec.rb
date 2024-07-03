@@ -299,9 +299,9 @@ RSpec.describe NodeMutation::PrismAdapter do
         expect(range.end).to eq 3
       end
 
-      it 'checks child' do
+      it 'checks name' do
         node = prism_parse('Foo::Bar')
-        range = adapter.child_node_range(node, :child)
+        range = adapter.child_node_range(node, :name)
         expect(range.start).to eq 5
         expect(range.end).to eq 8
       end
