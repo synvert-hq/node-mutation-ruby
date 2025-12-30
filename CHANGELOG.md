@@ -1,5 +1,10 @@
 # NodeMutation
 
+## 1.25.0 (2025-12-30)
+
+* Support ruby 4.0
+* Drop support ruby 2.7, 3.0, 3.1
+
 ## 1.24.4 (2024-04-16)
 
 * Use Prism `character_offset` instead byte `offset`
